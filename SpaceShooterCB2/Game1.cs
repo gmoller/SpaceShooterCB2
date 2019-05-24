@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpaceShooterLogic;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterCB2
 {
@@ -9,13 +13,21 @@ namespace SpaceShooterCB2
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
+        private readonly GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+
+        private IGame _game;
+
+        private readonly Stopwatch _updateStopwatch = new Stopwatch();
+        private readonly Stopwatch _drawStopwatch = new Stopwatch();
+        private int _updateFrames;
+        private int _drawFrames;
+
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Position = Point.Zero;
         }
 
         /// <summary>
@@ -28,7 +40,31 @@ namespace SpaceShooterCB2
         {
             // TODO: Add your initialization logic here
 
+            _graphics.PreferredBackBufferWidth = 480; // 480
+            _graphics.PreferredBackBufferHeight = 640; // 640
+            _graphics.SynchronizeWithVerticalRetrace = false;
+
+            VariableTimeStep();
+            //FixedTimeStep();
+
+            _graphics.ApplyChanges();
+
+            _game = new SpaceShooterGame();
+            //_game = new TestBedGame();
+            _game.Initialize(Window, GraphicsDevice);
+
             base.Initialize();
+        }
+
+        private void VariableTimeStep()
+        {
+            IsFixedTimeStep = false;
+        }
+
+        private void FixedTimeStep()
+        {
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60); // 60fps
         }
 
         /// <summary>
@@ -38,9 +74,10 @@ namespace SpaceShooterCB2
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            _game.LoadContent(Content, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
@@ -59,12 +96,24 @@ namespace SpaceShooterCB2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            _updateFrames++;
+            _updateStopwatch.Start();
+
+            IsMouseVisible = DeviceManager.Instance.IsMouseVisible;
+
+            var keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Escape) && keyboardState.IsKeyDown(Keys.LeftShift))
+            {
                 Exit();
+            }
 
             // TODO: Add your update logic here
+            _game.Update(gameTime);
 
             base.Update(gameTime);
+
+            _updateStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["Overall.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
         }
 
         /// <summary>
@@ -73,11 +122,18 @@ namespace SpaceShooterCB2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _drawFrames++;
+            _drawStopwatch.Start();
+
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            _game.Draw(_spriteBatch);
 
             base.Draw(gameTime);
+
+            _drawStopwatch.Stop();
+            BenchmarkMetrics.Instance.Metrics["Overall.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
     }
 }
