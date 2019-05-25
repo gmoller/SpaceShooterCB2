@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Enemies
 {
@@ -25,20 +26,22 @@ namespace SpaceShooterLogic.Enemies
 
         public override void UseSpecialPower(GameTime gameTime)
         {
-            Player player = GameEntitiesManager.Instance.Player;
+            //Player player = GameEntitiesManager.Instance.Player;
+            //var player = Registrar.Instance.GetComponentsForEntity(1);
+            //player[ComponentType.Physics]
 
-            if (Vector2.Distance(Position, player.Position) < RANGE_TO_START_CHASING)
+            if (Vector2.Distance(Position, new Vector2(320.0f, 200.0f)) < RANGE_TO_START_CHASING)
             {
                 _state = ChasingState.Chase;
                 IsRotatable = true;
             }
             if (_state == ChasingState.Chase)
             {
-                Vector2 direction = (player.Position) - Position;
+                Vector2 direction = new Vector2(320.0f, 200.0f) - Position;
                 direction.Normalize();
                 Body.Velocity = direction * CHASING_MOVE_SPEED;
                 float rotationSpeed = ROTATION_SPEED * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (Position.X < player.Position.X) // is ChaserShip to the left or right of player?
+                if (Position.X < 320.0f) // is ChaserShip to the left or right of player?
                 {
                     Angle -= rotationSpeed;
                 }

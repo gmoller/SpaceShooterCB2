@@ -4,24 +4,19 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
 {
-    public interface IInputComponent : IComponent
-    {
-        void Update(Player player, GameTime gameTime);
-    }
-
-    internal class PlayerInputComponent : IInputComponent
+    internal class PlayerInputComponent : Component
     {
         private readonly IPlayerController _playerController;
         private Vector2 _playerPosition;
         private Vector2 _velocity;
         private bool _shootLaser;
 
-        internal PlayerInputComponent()
+        internal PlayerInputComponent(int entityId) : base(entityId)
         {
             _playerController = new PlayerController();
         }
 
-        public void Update(Player player, GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             List<PlayerAction> playerActions = _playerController.GetActions();
 
@@ -53,22 +48,17 @@ namespace SpaceShooterLogic.Components
                 }
             }
 
-            Send(player);
+            Send();
         }
 
         #region Send & Receive
-        public void Send(Player player)
+        public void Send()
         {
-            //Communicator.Instance.Send(ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
-
-            player.Send(ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
-            if (_shootLaser)
-            {
-                player.Send(ComponentType.Laser, AttributeType.LaserShootLaser, _playerPosition);
-            }
+            Communicator.Instance.Send(EntityId, ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
+            if (_shootLaser) Communicator.Instance.Send(EntityId, ComponentType.Laser, AttributeType.LaserShootLaser, _playerPosition);
         }
 
-        public void Receive(AttributeType attributeId, object payload)
+        public override void Receive(AttributeType attributeId, object payload)
         {
             switch (attributeId)
             {
@@ -77,26 +67,6 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerInputComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Vector2 payload)
-        {
-            switch (attributeId)
-            {
-                case AttributeType.InputPlayerPosition:
-                    _playerPosition = payload;
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerInputComponent.");
-            }
-        }
-        public void Receive(AttributeType attributeId, Rectangle payload)
-        {
-            switch (attributeId)
-            {
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerInputComponent.");
             }
         }
         #endregion

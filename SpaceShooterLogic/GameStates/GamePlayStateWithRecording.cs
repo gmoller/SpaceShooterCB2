@@ -14,7 +14,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected override void SetController()
         {
-            InputComponent = new PlayerInputComponent();
+            InputComponent = new PlayerInputComponent(1);
         }
 
         public override void Leave()

@@ -2,11 +2,15 @@
 
 namespace SpaceShooterLogic.Components
 {
-    public interface IComponent
+    public abstract class Component
     {
-        void Send(Player player);
-        void Receive(AttributeType attributeId, object payload);
-        void Receive(AttributeType attributeId, Vector2 payload);
-        void Receive(AttributeType attributeId, Rectangle payload);
+        protected int EntityId { get; }
+        public abstract void Update(GameTime gameTime);
+        public abstract void Receive(AttributeType attributeId, object payload);
+
+        protected Component(int entityId)
+        {
+            EntityId = entityId;
+        }
     }
 }

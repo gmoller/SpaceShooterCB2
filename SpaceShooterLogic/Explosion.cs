@@ -6,8 +6,15 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
-    public class Explosion : Entity
+    public class Explosion
     {
+        private Texture2D Texture { get; set; }
+        public Vector2 Scale { get; set; } = new Vector2(1.5f, 1.5f);
+        public Vector2 Position { get; set; } // center position of entity
+        protected Vector2 SourceOrigin { get; set; } = Vector2.Zero;
+        public Vector2 DestinationOrigin { get; set; } = Vector2.Zero;
+        public PhysicsBody Body { get; }
+
         public AnimatedSprite Sprite { get; }
 
         public Explosion(string textureName, Vector2 position, Vector2 size)
@@ -22,16 +29,26 @@ namespace SpaceShooterLogic
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
             DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
             Position = position;
+            Body = new PhysicsBody();
             Body.Velocity = Vector2.Zero;
             SetupBoundingBox(Sprite.FrameWidth, Sprite.FrameHeight);
         }
 
-        public override void Update(GameTime gameTime)
+        public void SetupBoundingBox(int width, int height)
+        {
+            Body.BoundingBox = new Rectangle(
+                (int)(Position.X - (int)DestinationOrigin.X),
+                (int)(Position.Y - (int)DestinationOrigin.Y),
+                (int)(width * Scale.X),
+                (int)(height * Scale.Y));
+        }
+
+        public void Update(GameTime gameTime)
         {
             Sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             var destRect = new Rectangle(
                 (int)Position.X,

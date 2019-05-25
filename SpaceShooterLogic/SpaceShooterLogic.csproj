@@ -42,8 +42,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communicator.cs" />
     <Compile Include="Components\AttributeType.cs" />
     <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\ComponentsSet.cs" />
     <Compile Include="Components\ComponentType.cs" />
     <Compile Include="Components\GraphicsComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="Enemies\GunShip.cs" />
+    <Compile Include="Registrar.cs" />
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PhysicsBody.cs" />

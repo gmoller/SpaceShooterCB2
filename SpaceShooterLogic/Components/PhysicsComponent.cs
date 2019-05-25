@@ -6,12 +6,7 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    public interface IPhysicsComponent : IComponent
-    {
-        void Update(Player player, GameTime gameTime);
-    }
-
-    internal class PlayerPhysicsComponent : IPhysicsComponent
+    internal class PlayerPhysicsComponent : Component
     {
         private const float MOVE_SPEED = 240.0f; // pixels per second
 
@@ -20,14 +15,14 @@ namespace SpaceShooterLogic.Components
         private Rectangle _volume;
         private Vector2 Size => new Vector2(_volume.Width, _volume.Height);
 
-        internal PlayerPhysicsComponent(Player player, Vector2 position)
+        internal PlayerPhysicsComponent(int entityId, Vector2 position) : base(entityId)
         {
             _position = position;
             _volume = new Rectangle(0, 0, (int)(16 * 2.5f), (int)(16 * 2.5f));
-            DetermineBoundingBox(player);
+            DetermineBoundingBox();
         }
 
-        private void DetermineBoundingBox(Player player)
+        private void DetermineBoundingBox()
         {
             Vector2 origin = Size / 2.0f;
 
@@ -36,16 +31,13 @@ namespace SpaceShooterLogic.Components
                 (int)(_position.Y - (int)origin.Y),
                 (int)Size.X,
                 (int)Size.Y);
-
-            player.Send(ComponentType.Graphics, AttributeType.GraphicsVolume, _volume);
-            player.Send(ComponentType.Graphics, AttributeType.GraphicsSize, Size);
         }
 
-        public void Update(Player player, GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // movement
             _position = _position + _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            DetermineBoundingBox(player);
+            DetermineBoundingBox();
             
             // do not allow our player off the screen
             float x = Size.X / 2.0f;
@@ -54,12 +46,12 @@ namespace SpaceShooterLogic.Components
                 MathHelper.Clamp(_position.X, x, DeviceManager.Instance.ScreenWidth - x),
                 MathHelper.Clamp(_position.Y, y, DeviceManager.Instance.ScreenHeight - y));
 
-            ResolveCollisions(player);
+            ResolveCollisions();
 
-            Send(player);
+            Send();
         }
 
-        private void ResolveCollisions(Player player)
+        private void ResolveCollisions()
         {
             Enemies.Enemies enemies = GameEntitiesManager.Instance.Enemies;
             foreach (Enemy enemy in enemies)
@@ -67,7 +59,7 @@ namespace SpaceShooterLogic.Components
                 // check for enemy and player collision
                 if (_volume.Intersects(enemy.Body.BoundingBox))
                 {
-                    KillPlayer(player);
+                    KillPlayer();
                     enemy.KillEnemy();
                 }
             }
@@ -78,12 +70,12 @@ namespace SpaceShooterLogic.Components
                 // check for player and enemy projectile collision
                 if (_volume.Intersects(projectile.Body.BoundingBox))
                 {
-                    KillPlayer(player);
+                    KillPlayer();
                 }
             }
         }
 
-        public void KillPlayer(Player player)
+        public void KillPlayer()
         {
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
@@ -91,17 +83,21 @@ namespace SpaceShooterLogic.Components
 
             var explosion = new Explosion("Fireball02", _position, Size);
             GameEntitiesManager.Instance.Explosions.Add(explosion);
-            player.IsDead = true;
+
+            Registrar.Instance.Remove(1);
+            GameEntitiesManager.Instance.PlayerIsDead = true;
         }
 
         #region Send & Receive
-        public void Send(Player player)
+        public void Send()
         {
-            player.Send(ComponentType.Graphics, AttributeType.GraphicsPosition, _position);
-            player.Send(ComponentType.Input, AttributeType.InputPlayerPosition, _position);
+            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsVolume, _volume);
+            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsSize, Size);
+            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsPosition, _position);
+            Communicator.Instance.Send(EntityId, ComponentType.Input, AttributeType.InputPlayerPosition, _position);
         }
 
-        public void Receive(AttributeType attributeId, object payload)
+        public override void Receive(AttributeType attributeId, object payload)
         {
             switch (attributeId)
             {
@@ -110,27 +106,6 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerPhysicsComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Vector2 payload)
-        {
-            switch (attributeId)
-            {
-                case AttributeType.PhysicsVelocity:
-                    _velocity = payload * MOVE_SPEED;
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerPhysicsComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Rectangle payload)
-        {
-            switch (attributeId)
-            {
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerPhysicsComponent.");
             }
         }
         #endregion

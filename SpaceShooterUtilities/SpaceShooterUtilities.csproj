@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="AssetsManager.cs" />
     <Compile Include="BenchmarkMetrics.cs" />
-    <Compile Include="Communicator.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="DeviceManager.cs" />
     <Compile Include="FramesPerSecondCounter.cs" />

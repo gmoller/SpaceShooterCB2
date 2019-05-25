@@ -4,12 +4,7 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    public interface ILaserComponent : IComponent
-    {
-        void Update(Player player, GameTime gameTime);
-    }
-
-    internal class PlayerLaserComponent : ILaserComponent
+    internal class PlayerLaserComponent : Component
     {
         private const int PLAYER_LASER_COOLDOWN = 200; // in milliseconds
         private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
@@ -18,12 +13,12 @@ namespace SpaceShooterLogic.Components
 
         private float _timeElapsedSinceLastPlayerShot; // in milliseconds
 
-        internal PlayerLaserComponent()
+        internal PlayerLaserComponent(int entityId) : base(entityId)
         {
             _timeElapsedSinceLastPlayerShot = PLAYER_LASER_COOLDOWN;
         }
 
-        public void Update(Player player, GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (_timeElapsedSinceLastPlayerShot < PLAYER_LASER_COOLDOWN)
             {
@@ -60,11 +55,11 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Receive
-        public void Send(Player player)
+        public void Send()
         {
         }
 
-        public void Receive(AttributeType attributeId, object payload)
+        public override void Receive(AttributeType attributeId, object payload)
         {
             switch (attributeId)
             {
@@ -73,27 +68,6 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerLaserComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Vector2 payload)
-        {
-            switch (attributeId)
-            {
-                case AttributeType.LaserShootLaser:
-                    ShootLaser(payload);
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerLaserComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Rectangle payload)
-        {
-            switch (attributeId)
-            {
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerLaserComponent.");
             }
         }
         #endregion

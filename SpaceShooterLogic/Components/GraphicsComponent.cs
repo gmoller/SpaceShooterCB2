@@ -6,13 +6,16 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    public interface IGraphicsComponent : IComponent
+    public abstract class GraphicsComponent : Component
     {
-        void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch);
+
+        protected GraphicsComponent(int entityId) : base(entityId)
+        {
+        }
     }
 
-    internal class PlayerGraphicsComponent : IGraphicsComponent
+    internal class PlayerGraphicsComponent : GraphicsComponent
     {
         private readonly Texture2D _texture;
         private readonly AnimatedSprite _sprite;
@@ -20,19 +23,19 @@ namespace SpaceShooterLogic.Components
         private Rectangle _volume;
         private Vector2 _size;
 
-        internal PlayerGraphicsComponent(string textureName)
+        internal PlayerGraphicsComponent(int entityId, string textureName) : base(entityId)
         {
             _texture = AssetsManager.Instance.GetTexture(textureName);
             AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
             _sprite = new AnimatedSprite(animationSpec);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             _sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             var origin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
             //Vector2 origin = _size * 0.5f / 2.5f;
@@ -49,11 +52,11 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Receive
-        public void Send(Player player)
+        public void Send()
         {
         }
 
-        public void Receive(AttributeType attributeId, object payload)
+        public override void Receive(AttributeType attributeId, object payload)
         {
             switch (attributeId)
             {
@@ -68,33 +71,6 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerGraphicsComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Vector2 payload)
-        {
-            switch (attributeId)
-            {
-                case AttributeType.GraphicsPosition:
-                    _position = payload;
-                    break;
-                case AttributeType.GraphicsSize:
-                    _size = payload;
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerGraphicsComponent.");
-            }
-        }
-
-        public void Receive(AttributeType attributeId, Rectangle payload)
-        {
-            switch (attributeId)
-            {
-                case AttributeType.GraphicsVolume:
-                    _volume = payload;
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerGraphicsComponent.");
             }
         }
         #endregion

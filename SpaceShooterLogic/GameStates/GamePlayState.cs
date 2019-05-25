@@ -9,7 +9,7 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayState : IGameState
     {
-        protected IInputComponent InputComponent;
+        protected Component InputComponent;
 
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
@@ -29,7 +29,6 @@ namespace SpaceShooterLogic.GameStates
 
         public virtual void Leave()
         {
-            GameEntitiesManager.Instance.Player = null;
             GameEntitiesManager.Instance.PlayerProjectiles = null;
             GameEntitiesManager.Instance.Enemies = null;
             GameEntitiesManager.Instance.EnemyProjectiles = null;
@@ -38,7 +37,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected virtual void SetController()
         {
-            InputComponent = new PlayerInputComponent();
+            InputComponent = new PlayerInputComponent(1);
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -46,14 +45,19 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            GameEntitiesManager.Instance.Player.Update(gameTime);
+            if (!GameEntitiesManager.Instance.PlayerIsDead)
+            {
+                var player = new Player(Registrar.Instance.GetComponentsForEntity(1));
+                player.Update(gameTime);
+            }
+
             GameEntitiesManager.Instance.PlayerProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Enemies.Update(gameTime);
             GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Explosions.Update(gameTime);
             GameEntitiesManager.Instance.Hud.Update(gameTime);
 
-            if (GameEntitiesManager.Instance.Player.IsDead)
+            if (GameEntitiesManager.Instance.PlayerIsDead)
             {
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
@@ -95,7 +99,12 @@ namespace SpaceShooterLogic.GameStates
             _drawFrames++;
             _drawStopwatch.Start();
 
-            GameEntitiesManager.Instance.Player.Draw(spriteBatch);
+            if (!GameEntitiesManager.Instance.PlayerIsDead)
+            {
+                var player = new Player(Registrar.Instance.GetComponentsForEntity(1));
+                player.Draw(spriteBatch);
+            }
+
             GameEntitiesManager.Instance.PlayerProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
             GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
@@ -108,12 +117,28 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
-            GameEntitiesManager.Instance.Player = new Player("sprPlayer", DeviceManager.Instance.ScreenDimensions * 0.5f, InputComponent);
+            CreateOrResetPlayer();
             GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Explosions = new Explosions();
             GameEntitiesManager.Instance.Hud = new Hud();
+        }
+
+        private Player CreateOrResetPlayer()
+        {
+            var components = new ComponentsSet(1) // TODO: get next entity
+            {
+                {ComponentType.Graphics, new PlayerGraphicsComponent(1, "sprPlayer")},
+                {ComponentType.Input, InputComponent},
+                {ComponentType.Physics, new PlayerPhysicsComponent(1, DeviceManager.Instance.ScreenDimensions * 0.5f)},
+                {ComponentType.Laser, new PlayerLaserComponent(1)}
+            };
+
+            var player = new Player(components);
+            GameEntitiesManager.Instance.PlayerIsDead = false;
+
+            return player;
         }
     }
 }
