@@ -42,6 +42,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\ComponentType.cs" />
+    <Compile Include="Components\GraphicsComponent.cs" />
+    <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\LaserComponent.cs" />
+    <Compile Include="Components\PhysicsComponent.cs" />
     <Compile Include="Enemies\CarrierShip.cs" />
     <Compile Include="Enemies\ChaserShip.cs" />
     <Compile Include="Enemies\Enemy.cs" />

@@ -28,17 +28,17 @@ namespace SpaceShooterLogic.Enemies
         {
             Player player = GameEntitiesManager.Instance.Player;
 
-            if (Vector2.Distance(Position, player.Position + player.DestinationOrigin) < RANGE_TO_START_CHASING)
+            if (Vector2.Distance(Position, player.Position + new Vector2(8.0f * player.Scale.X, 8.0f * player.Scale.Y)) < RANGE_TO_START_CHASING)
             {
                 _state = ChasingState.Chase;
                 IsRotatable = true;
             }
             if (_state == ChasingState.Chase)
             {
-                Vector2 direction = (player.Position + player.DestinationOrigin) - Position;
+                Vector2 direction = (player.Position + new Vector2(8.0f * player.Scale.X, 8.0f * player.Scale.Y)) - Position;
                 direction.Normalize();
                 Body.Velocity = direction * CHASING_MOVE_SPEED;
-                if (Position.X + DestinationOrigin.X < player.Position.X + player.DestinationOrigin.X)
+                if (Position.X + DestinationOrigin.X < player.Position.X + player.Scale.X)
                 {
                     Angle -= ROTATION_SPEED;
                 }

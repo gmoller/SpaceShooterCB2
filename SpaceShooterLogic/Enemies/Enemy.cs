@@ -81,7 +81,7 @@ namespace SpaceShooterLogic.Enemies
             {
                 foreach (Enemy enemy in _enemies)
                 {
-                    if (player.Body.BoundingBox.Intersects(enemy.Body.BoundingBox))
+                    if (player.PhysicsBody.BoundingBox.Intersects(enemy.Body.BoundingBox))
                     {
                         // enemy and player collide
                         player.KillPlayer();

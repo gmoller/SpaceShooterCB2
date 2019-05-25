@@ -9,7 +9,7 @@ namespace SpaceShooterLogic
 
         public static GameEntitiesManager Instance => Lazy.Value;
 
-        public Player Player { get; set; }
+        internal Player Player { get; set; }
         public Projectiles PlayerProjectiles { get; set; }
         public Enemies.Enemies Enemies { get; set; }
         public Projectiles EnemyProjectiles { get; set; }

@@ -57,7 +57,7 @@ namespace SpaceShooterLogic
                 Projectile projectile = _projectiles[i];
                 if (player.IsAlive)
                 {
-                    if (player.Body.BoundingBox.Intersects(projectile.Body.BoundingBox))
+                    if (player.PhysicsBody.BoundingBox.Intersects(projectile.Body.BoundingBox))
                     {
                         // enemy projectile kills player
                         player.KillPlayer();

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Screens;
 using SpaceShooterUtilities;
 
@@ -8,6 +9,8 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayState : IGameState
     {
+        protected IInputComponent InputComponent;
+
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
 
@@ -18,8 +21,8 @@ namespace SpaceShooterLogic.GameStates
 
         public virtual void Enter()
         {
-            ResetLevel();
             SetController();
+            ResetLevel();
             GameEntitiesManager.Instance.Score = 0;
             GameEntitiesManager.Instance.Lives = 3;
         }
@@ -35,8 +38,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected virtual void SetController()
         {
-            IPlayerController playerController = new PlayerController();
-            GameEntitiesManager.Instance.Player.SetController(playerController);
+            InputComponent = new PlayerInputComponent();
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -106,7 +108,7 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
-            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), DeviceManager.Instance.ScreenDimensions * 0.5f);
+            GameEntitiesManager.Instance.Player = new Player(AssetsManager.Instance.GetTexture("sprPlayer"), DeviceManager.Instance.ScreenDimensions * 0.5f, InputComponent);
             GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();

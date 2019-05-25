@@ -1,4 +1,5 @@
-﻿using SpaceShooterUtilities;
+﻿using SpaceShooterLogic.Components;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
 {
@@ -13,8 +14,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected override void SetController()
         {
-            IPlayerController playerController = new PlayerControllerWithRecorder();
-            GameEntitiesManager.Instance.Player.SetController(playerController);
+            InputComponent = new PlayerInputComponent();
         }
 
         public override void Leave()
