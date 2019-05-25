@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Enemies
 {
@@ -13,7 +11,7 @@ namespace SpaceShooterLogic.Enemies
 
         public bool CanShoot { get; private set; }
 
-        public GunShip(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+        public GunShip(string textureName, Vector2 position, Vector2 velocity) : base(textureName, position, velocity)
         {
         }
 
@@ -40,7 +38,7 @@ namespace SpaceShooterLogic.Enemies
         {
             if (CanShoot)
             {
-                var projectile = new Projectile(AssetsManager.Instance.GetTexture("sprLaserEnemy0"), new Vector2(Position.X, Position.Y + 30.0f), new Vector2(0.0f, LASER_VELOCITY));
+                var projectile = new Projectile("sprLaserEnemy0", new Vector2(Position.X, Position.Y + 30.0f), new Vector2(0.0f, LASER_VELOCITY));
                 GameEntitiesManager.Instance.EnemyProjectiles.Add(projectile);
                 ResetCanShoot();
             }

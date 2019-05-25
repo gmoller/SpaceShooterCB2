@@ -37,7 +37,7 @@ namespace SpaceShooterLogic.Components
             {
                 AssetsManager.Instance.GetSound("sndLaser").Play();
                 Vector2 laserPosition = playerPosition + _laserOffsetFromPlayer;
-                var projectile = new Projectile(AssetsManager.Instance.GetTexture("sprLaserPlayer"), laserPosition, new Vector2(0, -PLAYER_LASER_VELOCITY));
+                var projectile = new Projectile("sprLaserPlayer", laserPosition, new Vector2(0, -PLAYER_LASER_VELOCITY));
                 GameEntitiesManager.Instance.PlayerProjectiles.Add(projectile);
 
                 StartPlayerLaserCooldown();

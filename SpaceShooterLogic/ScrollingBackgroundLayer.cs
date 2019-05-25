@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
@@ -9,9 +9,9 @@ namespace SpaceShooterLogic
         public int PositionIndex { get; }
         public Vector2 InitialPosition { get; }
 
-        public ScrollingBackgroundLayer(Texture2D texture, int depth, int positionIndex, Vector2 position, Vector2 velocity)
+        public ScrollingBackgroundLayer(string textureName, int depth, int positionIndex, Vector2 position, Vector2 velocity)
         {
-            Texture = texture;
+            Texture = AssetsManager.Instance.GetTexture(textureName);
             Depth = depth;
             PositionIndex = positionIndex;
             Position = position;

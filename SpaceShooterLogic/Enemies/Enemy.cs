@@ -12,10 +12,10 @@ namespace SpaceShooterLogic.Enemies
         protected AnimatedSprite Sprite;
         public float Angle { get; set; }
 
-        protected Enemy(Texture2D texture, Vector2 position, Vector2 velocity)
+        protected Enemy(string textureName, Vector2 position, Vector2 velocity)
         {
-            Texture = texture;
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(texture.Name);
+            Texture = AssetsManager.Instance.GetTexture(textureName);
+            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(Texture.Name);
             Sprite = new AnimatedSprite(animationSpec);
             Scale = new Vector2(RandomGenerator.Instance.GetRandomFloat(1.0f, 3.0f));
             SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
@@ -162,15 +162,15 @@ namespace SpaceShooterLogic.Enemies
             float velocity = RandomGenerator.Instance.GetRandomFloat(MIN_ENEMY_VELOCITY, MAX_ENEMY_VELOCITY);
             if (choice <= 3)
             {
-                enemy = new GunShip(AssetsManager.Instance.GetTexture("sprEnemy0"), spawnPos, new Vector2(0, velocity));
+                enemy = new GunShip("sprEnemy0", spawnPos, new Vector2(0, velocity));
             }
             else if (choice >= 5)
             {
-                enemy = new ChaserShip(AssetsManager.Instance.GetTexture("sprEnemy1"), spawnPos, new Vector2(0, velocity));
+                enemy = new ChaserShip("sprEnemy1", spawnPos, new Vector2(0, velocity));
             }
             else
             {
-                enemy = new CarrierShip(AssetsManager.Instance.GetTexture("sprEnemy2"), spawnPos, new Vector2(0, velocity));
+                enemy = new CarrierShip("sprEnemy2", spawnPos, new Vector2(0, velocity));
             }
             GameEntitiesManager.Instance.Enemies.Add(enemy);
         }

@@ -21,10 +21,9 @@ namespace SpaceShooterLogic
                 for (int j = 0; j < 3; j++) // depths (0,1,2)
                 {
                     int textureIndex = RandomGenerator.Instance.GetRandomInt(0, textures.Count - 1);
-                    Texture2D texture = AssetsManager.Instance.GetTexture(textures[textureIndex]);
-                    Vector2 position = new Vector2(0, texture.Height * i); // -640, 0, 640
+                    Vector2 position = new Vector2(0, 640 * i); // -640, 0, 640
                     Vector2 velocity = new Vector2(0, (j + 1) * 12.0f); // 12, 24, 36
-                    ScrollingBackgroundLayer layer = new ScrollingBackgroundLayer(texture, j, i, position, velocity);
+                    ScrollingBackgroundLayer layer = new ScrollingBackgroundLayer(textures[textureIndex], j, i, position, velocity);
                     _layers.Add(layer);
                 }
             }

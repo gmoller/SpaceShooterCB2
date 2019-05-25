@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooterLogic.Enemies
 {
@@ -17,7 +16,7 @@ namespace SpaceShooterLogic.Enemies
 
         private ChasingState _state = ChasingState.MoveDown;
 
-        public ChaserShip(Texture2D texture, Vector2 position, Vector2 velocity) : base(texture, position, velocity)
+        public ChaserShip(string textureName, Vector2 position, Vector2 velocity) : base(textureName, position, velocity)
         {
             Angle = 0;
         }
