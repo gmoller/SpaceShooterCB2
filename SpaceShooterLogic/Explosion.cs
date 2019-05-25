@@ -41,7 +41,7 @@ namespace SpaceShooterLogic
 
              spriteBatch.Draw(Texture, destRect, Sprite.GetCurrentFrame(), Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
 
-             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
+             spriteBatch.DrawRectangle(Body.BoundingBox, Color.Magenta, 1.0f);
         }
     }
 

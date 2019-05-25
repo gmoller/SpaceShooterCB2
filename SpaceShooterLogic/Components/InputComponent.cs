@@ -59,6 +59,8 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send(Player player)
         {
+            //Communicator.Instance.Send(ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
+
             player.Send(ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
             if (_shootLaser)
             {
@@ -75,6 +77,26 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerInputComponent.");
+            }
+        }
+
+        public void Receive(AttributeType attributeId, Vector2 payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.InputPlayerPosition:
+                    _playerPosition = payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerInputComponent.");
+            }
+        }
+        public void Receive(AttributeType attributeId, Rectangle payload)
+        {
+            switch (attributeId)
+            {
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerInputComponent.");
             }
         }
         #endregion

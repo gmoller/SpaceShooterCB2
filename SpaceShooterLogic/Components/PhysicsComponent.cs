@@ -112,6 +112,27 @@ namespace SpaceShooterLogic.Components
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerPhysicsComponent.");
             }
         }
+
+        public void Receive(AttributeType attributeId, Vector2 payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.PhysicsVelocity:
+                    _velocity = payload * MOVE_SPEED;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerPhysicsComponent.");
+            }
+        }
+
+        public void Receive(AttributeType attributeId, Rectangle payload)
+        {
+            switch (attributeId)
+            {
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerPhysicsComponent.");
+            }
+        }
         #endregion
     }
 }

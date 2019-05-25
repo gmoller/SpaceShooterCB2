@@ -35,6 +35,7 @@ namespace SpaceShooterLogic.Components
         public void Draw(SpriteBatch spriteBatch)
         {
             var origin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
+            //Vector2 origin = _size * 0.5f / 2.5f;
 
             var destRect = new Rectangle(
                 (int)_position.X,
@@ -67,6 +68,33 @@ namespace SpaceShooterLogic.Components
                     break;
                 default:
                     throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerGraphicsComponent.");
+            }
+        }
+
+        public void Receive(AttributeType attributeId, Vector2 payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.GraphicsPosition:
+                    _position = payload;
+                    break;
+                case AttributeType.GraphicsSize:
+                    _size = payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Vector2] is not supported by PlayerGraphicsComponent.");
+            }
+        }
+
+        public void Receive(AttributeType attributeId, Rectangle payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.GraphicsVolume:
+                    _volume = payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] of type [Rectangle] is not supported by PlayerGraphicsComponent.");
             }
         }
         #endregion

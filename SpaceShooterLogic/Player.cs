@@ -8,8 +8,8 @@ namespace SpaceShooterLogic
     {
         private readonly IInputComponent _input;
         private readonly IPhysicsComponent _physics;
-        private readonly IGraphicsComponent _graphics;
         private readonly ILaserComponent _laser;
+        private readonly IGraphicsComponent _graphics;
 
         public Vector2 Position { get; set; } // center position of entity
 
@@ -21,8 +21,8 @@ namespace SpaceShooterLogic
 
             _input = inputComponent;
             _physics = new PlayerPhysicsComponent(this, position);
-            _graphics = new PlayerGraphicsComponent(textureName);
             _laser = new PlayerLaserComponent();
+            _graphics = new PlayerGraphicsComponent(textureName);
         }
 
         public void Update(GameTime gameTime)
@@ -43,6 +43,44 @@ namespace SpaceShooterLogic
         }
 
         internal void Send(ComponentType componentId, AttributeType attributeId, object payload)
+        {
+            switch (componentId)
+            {
+                case ComponentType.Graphics:
+                    _graphics?.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Input:
+                    _input.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Laser:
+                    _laser.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Physics:
+                    _physics.Receive(attributeId, payload);
+                    break;
+            }
+        }
+
+        internal void Send(ComponentType componentId, AttributeType attributeId, Vector2 payload)
+        {
+            switch (componentId)
+            {
+                case ComponentType.Graphics:
+                    _graphics?.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Input:
+                    _input.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Laser:
+                    _laser.Receive(attributeId, payload);
+                    break;
+                case ComponentType.Physics:
+                    _physics.Receive(attributeId, payload);
+                    break;
+            }
+        }
+
+        internal void Send(ComponentType componentId, AttributeType attributeId, Rectangle payload)
         {
             switch (componentId)
             {

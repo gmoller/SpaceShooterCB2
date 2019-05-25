@@ -102,7 +102,7 @@ namespace SpaceShooterCB2
             IsMouseVisible = DeviceManager.Instance.IsMouseVisible;
 
             var keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Escape) && keyboardState.IsKeyDown(Keys.LeftShift))
+            if (keyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }

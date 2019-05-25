@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.Enemies
 
             spriteBatch.Draw(Texture, destRect, Sprite.GetCurrentFrame(), Color.White, IsRotatable ? MathHelper.ToRadians(Angle) : 0.0f, SourceOrigin, SpriteEffects.None, 0);
 
-            //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
+            spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
         }
 
         public void KillEnemy()
