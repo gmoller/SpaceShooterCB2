@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,12 +45,25 @@ namespace SpaceShooterLogic.Enemies
             //spriteBatch.DrawRectangle(Body.BoundingBox, Color.Yellow, 1.0f);
         }
 
+        public void KillEnemy()
+        {
+            int idx = RandomGenerator.Instance.GetRandomInt(0, 1);
+            var sndExplode = AssetsManager.Instance.GetSound($"sndExplode{idx}");
+            sndExplode.Play();
+
+            var explosionPosition = new Vector2(Position.X, Position.Y);
+            var enemySize = new Vector2(Body.BoundingBox.Width, Body.BoundingBox.Height);
+            var explosion = new Explosion("Explosion10", explosionPosition, enemySize);
+            GameEntitiesManager.Instance.Explosions.Add(explosion);
+            GameEntitiesManager.Instance.Score += Score;
+        }
+
         public abstract int Score { get; }
 
-        public abstract void UseSpecialPower();
+        public abstract void UseSpecialPower(GameTime gameTime);
     }
 
-    public class Enemies
+    public class Enemies : IEnumerable<Enemy>
     {
         private const int SPAWN_ENEMY_COOLDOWN = 1000; // in milliseconds (3600)
         private const float MIN_ENEMY_VELOCITY = 60.0f;
@@ -76,21 +90,9 @@ namespace SpaceShooterLogic.Enemies
                 }
             }
 
-            var player = GameEntitiesManager.Instance.Player;
-            if (player.IsAlive)
+            foreach (Enemy enemy in _enemies)
             {
-                foreach (Enemy enemy in _enemies)
-                {
-                    if (player.PhysicsBody.BoundingBox.Intersects(enemy.Body.BoundingBox))
-                    {
-                        // enemy and player collide
-                        player.KillPlayer();
-                        KillEnemy(enemy);
-                        return;
-                    }
-
-                    enemy.UseSpecialPower();
-                }
+                enemy.UseSpecialPower(gameTime);
             }
 
             SpawnEnemies(gameTime);
@@ -123,17 +125,7 @@ namespace SpaceShooterLogic.Enemies
 
         private void KillEnemy(Enemy enemy)
         {
-            int idx = RandomGenerator.Instance.GetRandomInt(0, 1);
-            var sndExplode = AssetsManager.Instance.GetSound($"sndExplode{idx}");
-            sndExplode.Play();
-
-            Texture2D texture = AssetsManager.Instance.GetTexture("Explosion10");
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations("Explosion10");
-            var explosionPosition = new Vector2(enemy.Position.X, enemy.Position.Y);
-            var enemySize = new Vector2(enemy.Body.BoundingBox.Width, enemy.Body.BoundingBox.Height);
-            var explosion = new Explosion(texture, animationSpec, explosionPosition, enemySize); // { Scale = enemy.Scale };
-            GameEntitiesManager.Instance.Explosions.Add(explosion);
-            GameEntitiesManager.Instance.Score += enemy.Score;
+            enemy.KillEnemy();
             _enemies.Remove(enemy);
         }
 
@@ -181,6 +173,19 @@ namespace SpaceShooterLogic.Enemies
                 enemy = new CarrierShip(AssetsManager.Instance.GetTexture("sprEnemy2"), spawnPos, new Vector2(0, velocity));
             }
             GameEntitiesManager.Instance.Enemies.Add(enemy);
+        }
+
+        public IEnumerator<Enemy> GetEnumerator()
+        {
+            foreach (var item in _enemies)
+            {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

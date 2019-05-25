@@ -1,4 +1,5 @@
-﻿using AnimationLibrary;
+﻿using System;
+using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
@@ -8,18 +9,21 @@ namespace SpaceShooterLogic.Components
     public interface IGraphicsComponent : IComponent
     {
         void Update(GameTime gameTime);
-        void Draw(Player player, SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch);
     }
 
     internal class PlayerGraphicsComponent : IGraphicsComponent
     {
         private readonly Texture2D _texture;
         private readonly AnimatedSprite _sprite;
+        private Vector2 _position;
+        private Rectangle _volume;
+        private Vector2 _size;
 
-        internal PlayerGraphicsComponent(Texture2D texture)
+        internal PlayerGraphicsComponent(string textureName)
         {
-            _texture = texture;
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(texture.Name);
+            _texture = AssetsManager.Instance.GetTexture(textureName);
+            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
             _sprite = new AnimatedSprite(animationSpec);
         }
 
@@ -28,22 +32,43 @@ namespace SpaceShooterLogic.Components
             _sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
         }
 
-        public void Draw(Player player, SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             var origin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
 
             var destRect = new Rectangle(
-                (int)player.Position.X,
-                (int)player.Position.Y,
-                (int)(_sprite.FrameWidth * player.Scale.X),
-                (int)(_sprite.FrameHeight * player.Scale.Y));
+                (int)_position.X,
+                (int)_position.Y,
+                (int)_size.X,
+                (int)_size.Y);
+
             spriteBatch.Draw(_texture, destRect, _sprite.GetCurrentFrame(), Color.White, 0.0f, origin, SpriteEffects.None, 0.0f);
 
-            spriteBatch.DrawRectangle(player.PhysicsBody.BoundingBox, Color.Red, 1.0f);
+            spriteBatch.DrawRectangle(_volume, Color.Red, 1.0f);
         }
 
-        public void Receive(object payload)
+        #region Send & Receive
+        public void Send(Player player)
         {
         }
+
+        public void Receive(AttributeType attributeId, object payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.GraphicsVolume:
+                    _volume = (Rectangle)payload;
+                    break;
+                case AttributeType.GraphicsPosition:
+                    _position = (Vector2)payload;
+                    break;
+                case AttributeType.GraphicsSize:
+                    _size = (Vector2)payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerGraphicsComponent.");
+            }
+        }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
@@ -9,8 +10,11 @@ namespace SpaceShooterLogic
     {
         public AnimatedSprite Sprite { get; }
 
-        public Explosion(Texture2D texture, AnimationSpec animationSpec, Vector2 position, Vector2 size)
+        public Explosion(string textureName, Vector2 position, Vector2 size)
         {
+            Texture2D texture = AssetsManager.Instance.GetTexture(textureName);
+            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
+
             Texture = texture;
             Sprite = new AnimatedSprite(animationSpec);
             Scale = new Vector2(size.X / Sprite.FrameWidth, size.Y / Sprite.FrameHeight) * 4.0f;

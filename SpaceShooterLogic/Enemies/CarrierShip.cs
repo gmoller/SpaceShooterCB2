@@ -11,7 +11,7 @@ namespace SpaceShooterLogic.Enemies
 
         public override int Score => 5;
 
-        public override void UseSpecialPower()
+        public override void UseSpecialPower(GameTime gameTime)
         {
             // no special power, do nothing
         }

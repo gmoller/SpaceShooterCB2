@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
@@ -19,7 +20,7 @@ namespace SpaceShooterLogic
         }
     }
 
-    public class Projectiles
+    public class Projectiles : IEnumerable<Projectile>
     {
         private readonly List<Projectile> _projectiles = new List<Projectile>();
 
@@ -31,7 +32,6 @@ namespace SpaceShooterLogic
         public void Update(GameTime gameTime)
         {
             Movement(gameTime);
-            CollisionDetectionWithPlayer();
             CollisionDetectionWithEnemies();
         }
 
@@ -44,25 +44,6 @@ namespace SpaceShooterLogic
                 if (projectile.Position.Y > DeviceManager.Instance.ScreenHeight || projectile.Position.Y < 0)
                 {
                     _projectiles.Remove(projectile);
-                }
-            }
-        }
-
-        private void CollisionDetectionWithPlayer()
-        {
-            var player = GameEntitiesManager.Instance.Player;
-
-            for (int i = 0; i < _projectiles.Count; i++)
-            {
-                Projectile projectile = _projectiles[i];
-                if (player.IsAlive)
-                {
-                    if (player.PhysicsBody.BoundingBox.Intersects(projectile.Body.BoundingBox))
-                    {
-                        // enemy projectile kills player
-                        player.KillPlayer();
-                        _projectiles.Remove(projectile);
-                    }
                 }
             }
         }
@@ -85,6 +66,19 @@ namespace SpaceShooterLogic
             {
                 projectile.Draw(spriteBatch);
             }
+        }
+
+        public IEnumerator<Projectile> GetEnumerator()
+        {
+            foreach (var item in _projectiles)
+            {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

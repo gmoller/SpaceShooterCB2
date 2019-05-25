@@ -2,6 +2,7 @@
 {
     public interface IComponent
     {
-        void Receive(object payload);
+        void Send(Player player);
+        void Receive(AttributeType attributeId, object payload);
     }
 }

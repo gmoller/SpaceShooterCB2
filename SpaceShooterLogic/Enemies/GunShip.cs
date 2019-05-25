@@ -36,7 +36,7 @@ namespace SpaceShooterLogic.Enemies
             base.Update(gameTime);
         }
 
-        public override void UseSpecialPower()
+        public override void UseSpecialPower(GameTime gameTime)
         {
             if (CanShoot)
             {

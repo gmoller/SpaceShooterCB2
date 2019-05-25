@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
@@ -58,9 +59,22 @@ namespace SpaceShooterLogic.Components
             _timeElapsedSinceLastPlayerShot = 0.0f;
         }
 
-        public void Receive(object payload)
+        #region Send & Receive
+        public void Send(Player player)
         {
-            ShootLaser((Vector2)payload);
         }
+
+        public void Receive(AttributeType attributeId, object payload)
+        {
+            switch (attributeId)
+            {
+                case AttributeType.LaserShootLaser:
+                    ShootLaser((Vector2)payload);
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerLaserComponent.");
+            }
+        }
+        #endregion
     }
 }
