@@ -10,21 +10,28 @@ namespace SpaceShooterLogic
 
         public static Registrar Instance => Lazy.Value;
 
+        private int _nextEntityId;
         private readonly Dictionary<int, ComponentsSet> _entityComponents;
 
         private Registrar()
         {
+            _nextEntityId = 1;
             _entityComponents = new Dictionary<int, ComponentsSet>();
         }
 
-        public void Add(int entityId, ComponentsSet componentsSet)
+        public int AddComponentSet(ComponentsSet componentsSet)
         {
+            int entityId = _nextEntityId++;
             _entityComponents[entityId] = componentsSet;
+
+            return entityId;
         }
 
         public void Remove(int entityId)
         {
             // TODO: flag as deleted
+            ComponentsSet components = _entityComponents[entityId];
+            components.IsDeleted = true;
             //_entityComponents.Remove(entityId);
         }
 

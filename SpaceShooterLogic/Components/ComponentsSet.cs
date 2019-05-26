@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SpaceShooterLogic.Components
@@ -6,25 +7,47 @@ namespace SpaceShooterLogic.Components
     /// <summary>
     /// Set of components for an entity.
     /// </summary>
-    public class ComponentsSet : IEnumerable<Component>
+    public class ComponentsSet : IEnumerable<IComponent>
     {
-        private readonly Dictionary<ComponentType, Component> _components;
+        private readonly Dictionary<ComponentType, IComponent> _components;
 
-        public ComponentsSet(int entityId)
+        public int EntityId { get; }
+        public bool IsDeleted { get; set; }
+
+        public ComponentsSet()
         {
-            _components = new Dictionary<ComponentType, Component>();
-
-            Registrar.Instance.Add(entityId, this);
+            _components = new Dictionary<ComponentType, IComponent>();
+            EntityId = Registrar.Instance.AddComponentSet(this);
         }
 
-        public void Add(ComponentType componentType, Component component)
+        public void AddUpdateComponent(ComponentType componentType, UpdateComponent component)
         {
+            component.EntityId = EntityId;
             _components.Add(componentType, component);
         }
 
-        public Component this[ComponentType index] => _components[index];
+        public void AddDrawComponent(ComponentType componentType, DrawComponent component)
+        {
+            component.EntityId = EntityId;
+            _components.Add(componentType, component);
+        }
 
-        public IEnumerator<Component> GetEnumerator()
+        public IComponent this[ComponentType index]
+        {
+            get
+            {
+                try
+                {
+                    return _components[index];
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Component [{index}] not found in Components. Could not get the component.", ex);
+                }
+            }
+        }
+
+        public IEnumerator<IComponent> GetEnumerator()
         {
             foreach (var item in _components.Values)
             {

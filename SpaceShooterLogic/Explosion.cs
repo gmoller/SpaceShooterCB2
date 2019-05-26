@@ -1,64 +1,59 @@
 ﻿using System.Collections.Generic;
-using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceShooterUtilities;
+using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic
 {
     public class Explosion
     {
-        private Texture2D Texture { get; set; }
-        public Vector2 Scale { get; set; } = new Vector2(1.5f, 1.5f);
-        public Vector2 Position { get; set; } // center position of entity
-        protected Vector2 SourceOrigin { get; set; } = Vector2.Zero;
-        public Vector2 DestinationOrigin { get; set; } = Vector2.Zero;
-        public PhysicsBody Body { get; }
+        private readonly ComponentsSet _components;
 
-        public AnimatedSprite Sprite { get; }
-
-        public Explosion(string textureName, Vector2 position, Vector2 size)
+        internal Explosion(ComponentsSet components)
         {
-            Texture2D texture = AssetsManager.Instance.GetTexture(textureName);
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
-
-            Texture = texture;
-            Sprite = new AnimatedSprite(animationSpec);
-            Scale = new Vector2(size.X / Sprite.FrameWidth, size.Y / Sprite.FrameHeight) * 4.0f;
-
-            SourceOrigin = new Vector2(Sprite.FrameWidth * 0.5f, Sprite.FrameHeight * 0.5f);
-            DestinationOrigin = new Vector2(Sprite.FrameWidth * 0.5f * Scale.X, Sprite.FrameHeight * 0.5f * Scale.Y);
-            Position = position;
-            Body = new PhysicsBody();
-            Body.Velocity = Vector2.Zero;
-            SetupBoundingBox(Sprite.FrameWidth, Sprite.FrameHeight);
-        }
-
-        public void SetupBoundingBox(int width, int height)
-        {
-            Body.BoundingBox = new Rectangle(
-                (int)(Position.X - (int)DestinationOrigin.X),
-                (int)(Position.Y - (int)DestinationOrigin.Y),
-                (int)(width * Scale.X),
-                (int)(height * Scale.Y));
+            _components = components;
         }
 
         public void Update(GameTime gameTime)
         {
-            Sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            foreach (IComponent component in _components)
+            {
+                if (component is UpdateComponent)
+                {
+                    UpdateComponent uc = (UpdateComponent)component;
+                    uc.Update(gameTime);
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var destRect = new Rectangle(
-                (int)Position.X,
-                (int)Position.Y,
-                (int)(Sprite.FrameWidth * Scale.X),
-                (int)(Sprite.FrameHeight * Scale.Y));
+            var graphicsComponent = (GraphicsComponent)_components[ComponentType.Graphics];
+            graphicsComponent.Draw(spriteBatch);
 
-             spriteBatch.Draw(Texture, destRect, Sprite.GetCurrentFrame(), Color.White, 0.0f, SourceOrigin, SpriteEffects.None, 0.0f);
+            var volumeGraphicsComponent = (VolumeGraphicsComponent)_components[ComponentType.VolumeGraphics];
+            volumeGraphicsComponent.Draw(spriteBatch);
+        }
 
-             spriteBatch.DrawRectangle(Body.BoundingBox, Color.Magenta, 1.0f);
+        public bool IsFinished
+        {
+            get
+            {
+                return false; // TODO: implement this properly
+            }
+        }
+
+        public static Explosion Create(Vector2 position, Vector2 size)
+        {
+            var components = new ComponentsSet();
+            components.AddUpdateComponent(ComponentType.Sprite, new SpriteComponent("Fireball02"));
+            components.AddDrawComponent(ComponentType.Graphics, new GraphicsComponent("Fireball02", position));
+            components.AddDrawComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle((int)(position.X - 64.0f), (int)(position.Y - 64.0f), 128, 128)));
+
+            var explosion = new Explosion(components);
+
+            return explosion;
+            //return components.EntityId;
         }
     }
 
@@ -77,7 +72,7 @@ namespace SpaceShooterLogic
             {
                 var explosion = _explosions[i];
                 explosion.Update(gameTime);
-                if (explosion.Sprite.IsFinished)
+                if (explosion.IsFinished)
                 {
                     _explosions.Remove(explosion);
                 }

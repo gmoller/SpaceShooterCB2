@@ -1,54 +1,28 @@
 ﻿using System;
-using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    public abstract class GraphicsComponent : Component
-    {
-        public abstract void Draw(SpriteBatch spriteBatch);
-
-        protected GraphicsComponent(int entityId) : base(entityId)
-        {
-        }
-    }
-
-    internal class PlayerGraphicsComponent : GraphicsComponent
+    internal class GraphicsComponent : DrawComponent
     {
         private readonly Texture2D _texture;
-        private readonly AnimatedSprite _sprite;
         private Vector2 _position;
-        private Rectangle _volume;
-        private Vector2 _size;
+        private Rectangle _frame;
 
-        internal PlayerGraphicsComponent(int entityId, string textureName) : base(entityId)
+        internal GraphicsComponent(string textureName, Vector2 position)
         {
             _texture = AssetsManager.Instance.GetTexture(textureName);
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
-            _sprite = new AnimatedSprite(animationSpec);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            _sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            _position = position;
+            _frame = new Rectangle();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            var origin = new Vector2(_sprite.FrameWidth * 0.5f, _sprite.FrameHeight * 0.5f);
-            //Vector2 origin = _size * 0.5f / 2.5f;
+            Vector2 origin = new Vector2((int)(_frame.Width * 0.5), (int)(_frame.Height * 0.50)); // TODO: if size does not change do we need to keep calculating this?
 
-            var destRect = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
-                (int)_size.X,
-                (int)_size.Y);
-
-            spriteBatch.Draw(_texture, destRect, _sprite.GetCurrentFrame(), Color.White, 0.0f, origin, SpriteEffects.None, 0.0f);
-
-            spriteBatch.DrawRectangle(_volume, Color.Red, 1.0f);
+            spriteBatch.Draw(_texture, _position, _frame, Color.White, 0.0f, origin, 1.0f, SpriteEffects.None, 0.0f); // TODO: use scale (2.5f)
         }
 
         #region Send & Receive
@@ -60,17 +34,14 @@ namespace SpaceShooterLogic.Components
         {
             switch (attributeId)
             {
-                case AttributeType.GraphicsVolume:
-                    _volume = (Rectangle)payload;
-                    break;
                 case AttributeType.GraphicsPosition:
                     _position = (Vector2)payload;
                     break;
-                case AttributeType.GraphicsSize:
-                    _size = (Vector2)payload;
+                case AttributeType.GraphicsFrame:
+                    _frame = (Rectangle)payload;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerGraphicsComponent.");
+                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by GraphicsComponent.");
             }
         }
         #endregion

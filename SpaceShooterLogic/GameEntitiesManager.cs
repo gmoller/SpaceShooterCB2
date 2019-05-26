@@ -15,6 +15,7 @@ namespace SpaceShooterLogic
         public Explosions Explosions { get; set; }
         public Hud Hud { get; set; }
 
+        public int PlayerEntityId { get; set; }
         public bool PlayerIsDead { get; set; }
         public int Score { get; set; }
         public int Lives { get; set; }

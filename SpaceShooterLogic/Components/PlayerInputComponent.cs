@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class PlayerInputComponent : Component
+    internal class PlayerInputComponent : UpdateComponent
     {
         private readonly IPlayerController _playerController;
         private Vector2 _playerPosition;
         private Vector2 _velocity;
         private bool _shootLaser;
 
-        internal PlayerInputComponent(int entityId) : base(entityId)
+        internal PlayerInputComponent()
         {
             _playerController = new PlayerController();
         }

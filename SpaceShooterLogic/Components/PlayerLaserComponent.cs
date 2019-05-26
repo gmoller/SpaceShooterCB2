@@ -4,17 +4,17 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class PlayerLaserComponent : Component
+    internal class PlayerLaserComponent : UpdateComponent
     {
         private const int PLAYER_LASER_COOLDOWN = 200; // in milliseconds
         private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
 
-        private readonly Vector2 _laserOffsetFromPlayer = new Vector2(0.0f, -30.0f);
-
+        private readonly Vector2 _laserOffsetFromPlayer;
         private float _timeElapsedSinceLastPlayerShot; // in milliseconds
 
-        internal PlayerLaserComponent(int entityId) : base(entityId)
+        internal PlayerLaserComponent()
         {
+            _laserOffsetFromPlayer = new Vector2(0.0f, -30.0f);
             _timeElapsedSinceLastPlayerShot = PLAYER_LASER_COOLDOWN;
         }
 

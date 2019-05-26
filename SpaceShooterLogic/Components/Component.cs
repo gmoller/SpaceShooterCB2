@@ -1,16 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooterLogic.Components
 {
-    public abstract class Component
+    public interface IComponent
     {
-        protected int EntityId { get; }
+        int EntityId { get; set; }
+        void Receive(AttributeType attributeId, object payload);
+    }
+
+    //public interface IUpdateComponent : IComponent
+    //{
+    //    void Update(GameTime gameTime);
+    //}
+
+    //public interface IDrawComponent : IComponent
+    //{
+    //    void Draw(SpriteBatch spriteBatch);
+    //}
+
+    public abstract class UpdateComponent : IComponent
+    {
+        public int EntityId { get; set; }
         public abstract void Update(GameTime gameTime);
         public abstract void Receive(AttributeType attributeId, object payload);
+    }
 
-        protected Component(int entityId)
-        {
-            EntityId = entityId;
-        }
+    public abstract class DrawComponent : IComponent
+    {
+        public int EntityId { get; set; }
+        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Receive(AttributeType attributeId, object payload);
     }
 }

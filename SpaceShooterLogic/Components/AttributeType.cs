@@ -6,6 +6,7 @@
         GraphicsVolume,
         GraphicsPosition,
         GraphicsSize,
+        GraphicsFrame,
         InputPlayerPosition,
         LaserShootLaser
     }

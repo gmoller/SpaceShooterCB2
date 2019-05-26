@@ -6,7 +6,7 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class PlayerPhysicsComponent : Component
+    internal class PlayerPhysicsComponent : UpdateComponent
     {
         private const float MOVE_SPEED = 240.0f; // pixels per second
 
@@ -15,10 +15,10 @@ namespace SpaceShooterLogic.Components
         private Rectangle _volume;
         private Vector2 Size => new Vector2(_volume.Width, _volume.Height);
 
-        internal PlayerPhysicsComponent(int entityId, Vector2 position) : base(entityId)
+        internal PlayerPhysicsComponent(Vector2 position)
         {
             _position = position;
-            _volume = new Rectangle(0, 0, (int)(16 * 2.5f), (int)(16 * 2.5f));
+            _volume = new Rectangle(0, 0, 16, 16);
             DetermineBoundingBox();
         }
 
@@ -81,18 +81,16 @@ namespace SpaceShooterLogic.Components
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
             sndExplode.Play();
 
-            var explosion = new Explosion("Fireball02", _position, Size);
-            GameEntitiesManager.Instance.Explosions.Add(explosion);
+            GameEntitiesManager.Instance.Explosions.Add(Explosion.Create(_position, Size));
 
-            Registrar.Instance.Remove(1);
+            Registrar.Instance.Remove(EntityId);
             GameEntitiesManager.Instance.PlayerIsDead = true;
         }
 
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsVolume, _volume);
-            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsSize, Size);
+            Communicator.Instance.Send(EntityId, ComponentType.VolumeGraphics, AttributeType.GraphicsVolume, _volume);
             Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsPosition, _position);
             Communicator.Instance.Send(EntityId, ComponentType.Input, AttributeType.InputPlayerPosition, _position);
         }

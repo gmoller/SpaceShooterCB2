@@ -9,7 +9,7 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayState : IGameState
     {
-        protected Component InputComponent;
+        protected UpdateComponent InputComponent;
 
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
@@ -37,7 +37,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected virtual void SetController()
         {
-            InputComponent = new PlayerInputComponent(1);
+            InputComponent = new PlayerInputComponent(); // TODO: investigate this 1
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -47,7 +47,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (!GameEntitiesManager.Instance.PlayerIsDead)
             {
-                var player = new Player(Registrar.Instance.GetComponentsForEntity(1));
+                var player = new Player(Registrar.Instance.GetComponentsForEntity(GameEntitiesManager.Instance.PlayerEntityId));
                 player.Update(gameTime);
             }
 
@@ -101,7 +101,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (!GameEntitiesManager.Instance.PlayerIsDead)
             {
-                var player = new Player(Registrar.Instance.GetComponentsForEntity(1));
+                var player = new Player(Registrar.Instance.GetComponentsForEntity(GameEntitiesManager.Instance.PlayerEntityId));
                 player.Draw(spriteBatch);
             }
 
@@ -117,7 +117,7 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
-            CreateOrResetPlayer();
+            CreatePlayer();
             GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
@@ -125,20 +125,10 @@ namespace SpaceShooterLogic.GameStates
             GameEntitiesManager.Instance.Hud = new Hud();
         }
 
-        private Player CreateOrResetPlayer()
+        private void CreatePlayer()
         {
-            var components = new ComponentsSet(1) // TODO: get next entity
-            {
-                {ComponentType.Graphics, new PlayerGraphicsComponent(1, "sprPlayer")},
-                {ComponentType.Input, InputComponent},
-                {ComponentType.Physics, new PlayerPhysicsComponent(1, DeviceManager.Instance.ScreenDimensions * 0.5f)},
-                {ComponentType.Laser, new PlayerLaserComponent(1)}
-            };
-
-            var player = new Player(components);
+            GameEntitiesManager.Instance.PlayerEntityId = Player.Create(InputComponent);
             GameEntitiesManager.Instance.PlayerIsDead = false;
-
-            return player;
         }
     }
 }

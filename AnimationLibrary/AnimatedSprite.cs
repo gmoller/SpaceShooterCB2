@@ -49,6 +49,8 @@ namespace AnimationLibrary
 
         public Rectangle GetCurrentFrame()
         {
+            if (IsFinished) return new Rectangle();
+
             return _spec.Frames[_currentFrame];
         }
 
