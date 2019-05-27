@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using SpaceShooterLogic.Creators;
 using SpaceShooterLogic.Enemies;
 using SpaceShooterUtilities;
 
@@ -77,11 +78,12 @@ namespace SpaceShooterLogic.Components
 
         public void KillPlayer()
         {
+            // TODO: move the sound playing into the explosion
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
             sndExplode.Play();
 
-            GameEntitiesManager.Instance.Explosions.Add(Explosion.Create(_position, Size));
+            ExplosionCreator.Create(_position, Size);
 
             Registrar.Instance.RemoveEntity(EntityId);
             GameEntitiesManager.Instance.PlayerIsDead = true;

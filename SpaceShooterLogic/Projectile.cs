@@ -2,55 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic
 {
-    public class Projectile2
-    {
-        private readonly ComponentsSet _components;
-
-        internal Projectile2(ComponentsSet components)
-        {
-            _components = components;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            foreach (IComponent component in _components)
-            {
-                if (component is UpdateComponent)
-                {
-                    UpdateComponent uc = (UpdateComponent)component;
-                    uc.Update(gameTime);
-                }
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            var graphicsComponent = (GraphicsComponent)_components[ComponentType.Graphics];
-            graphicsComponent.Draw(spriteBatch);
-
-            var volumeGraphicsComponent = (VolumeGraphicsComponent)_components[ComponentType.VolumeGraphics];
-            volumeGraphicsComponent.Draw(spriteBatch);
-        }
-
-        public static Projectile2 Create(Vector2 position, Vector2 size)
-        {
-            var components = new ComponentsSet();
-            components.AddComponent(ComponentType.Physics, new ProjectilePhysicsComponent(position, Vector2.One));
-            components.AddComponent(ComponentType.Graphics, new GraphicsComponent("sprLaserPlayer", position));
-            components.AddComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle((int)(position.X), (int)(position.Y), 16, 16)));
-
-            var projectile = new Projectile2(components);
-
-            return projectile;
-            //return components.EntityId;
-        }
-    }
-
     public class Projectile : Entity
     {
         public Projectile(string textureName, Vector2 position, Vector2 velocity)

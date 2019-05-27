@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using SpaceShooterLogic.Creators;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
@@ -32,8 +33,12 @@ namespace SpaceShooterLogic.Components
             {
                 AssetsManager.Instance.GetSound("sndLaser").Play();
                 Vector2 laserPosition = playerPosition + _laserOffsetFromPlayer;
-                var projectile = new Projectile("sprLaserPlayer", laserPosition, new Vector2(0, -PLAYER_LASER_VELOCITY));
-                GameEntitiesManager.Instance.PlayerProjectiles.Add(projectile);
+                Vector2 laserVelocity = new Vector2(0, -PLAYER_LASER_VELOCITY);
+
+                //var projectile = new Projectile("sprLaserPlayer", laserPosition, laserVelocity);
+
+                ProjectileCreator.Create(laserPosition, laserVelocity);
+                //GameEntitiesManager.Instance.PlayerProjectiles.Add(projectile);
 
                 StartPlayerLaserCooldown();
             }

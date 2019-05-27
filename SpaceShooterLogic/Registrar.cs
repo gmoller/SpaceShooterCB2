@@ -16,6 +16,11 @@ namespace SpaceShooterLogic
             _entities = new Entities();
         }
 
+        public void Clear()
+        {
+            _entities.Clear();
+        }
+
         public int AddEntity(ComponentsSet componentsSet)
         {
             return _entities.AddEntity(componentsSet);
@@ -29,6 +34,11 @@ namespace SpaceShooterLogic
         public ComponentsSet GetEntity(int entityId)
         {
             return _entities.GetEntity(entityId);
+        }
+
+        public Entities GetAllEntities()
+        {
+            return _entities;
         }
 
         public Entities FilterEntities(params ComponentType[] componentTypes)

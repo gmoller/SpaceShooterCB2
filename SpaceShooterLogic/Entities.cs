@@ -14,6 +14,11 @@ namespace SpaceShooterLogic
             _entityComponents = new List<ComponentsSet>();
         }
 
+        public void Clear()
+        {
+            _entityComponents.Clear();
+        }
+
         public int AddEntity(ComponentsSet componentsSet)
         {
             _entityComponents.Add(componentsSet);
@@ -45,6 +50,7 @@ namespace SpaceShooterLogic
             var list = new Entities();
             foreach (ComponentsSet componentsSet in _entityComponents)
             {
+                if (componentsSet.IsDeleted) continue;
                 bool match = AllComponentsExistInComponentsSet(componentTypes, componentsSet);
 
                 if (match)

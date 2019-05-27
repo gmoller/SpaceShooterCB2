@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterLogic.Components;
+using SpaceShooterLogic.Creators;
 using SpaceShooterLogic.Screens;
 using SpaceShooterUtilities;
 
@@ -29,10 +30,7 @@ namespace SpaceShooterLogic.GameStates
 
         public virtual void Leave()
         {
-            GameEntitiesManager.Instance.PlayerProjectiles = null;
-            GameEntitiesManager.Instance.Enemies = null;
-            GameEntitiesManager.Instance.EnemyProjectiles = null;
-            GameEntitiesManager.Instance.Explosions = null;
+            Registrar.Instance.Clear();
         }
 
         protected virtual void SetController()
@@ -45,16 +43,18 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            if (!GameEntitiesManager.Instance.PlayerIsDead)
+            // TODO: Explosion is currently a surrogate for a generic entity. Rename this to entity!!!!!
+            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics);
+            //Entities entities = Registrar.Instance.GetAllEntities();
+            foreach (ComponentsSet componentsSet in entities)
             {
-                var player = new Player(Registrar.Instance.GetEntity(GameEntitiesManager.Instance.PlayerEntityId));
-                player.Update(gameTime);
+                var entity = new Explosion(componentsSet);
+                entity.Update(gameTime);
             }
 
-            GameEntitiesManager.Instance.PlayerProjectiles.Update(gameTime);
-            GameEntitiesManager.Instance.Enemies.Update(gameTime);
-            GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
-            GameEntitiesManager.Instance.Explosions.Update(gameTime);
+            //GameEntitiesManager.Instance.PlayerProjectiles.Update(gameTime);
+            //GameEntitiesManager.Instance.Enemies.Update(gameTime);
+            //GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Hud.Update(gameTime);
 
             if (GameEntitiesManager.Instance.PlayerIsDead)
@@ -99,16 +99,16 @@ namespace SpaceShooterLogic.GameStates
             _drawFrames++;
             _drawStopwatch.Start();
 
-            if (!GameEntitiesManager.Instance.PlayerIsDead)
+            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Graphics);
+            foreach (ComponentsSet componentsSet in entities)
             {
-                var player = new Player(Registrar.Instance.GetEntity(GameEntitiesManager.Instance.PlayerEntityId));
-                player.Draw(spriteBatch);
+                var entity = new Explosion(componentsSet);
+                entity.Draw(spriteBatch);
             }
 
-            GameEntitiesManager.Instance.PlayerProjectiles.Draw(spriteBatch);
-            GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
-            GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
-            GameEntitiesManager.Instance.Explosions.Draw(spriteBatch);
+            //GameEntitiesManager.Instance.PlayerProjectiles.Draw(spriteBatch);
+            //GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
+            //GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
@@ -118,16 +118,15 @@ namespace SpaceShooterLogic.GameStates
         private void ResetLevel()
         {
             CreatePlayer();
-            GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
+            //GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
-            GameEntitiesManager.Instance.Explosions = new Explosions();
             GameEntitiesManager.Instance.Hud = new Hud();
         }
 
         private void CreatePlayer()
         {
-            GameEntitiesManager.Instance.PlayerEntityId = Player.Create(InputComponent);
+            PlayerCreator.Create(InputComponent);
             GameEntitiesManager.Instance.PlayerIsDead = false;
         }
     }

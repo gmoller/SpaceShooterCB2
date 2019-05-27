@@ -54,6 +54,9 @@
     <Compile Include="Components\ProjectilePhysicsComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Components\VolumeGraphicsComponent.cs" />
+    <Compile Include="Creators\ExplosionCreator.cs" />
+    <Compile Include="Creators\PlayerCreator.cs" />
+    <Compile Include="Creators\ProjectileCreator.cs" />
     <Compile Include="Enemies\CarrierShip.cs" />
     <Compile Include="Enemies\ChaserShip.cs" />
     <Compile Include="Enemies\Enemy.cs" />
@@ -72,7 +75,6 @@
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PhysicsBody.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="PlayerController.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

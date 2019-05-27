@@ -12,12 +12,14 @@ namespace SpaceShooterLogic.Components
         private readonly List<IComponent> _components;
 
         public int EntityId { get; }
+        public float LifeTime { get; set; }
         public bool IsDeleted { get; set; }
 
-        public ComponentsSet()
+        public ComponentsSet(float lifeTime = float.PositiveInfinity)
         {
             _components = new List<IComponent>();
             EntityId = Registrar.Instance.AddEntity(this);
+            LifeTime = lifeTime;
         }
 
         public void AddComponent(ComponentType componentType, IComponent component)
