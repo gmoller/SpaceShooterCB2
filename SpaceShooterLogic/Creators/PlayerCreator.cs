@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineCore;
+using GameEngineCore.AbstractClasses;
+using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 

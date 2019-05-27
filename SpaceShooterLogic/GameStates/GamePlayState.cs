@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterLogic.Components;
@@ -48,7 +50,7 @@ namespace SpaceShooterLogic.GameStates
             foreach (ComponentsSet componentsSet in entities)
             {
                 var entity = new Entity2(componentsSet);
-                entity.Update(gameTime);
+                entity.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             }
 
             //GameEntitiesManager.Instance.Enemies.Update(gameTime);

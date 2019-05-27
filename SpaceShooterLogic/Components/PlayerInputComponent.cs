@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
@@ -16,7 +18,7 @@ namespace SpaceShooterLogic.Components
             _playerController = new PlayerController();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float deltaTime)
         {
             List<PlayerAction> playerActions = _playerController.GetActions();
 

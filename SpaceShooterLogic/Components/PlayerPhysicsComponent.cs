@@ -1,4 +1,7 @@
 ﻿using System;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
+using GameEngineCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using SpaceShooterLogic.Creators;
@@ -23,10 +26,10 @@ namespace SpaceShooterLogic.Components
             DetermineBoundingBox();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _position = _position + _velocity * deltaTime / 1000.0f;
             DetermineBoundingBox();
             
             // do not allow our player off the screen

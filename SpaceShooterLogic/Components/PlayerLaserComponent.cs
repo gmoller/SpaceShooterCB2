@@ -1,4 +1,6 @@
 ﻿using System;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Creators;
 using SpaceShooterUtilities;
@@ -19,11 +21,11 @@ namespace SpaceShooterLogic.Components
             _timeElapsedSinceLastPlayerShot = PLAYER_LASER_COOLDOWN;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float deltaTime)
         {
             if (_timeElapsedSinceLastPlayerShot < PLAYER_LASER_COOLDOWN)
             {
-                _timeElapsedSinceLastPlayerShot += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                _timeElapsedSinceLastPlayerShot += deltaTime;
             }
         }
 

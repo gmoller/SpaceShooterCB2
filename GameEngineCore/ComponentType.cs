@@ -1,4 +1,4 @@
-﻿namespace SpaceShooterLogic.Components
+﻿namespace GameEngineCore
 {
     public enum ComponentType
     {

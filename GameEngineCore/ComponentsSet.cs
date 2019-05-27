@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameEngineCore.Interfaces;
 
-namespace SpaceShooterLogic.Components
+namespace GameEngineCore
 {
     /// <summary>
     /// Set of components for an entity.

@@ -1,7 +1,6 @@
 ﻿using System;
-using SpaceShooterLogic.Components;
 
-namespace SpaceShooterLogic
+namespace GameEngineCore
 {
     public sealed class Registrar
     {

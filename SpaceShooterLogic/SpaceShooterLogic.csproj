@@ -43,10 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communicator.cs" />
-    <Compile Include="Components\AttributeType.cs" />
-    <Compile Include="Components\Component.cs" />
-    <Compile Include="Components\ComponentsSet.cs" />
-    <Compile Include="Components\ComponentType.cs" />
     <Compile Include="Components\GraphicsComponent.cs" />
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\PlayerLaserComponent.cs" />
@@ -61,7 +57,6 @@
     <Compile Include="Enemies\CarrierShip.cs" />
     <Compile Include="Enemies\ChaserShip.cs" />
     <Compile Include="Enemies\Enemy.cs" />
-    <Compile Include="Entities.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Entity2.cs" />
     <Compile Include="GameEntitiesManager.cs" />
@@ -72,7 +67,6 @@
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="Enemies\GunShip.cs" />
-    <Compile Include="Registrar.cs" />
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PhysicsBody.cs" />
@@ -87,6 +81,10 @@
     <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
       <Project>{d6526af1-1701-4e6e-9123-cd06f33565c9}</Project>
       <Name>AnimationLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameEngineCore\GameEngineCore.csproj">
+      <Project>{4f83c265-4209-4f99-9780-40ca5034ed77}</Project>
+      <Name>GameEngineCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\GuiControls\GuiControls.csproj">
       <Project>{66f72420-0179-40f6-bd39-aae0ed6926a6}</Project>

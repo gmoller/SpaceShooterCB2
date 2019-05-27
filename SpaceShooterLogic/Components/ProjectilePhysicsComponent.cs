@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineCore;
+using GameEngineCore.AbstractClasses;
+using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
 {
@@ -19,10 +21,10 @@ namespace SpaceShooterLogic.Components
             DetermineBoundingBox();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _position = _position + _velocity * deltaTime / 1000.0f;
             DetermineBoundingBox();
 
             ResolveCollisions();

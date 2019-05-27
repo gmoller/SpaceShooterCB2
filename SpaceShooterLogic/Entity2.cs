@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineCore;
+using GameEngineCore.AbstractClasses;
+using GameEngineCore.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterLogic.Components;
 
@@ -13,11 +15,11 @@ namespace SpaceShooterLogic
             _components = components;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float deltaTime)
         {
             if (!float.IsPositiveInfinity(_components.LifeTime))
             {
-                _components.LifeTime -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                _components.LifeTime -= deltaTime;
                 if (_components.LifeTime <= 0)
                 {
                     _components.IsDeleted = true;
@@ -29,7 +31,7 @@ namespace SpaceShooterLogic
                 if (component is UpdateComponent)
                 {
                     UpdateComponent uc = (UpdateComponent) component;
-                    uc.Update(gameTime);
+                    uc.Update(deltaTime);
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineCore;
+using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Creators

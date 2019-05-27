@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using SpaceShooterLogic.Components;
+using GameEngineCore.Interfaces;
 
-namespace SpaceShooterLogic
+namespace GameEngineCore
 {
     public class Entities : IEnumerable<ComponentsSet>
     {

@@ -1,4 +1,6 @@
 ﻿using System;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceShooterUtilities;

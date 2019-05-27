@@ -1,4 +1,6 @@
 ﻿using AnimationLibrary;
+using GameEngineCore;
+using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using SpaceShooterUtilities;
 
@@ -14,9 +16,9 @@ namespace SpaceShooterLogic.Components
             _sprite = new AnimatedSprite(animationSpec);
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float deltaTime)
         {
-            _sprite.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            _sprite.Update(deltaTime);
 
             Send(_sprite.GetCurrentFrame());
         }
