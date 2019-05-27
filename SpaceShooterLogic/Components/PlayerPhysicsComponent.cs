@@ -54,26 +54,47 @@ namespace SpaceShooterLogic.Components
 
         private void ResolveCollisions()
         {
-            Enemies.Enemies enemies = GameEntitiesManager.Instance.Enemies;
-            foreach (Enemy enemy in enemies)
+            // get enemies
+            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics);
+
+            // for each enemy
+            foreach (ComponentsSet entity in entities)
             {
-                // check for enemy and player collision
-                if (_volume.Intersects(enemy.Body.BoundingBox))
+                if (EntityId == entity.EntityId) continue;
+
+                // get physics component
+                IComponent component = entity[ComponentType.Physics];
+                var physicsComponent = component as ProjectilePhysicsComponent;
+
+                // test for collision
+                bool isColliding = _volume.Intersects(physicsComponent.Volume);
+                if (isColliding)
                 {
                     KillPlayer();
-                    enemy.KillEnemy();
+                    // kill enemy
                 }
             }
 
-            Projectiles projectiles = GameEntitiesManager.Instance.EnemyProjectiles;
-            foreach (Projectile projectile in projectiles)
-            {
-                // check for player and enemy projectile collision
-                if (_volume.Intersects(projectile.Body.BoundingBox))
-                {
-                    KillPlayer();
-                }
-            }
+            //Enemies.Enemies enemies = GameEntitiesManager.Instance.Enemies;
+            //foreach (Enemy enemy in enemies)
+            //{
+            //    // check for enemy and player collision
+            //    if (_volume.Intersects(enemy.Body.BoundingBox))
+            //    {
+            //        KillPlayer();
+            //        enemy.KillEnemy();
+            //    }
+            //}
+
+            //Projectiles projectiles = GameEntitiesManager.Instance.EnemyProjectiles;
+            //foreach (Projectile projectile in projectiles)
+            //{
+            //    // check for player and enemy projectile collision
+            //    if (_volume.Intersects(projectile.Body.BoundingBox))
+            //    {
+            //        KillPlayer();
+            //    }
+            //}
         }
 
         public void KillPlayer()

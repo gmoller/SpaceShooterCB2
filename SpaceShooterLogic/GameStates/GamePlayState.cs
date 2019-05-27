@@ -43,16 +43,14 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            // TODO: Explosion is currently a surrogate for a generic entity. Rename this to entity!!!!!
-            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics);
+            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics); // oops, what about explosion - no physics
             //Entities entities = Registrar.Instance.GetAllEntities();
             foreach (ComponentsSet componentsSet in entities)
             {
-                var entity = new Explosion(componentsSet);
+                var entity = new Entity2(componentsSet);
                 entity.Update(gameTime);
             }
 
-            //GameEntitiesManager.Instance.PlayerProjectiles.Update(gameTime);
             //GameEntitiesManager.Instance.Enemies.Update(gameTime);
             //GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Hud.Update(gameTime);
@@ -102,11 +100,10 @@ namespace SpaceShooterLogic.GameStates
             Entities entities = Registrar.Instance.FilterEntities(ComponentType.Graphics);
             foreach (ComponentsSet componentsSet in entities)
             {
-                var entity = new Explosion(componentsSet);
+                var entity = new Entity2(componentsSet);
                 entity.Draw(spriteBatch);
             }
 
-            //GameEntitiesManager.Instance.PlayerProjectiles.Draw(spriteBatch);
             //GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
             //GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
@@ -118,8 +115,9 @@ namespace SpaceShooterLogic.GameStates
         private void ResetLevel()
         {
             CreatePlayer();
-            //GameEntitiesManager.Instance.PlayerProjectiles = new Projectiles();
-            GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
+            CreateEnemy();
+            //CreateEnemySpawner();
+            //GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Hud = new Hud();
         }
@@ -128,6 +126,11 @@ namespace SpaceShooterLogic.GameStates
         {
             PlayerCreator.Create(InputComponent);
             GameEntitiesManager.Instance.PlayerIsDead = false;
+        }
+
+        private void CreateEnemy()
+        {
+            EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 5.0f));
         }
     }
 }

@@ -53,10 +53,10 @@ namespace SpaceShooterLogic
             for (int i = 0; i < _projectiles.Count; i++)
             {
                 Projectile projectile = _projectiles[i];
-                if (GameEntitiesManager.Instance.Enemies.CollisionDetectionWithProjectile(projectile))
-                {
-                    _projectiles.Remove(projectile);
-                }
+                //if (GameEntitiesManager.Instance.Enemies.CollisionDetectionWithProjectile(projectile))
+                //{
+                //    _projectiles.Remove(projectile);
+                //}
             }
         }
 

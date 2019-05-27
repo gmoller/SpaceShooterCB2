@@ -9,11 +9,13 @@ namespace SpaceShooterLogic.Components
         private Rectangle _volume;
         private Vector2 Size => new Vector2(_volume.Width, _volume.Height);
 
-        internal ProjectilePhysicsComponent(Vector2 position, Vector2 velocity)
+        public Rectangle Volume => _volume;
+
+        internal ProjectilePhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
         {
             _position = position;
             _velocity = velocity;
-            _volume = new Rectangle(0, 0, 1, 8);
+            _volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             DetermineBoundingBox();
         }
 

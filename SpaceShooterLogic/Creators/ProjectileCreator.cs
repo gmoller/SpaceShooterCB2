@@ -5,14 +5,14 @@ namespace SpaceShooterLogic.Creators
 {
     public static class ProjectileCreator
     {
-        public static Explosion Create(Vector2 position, Vector2 velocity)
+        public static Entity2 Create(Vector2 position, Vector2 velocity)
         {
             var components = new ComponentsSet(1000.0f);
-            components.AddComponent(ComponentType.Physics, new ProjectilePhysicsComponent(position, velocity));
+            components.AddComponent(ComponentType.Physics, new ProjectilePhysicsComponent(position, velocity, new Vector2(1.0f, 8.0f)));
             components.AddComponent(ComponentType.Graphics, new GraphicsComponent("sprLaserPlayer", position));
-            components.AddComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle((int)position.X, (int)position.Y, 1, 8)));
+            components.AddComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle()));
 
-            var projectile = new Explosion(components);
+            var projectile = new Entity2(components);
 
             return projectile;
         }

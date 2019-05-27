@@ -172,7 +172,7 @@ namespace SpaceShooterLogic.Enemies
             {
                 enemy = new CarrierShip("sprEnemy2", spawnPos, new Vector2(0, velocity));
             }
-            GameEntitiesManager.Instance.Enemies.Add(enemy);
+            //GameEntitiesManager.Instance.Enemies.Add(enemy);
         }
 
         public IEnumerator<Enemy> GetEnumerator()

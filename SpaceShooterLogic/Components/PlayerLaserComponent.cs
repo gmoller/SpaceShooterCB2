@@ -15,7 +15,7 @@ namespace SpaceShooterLogic.Components
 
         internal PlayerLaserComponent()
         {
-            _laserOffsetFromPlayer = new Vector2(0.0f, -30.0f);
+            _laserOffsetFromPlayer = new Vector2(0.0f, -16.0f); // TODO: calculate this properly (based on size of player ship)
             _timeElapsedSinceLastPlayerShot = PLAYER_LASER_COOLDOWN;
         }
 
@@ -32,13 +32,10 @@ namespace SpaceShooterLogic.Components
             if (!PlayerLaserOnCooldown())
             {
                 AssetsManager.Instance.GetSound("sndLaser").Play();
-                Vector2 laserPosition = playerPosition + _laserOffsetFromPlayer;
-                Vector2 laserVelocity = new Vector2(0, -PLAYER_LASER_VELOCITY);
+                Vector2 projectilePosition = playerPosition + _laserOffsetFromPlayer;
+                Vector2 projectileVelocity = new Vector2(0, -PLAYER_LASER_VELOCITY);
 
-                //var projectile = new Projectile("sprLaserPlayer", laserPosition, laserVelocity);
-
-                ProjectileCreator.Create(laserPosition, laserVelocity);
-                //GameEntitiesManager.Instance.PlayerProjectiles.Add(projectile);
+                ProjectileCreator.Create(projectilePosition, projectileVelocity);
 
                 StartPlayerLaserCooldown();
             }

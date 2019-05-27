@@ -4,12 +4,11 @@ using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic
 {
-    // TODO: this must become Entity
-    public class Explosion
+    public class Entity2
     {
         private readonly ComponentsSet _components;
 
-        internal Explosion(ComponentsSet components)
+        internal Entity2(ComponentsSet components)
         {
             _components = components;
         }

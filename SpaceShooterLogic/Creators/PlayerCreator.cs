@@ -6,7 +6,7 @@ namespace SpaceShooterLogic.Creators
 {
     public static class PlayerCreator
     {
-        public static Explosion Create(UpdateComponent inputComponent)
+        public static Entity2 Create(UpdateComponent inputComponent)
         {
             var components = new ComponentsSet();
             components.AddComponent(ComponentType.Input, inputComponent);
@@ -16,7 +16,7 @@ namespace SpaceShooterLogic.Creators
             components.AddComponent(ComponentType.Graphics, new GraphicsComponent("sprPlayer", Vector2.Zero));
             components.AddComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle()));
 
-            var player = new Explosion(components);
+            var player = new Entity2(components);
 
             return player;
         }
