@@ -9,7 +9,7 @@ namespace SpaceShooterLogic.Components
     internal class PlayerLaserComponent : UpdateComponent
     {
         private const int PLAYER_LASER_COOLDOWN = 200; // in milliseconds
-        private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
+        private const float PLAYER_LASER_VELOCITY = 0.600f; // in pixels per millisecond
 
         private readonly Vector2 _laserOffsetFromPlayer;
 

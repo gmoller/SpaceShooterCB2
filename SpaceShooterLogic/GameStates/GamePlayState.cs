@@ -139,7 +139,7 @@ namespace SpaceShooterLogic.GameStates
 
         private void CreateEnemy()
         {
-            EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 5.0f));
+            EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
         }
     }
 }

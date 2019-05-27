@@ -24,7 +24,7 @@ namespace SpaceShooterLogic.Components
         public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + _velocity * deltaTime / 1000.0f;
+            _position = _position + _velocity * deltaTime;
             DetermineBoundingBox();
 
             ResolveCollisions();

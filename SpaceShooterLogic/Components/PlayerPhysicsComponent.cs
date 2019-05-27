@@ -12,7 +12,7 @@ namespace SpaceShooterLogic.Components
 {
     internal class PlayerPhysicsComponent : UpdateComponent
     {
-        private const float MOVE_SPEED = 240.0f; // pixels per second
+        private const float MOVE_SPEED = 0.24f; // pixels per millisecond
 
         private Vector2 _position;
         private Rectangle _volume;
@@ -30,7 +30,7 @@ namespace SpaceShooterLogic.Components
         public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + Velocity * deltaTime / 1000.0f;
+            _position = _position + Velocity * deltaTime;
             DetermineBoundingBox();
             
             // do not allow our player off the screen
