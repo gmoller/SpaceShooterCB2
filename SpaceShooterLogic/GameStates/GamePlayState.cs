@@ -47,7 +47,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (!GameEntitiesManager.Instance.PlayerIsDead)
             {
-                var player = new Player(Registrar.Instance.GetComponentsForEntity(GameEntitiesManager.Instance.PlayerEntityId));
+                var player = new Player(Registrar.Instance.GetEntity(GameEntitiesManager.Instance.PlayerEntityId));
                 player.Update(gameTime);
             }
 
@@ -101,7 +101,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (!GameEntitiesManager.Instance.PlayerIsDead)
             {
-                var player = new Player(Registrar.Instance.GetComponentsForEntity(GameEntitiesManager.Instance.PlayerEntityId));
+                var player = new Player(Registrar.Instance.GetEntity(GameEntitiesManager.Instance.PlayerEntityId));
                 player.Draw(spriteBatch);
             }
 

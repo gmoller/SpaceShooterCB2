@@ -15,7 +15,7 @@ namespace SpaceShooterLogic
 
         public void Send(int entityId, ComponentType componentType, AttributeType attributeId, object payload)
         {
-            ComponentsSet components = Registrar.Instance.GetComponentsForEntity(entityId);
+            ComponentsSet components = Registrar.Instance.GetEntity(entityId);
 
             components[componentType].Receive(attributeId, payload);
         }

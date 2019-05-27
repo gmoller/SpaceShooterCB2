@@ -9,47 +9,43 @@ namespace SpaceShooterLogic.Components
     /// </summary>
     public class ComponentsSet : IEnumerable<IComponent>
     {
-        private readonly Dictionary<ComponentType, IComponent> _components;
+        private readonly List<IComponent> _components;
 
         public int EntityId { get; }
         public bool IsDeleted { get; set; }
 
         public ComponentsSet()
         {
-            _components = new Dictionary<ComponentType, IComponent>();
-            EntityId = Registrar.Instance.AddComponentSet(this);
+            _components = new List<IComponent>();
+            EntityId = Registrar.Instance.AddEntity(this);
         }
 
-        public void AddUpdateComponent(ComponentType componentType, UpdateComponent component)
+        public void AddComponent(ComponentType componentType, IComponent component)
         {
             component.EntityId = EntityId;
-            _components.Add(componentType, component);
+            component.ComponentType = componentType;
+            _components.Add(component);
         }
 
-        public void AddDrawComponent(ComponentType componentType, DrawComponent component)
-        {
-            component.EntityId = EntityId;
-            _components.Add(componentType, component);
-        }
-
-        public IComponent this[ComponentType index]
+        public IComponent this[ComponentType componentType]
         {
             get
             {
-                try
+                foreach (IComponent item in _components)
                 {
-                    return _components[index];
+                    if (item.ComponentType == componentType)
+                    {
+                        return item;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Component [{index}] not found in Components. Could not get the component.", ex);
-                }
+
+                throw new Exception($"Component [{componentType}] not found in Components. Could not get the component.");
             }
         }
 
         public IEnumerator<IComponent> GetEnumerator()
         {
-            foreach (var item in _components.Values)
+            foreach (IComponent item in _components)
             {
                 yield return item;
             }

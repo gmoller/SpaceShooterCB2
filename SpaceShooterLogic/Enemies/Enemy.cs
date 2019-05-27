@@ -51,8 +51,8 @@ namespace SpaceShooterLogic.Enemies
             var sndExplode = AssetsManager.Instance.GetSound($"sndExplode{idx}");
             sndExplode.Play();
 
-            var explosionPosition = new Vector2(Position.X, Position.Y);
-            var enemySize = new Vector2(Body.BoundingBox.Width, Body.BoundingBox.Height);
+            //var explosionPosition = new Vector2(Position.X, Position.Y);
+            //var enemySize = new Vector2(Body.BoundingBox.Width, Body.BoundingBox.Height);
             //var explosion = new Explosion("Explosion10", explosionPosition, enemySize);
             //GameEntitiesManager.Instance.Explosions.Add(explosion);
             GameEntitiesManager.Instance.Score += Score;

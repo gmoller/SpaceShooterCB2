@@ -22,17 +22,6 @@ namespace SpaceShooterLogic.Components
             DetermineBoundingBox();
         }
 
-        private void DetermineBoundingBox()
-        {
-            Vector2 origin = Size / 2.0f;
-
-            _volume = new Rectangle(
-                (int)(_position.X - (int)origin.X),
-                (int)(_position.Y - (int)origin.Y),
-                (int)Size.X,
-                (int)Size.Y);
-        }
-
         public override void Update(GameTime gameTime)
         {
             // movement
@@ -49,6 +38,17 @@ namespace SpaceShooterLogic.Components
             ResolveCollisions();
 
             Send();
+        }
+
+        private void DetermineBoundingBox()
+        {
+            Vector2 origin = Size / 2.0f;
+
+            _volume = new Rectangle(
+                (int)(_position.X - (int)origin.X),
+                (int)(_position.Y - (int)origin.Y),
+                (int)Size.X,
+                (int)Size.Y);
         }
 
         private void ResolveCollisions()
@@ -83,7 +83,7 @@ namespace SpaceShooterLogic.Components
 
             GameEntitiesManager.Instance.Explosions.Add(Explosion.Create(_position, Size));
 
-            Registrar.Instance.Remove(EntityId);
+            Registrar.Instance.RemoveEntity(EntityId);
             GameEntitiesManager.Instance.PlayerIsDead = true;
         }
 

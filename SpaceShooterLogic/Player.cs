@@ -38,12 +38,12 @@ namespace SpaceShooterLogic
         public static int Create(UpdateComponent inputComponent)
         {
             var components = new ComponentsSet();
-            components.AddUpdateComponent(ComponentType.Input, inputComponent);
-            components.AddUpdateComponent(ComponentType.Physics, new PlayerPhysicsComponent(DeviceManager.Instance.ScreenDimensions * 0.5f));
-            components.AddUpdateComponent(ComponentType.Laser, new PlayerLaserComponent());
-            components.AddUpdateComponent(ComponentType.Sprite, new SpriteComponent("sprPlayer"));
-            components.AddDrawComponent(ComponentType.Graphics, new GraphicsComponent("sprPlayer", Vector2.Zero));
-            components.AddDrawComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle()));
+            components.AddComponent(ComponentType.Input, inputComponent);
+            components.AddComponent(ComponentType.Physics, new PlayerPhysicsComponent(DeviceManager.Instance.ScreenDimensions * 0.5f));
+            components.AddComponent(ComponentType.Laser, new PlayerLaserComponent());
+            components.AddComponent(ComponentType.Sprite, new SpriteComponent("sprPlayer"));
+            components.AddComponent(ComponentType.Graphics, new GraphicsComponent("sprPlayer", Vector2.Zero));
+            components.AddComponent(ComponentType.VolumeGraphics, new VolumeGraphicsComponent(new Rectangle()));
 
             var player = new Player(components);
 

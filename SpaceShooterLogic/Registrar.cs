@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic
@@ -10,41 +9,31 @@ namespace SpaceShooterLogic
 
         public static Registrar Instance => Lazy.Value;
 
-        private int _nextEntityId;
-        private readonly Dictionary<int, ComponentsSet> _entityComponents;
+        private readonly Entities _entities;
 
         private Registrar()
         {
-            _nextEntityId = 1;
-            _entityComponents = new Dictionary<int, ComponentsSet>();
+            _entities = new Entities();
         }
 
-        public int AddComponentSet(ComponentsSet componentsSet)
+        public int AddEntity(ComponentsSet componentsSet)
         {
-            int entityId = _nextEntityId++;
-            _entityComponents[entityId] = componentsSet;
-
-            return entityId;
+            return _entities.AddEntity(componentsSet);
         }
 
-        public void Remove(int entityId)
+        public void RemoveEntity(int entityId)
         {
-            // TODO: flag as deleted
-            ComponentsSet components = _entityComponents[entityId];
-            components.IsDeleted = true;
-            //_entityComponents.Remove(entityId);
+            _entities.RemoveEntity(entityId);
         }
 
-        public ComponentsSet GetComponentsForEntity(int entityId)
+        public ComponentsSet GetEntity(int entityId)
         {
-            try
-            {
-                return _entityComponents[entityId];
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"EntityId [{entityId}] not found in EntityComponents. Could not get it's components.", ex);
-            }
+            return _entities.GetEntity(entityId);
+        }
+
+        public Entities FilterEntities(params ComponentType[] componentTypes)
+        {
+            return _entities.FilterEntities(componentTypes);
         }
     }
 }

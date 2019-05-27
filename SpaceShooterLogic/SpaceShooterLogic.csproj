@@ -51,11 +51,13 @@
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\PlayerLaserComponent.cs" />
     <Compile Include="Components\PlayerPhysicsComponent.cs" />
+    <Compile Include="Components\ProjectilePhysicsComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Components\VolumeGraphicsComponent.cs" />
     <Compile Include="Enemies\CarrierShip.cs" />
     <Compile Include="Enemies\ChaserShip.cs" />
     <Compile Include="Enemies\Enemy.cs" />
+    <Compile Include="Entities.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Explosion.cs" />
     <Compile Include="GameEntitiesManager.cs" />
