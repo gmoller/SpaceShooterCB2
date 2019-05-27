@@ -6,18 +6,18 @@ namespace SpaceShooterLogic.Components
 {
     internal class ProjectilePhysicsComponent : UpdateComponent
     {
-        private Vector2 _position;
         private readonly Vector2 _velocity;
-        private Rectangle _volume;
-        private Vector2 Size => new Vector2(_volume.Width, _volume.Height);
 
-        public Rectangle Volume => _volume;
+        private Vector2 _position;
+        private Vector2 Size => new Vector2(Volume.Width, Volume.Height);
+
+        public Rectangle Volume { get; private set; }
 
         internal ProjectilePhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
         {
             _position = position;
             _velocity = velocity;
-            _volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
+            Volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             DetermineBoundingBox();
         }
 
@@ -36,7 +36,7 @@ namespace SpaceShooterLogic.Components
         {
             Vector2 origin = Size / 2.0f;
 
-            _volume = new Rectangle(
+            Volume = new Rectangle(
                 (int)(_position.X - (int)origin.X),
                 (int)(_position.Y - (int)origin.Y),
                 (int)Size.X,
@@ -50,11 +50,11 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), AttributeType.GraphicsVolume, _volume);
-            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), AttributeType.GraphicsPosition, _position);
+            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), Volume);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), _position);
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
         }
         #endregion

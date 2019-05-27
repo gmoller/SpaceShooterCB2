@@ -38,7 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeType.cs" />
+    <Compile Include="Communicator.cs" />
     <Compile Include="ComponentsSet.cs" />
     <Compile Include="AbstractClasses\DrawComponent.cs" />
     <Compile Include="Entities.cs" />

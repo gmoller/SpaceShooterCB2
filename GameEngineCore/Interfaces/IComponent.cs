@@ -6,6 +6,6 @@ namespace GameEngineCore.Interfaces
     {
         int EntityId { get; set; }
         Type ComponentType { get; set; }
-        void Receive(AttributeType attributeId, object payload);
+        void Receive(string attributeName, object payload);
     }
 }

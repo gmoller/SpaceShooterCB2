@@ -42,7 +42,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communicator.cs" />
     <Compile Include="Components\GraphicsComponent.cs" />
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\PlayerLaserComponent.cs" />

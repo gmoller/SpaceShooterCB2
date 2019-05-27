@@ -1,5 +1,4 @@
 ﻿using System;
-using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Creators;
@@ -13,7 +12,11 @@ namespace SpaceShooterLogic.Components
         private const float PLAYER_LASER_VELOCITY = 600.0f; // in pixels per second
 
         private readonly Vector2 _laserOffsetFromPlayer;
+
         private float _timeElapsedSinceLastPlayerShot; // in milliseconds
+
+        public bool ShootLaser { get; private set; }
+        public Vector2 PlayerPosition { get; private set; }
 
         internal PlayerLaserComponent()
         {
@@ -27,10 +30,16 @@ namespace SpaceShooterLogic.Components
             {
                 _timeElapsedSinceLastPlayerShot += deltaTime;
             }
+
+            if (ShootLaser)
+            {
+                ShootLaser2(PlayerPosition);
+            }
         }
 
-        private void ShootLaser(Vector2 playerPosition)
+        private void ShootLaser2(Vector2 playerPosition)
         {
+            ShootLaser = false;
             if (!PlayerLaserOnCooldown())
             {
                 AssetsManager.Instance.GetSound("sndLaser").Play();
@@ -63,15 +72,18 @@ namespace SpaceShooterLogic.Components
         {
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
-            switch (attributeId)
+            switch (attributeName)
             {
-                case AttributeType.LaserShootLaser:
-                    ShootLaser((Vector2)payload);
+                case "ShootLaser":
+                    ShootLaser = true;
+                    break;
+                case "PlayerPosition":
+                    PlayerPosition = (Vector2) payload;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerLaserComponent.");
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by PlayerLaserComponent.");
             }
         }
         #endregion

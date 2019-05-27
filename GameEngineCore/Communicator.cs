@@ -1,7 +1,6 @@
 ﻿using System;
-using GameEngineCore;
 
-namespace SpaceShooterLogic
+namespace GameEngineCore
 {
     public sealed class Communicator
     {
@@ -13,11 +12,11 @@ namespace SpaceShooterLogic
         {
         }
 
-        public void Send(int entityId, Type componentType, AttributeType attributeId, object payload)
+        public void Send(int entityId, Type componentType, string attributeName, object payload)
         {
             ComponentsSet components = Registrar.Instance.GetEntity(entityId);
 
-            components[componentType].Receive(attributeId, payload);
+            components[componentType].Receive(attributeName, payload);
         }
     }
 }

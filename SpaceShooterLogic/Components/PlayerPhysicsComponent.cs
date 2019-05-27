@@ -15,9 +15,10 @@ namespace SpaceShooterLogic.Components
         private const float MOVE_SPEED = 240.0f; // pixels per second
 
         private Vector2 _position;
-        private Vector2 _velocity;
         private Rectangle _volume;
         private Vector2 Size => new Vector2(_volume.Width, _volume.Height);
+
+        public Vector2 Velocity { get; private set; }
 
         internal PlayerPhysicsComponent(Vector2 position)
         {
@@ -29,7 +30,7 @@ namespace SpaceShooterLogic.Components
         public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + _velocity * deltaTime / 1000.0f;
+            _position = _position + Velocity * deltaTime / 1000.0f;
             DetermineBoundingBox();
             
             // do not allow our player off the screen
@@ -116,20 +117,20 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), AttributeType.GraphicsVolume, _volume);
-            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), AttributeType.GraphicsPosition, _position);
-            Communicator.Instance.Send(EntityId, typeof(PlayerInputComponent), AttributeType.InputPlayerPosition, _position);
+            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), _volume);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), _position);
+            Communicator.Instance.Send(EntityId, typeof(PlayerInputComponent), nameof(PlayerInputComponent.PlayerPosition), _position);
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
-            switch (attributeId)
+            switch (attributeName)
             {
-                case AttributeType.PhysicsVelocity:
-                    _velocity = (Vector2)payload * MOVE_SPEED;
+                case "Velocity":
+                    Velocity = (Vector2)payload * MOVE_SPEED;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerPhysicsComponent.");
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by PlayerPhysicsComponent.");
             }
         }
         #endregion

@@ -10,6 +10,6 @@ namespace GameEngineCore.AbstractClasses
         public Type ComponentType { get; set; }
         //public abstract void Draw(IRenderer renderer); // TODO: break dependency on Monogame framework
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract void Receive(AttributeType attributeId, object payload);
+        public abstract void Receive(string attributeName, object payload);
     }
 }

@@ -8,6 +8,6 @@ namespace GameEngineCore.AbstractClasses
         public int EntityId { get; set; }
         public Type ComponentType { get; set; }
         public abstract void Update(float deltaTime);
-        public abstract void Receive(AttributeType attributeId, object payload);
+        public abstract void Receive(string attributeName, object payload);
     }
 }

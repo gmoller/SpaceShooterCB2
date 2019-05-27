@@ -1,5 +1,4 @@
 ﻿using System;
-using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,28 +8,28 @@ namespace SpaceShooterLogic.Components
 {
     internal class VolumeGraphicsComponent : DrawComponent
     {
-        private Rectangle _volume;
+        public Rectangle Volume { get; private set; }
 
         internal VolumeGraphicsComponent(Rectangle volume)
         {
-            _volume = volume;
+            Volume = volume;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawRectangle(_volume, Color.Red, 1.0f);
+            spriteBatch.DrawRectangle(Volume, Color.Red, 1.0f);
         }
 
         #region Send & Receive
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
-            switch (attributeId)
+            switch (attributeName)
             {
-                case AttributeType.GraphicsVolume:
-                    _volume = (Rectangle)payload;
+                case "Volume":
+                    Volume = (Rectangle)payload;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by VolumeGraphicsComponent.");
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by VolumeGraphicsComponent.");
             }
         }
         #endregion

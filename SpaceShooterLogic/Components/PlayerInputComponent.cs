@@ -9,9 +9,8 @@ namespace SpaceShooterLogic.Components
     internal class PlayerInputComponent : UpdateComponent
     {
         private readonly IPlayerController _playerController;
-        private Vector2 _playerPosition;
-        private Vector2 _velocity;
-        private bool _shootLaser;
+
+        public Vector2 PlayerPosition { get; private set; }
 
         internal PlayerInputComponent()
         {
@@ -22,8 +21,8 @@ namespace SpaceShooterLogic.Components
         {
             List<PlayerAction> playerActions = _playerController.GetActions();
 
-            _velocity = Vector2.Zero;
-            _shootLaser = false;
+            Vector2 direction = Vector2.Zero;
+            bool shootLaser = false;
 
             foreach (PlayerAction playerAction in playerActions)
             {
@@ -33,42 +32,46 @@ namespace SpaceShooterLogic.Components
                         // do nothing
                         break;
                     case PlayerAction.MoveUp:
-                        _velocity = new Vector2(_velocity.X, -1.0f);
+                        direction = new Vector2(direction.X, -1.0f);
                         break;
                     case PlayerAction.MoveDown:
-                        _velocity = new Vector2(_velocity.X, 1.0f);
+                        direction = new Vector2(direction.X, 1.0f);
                         break;
                     case PlayerAction.MoveLeft:
-                        _velocity = new Vector2(-1.0f, _velocity.Y);
+                        direction = new Vector2(-1.0f, direction.Y);
                         break;
                     case PlayerAction.MoveRight:
-                        _velocity = new Vector2(1.0f, _velocity.Y);
+                        direction = new Vector2(1.0f, direction.Y);
                         break;
                     case PlayerAction.FireLaser:
-                        _shootLaser = true;
+                        shootLaser = true;
                         break;
                 }
             }
 
-            Send();
+            Send(direction, shootLaser);
         }
 
         #region Send & Receive
-        public void Send()
+        public void Send(Vector2 direction, bool shootLaser)
         {
-            Communicator.Instance.Send(EntityId, typeof(PlayerPhysicsComponent), AttributeType.PhysicsVelocity, _velocity);
-            if (_shootLaser) Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), AttributeType.LaserShootLaser, _playerPosition);
+            Communicator.Instance.Send(EntityId, typeof(PlayerPhysicsComponent), nameof(PlayerPhysicsComponent.Velocity), direction);
+            if (shootLaser)
+            {
+                Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), nameof(PlayerLaserComponent.ShootLaser), true);
+                Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), nameof(PlayerLaserComponent.PlayerPosition), PlayerPosition);
+            }
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
-            switch (attributeId)
+            switch (attributeName)
             {
-                case AttributeType.InputPlayerPosition:
-                    _playerPosition = (Vector2)payload;
+                case "PlayerPosition":
+                    PlayerPosition = (Vector2)payload;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by PlayerInputComponent.");
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by PlayerInputComponent.");
             }
         }
         #endregion

@@ -26,10 +26,10 @@ namespace SpaceShooterLogic.Components
         #region Send & Recieve
         public void Send(Rectangle frame)
         {
-            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), AttributeType.GraphicsFrame, frame);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Frame), frame);
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
         }
         #endregion

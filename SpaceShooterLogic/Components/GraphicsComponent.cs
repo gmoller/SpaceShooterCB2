@@ -1,5 +1,4 @@
 ﻿using System;
-using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,21 +9,22 @@ namespace SpaceShooterLogic.Components
     internal class GraphicsComponent : DrawComponent
     {
         private readonly Texture2D _texture;
-        private Vector2 _position;
-        private Rectangle _frame;
+
+        public Vector2 Position { get; private set; }
+        public Rectangle Frame { get; private set; }
 
         internal GraphicsComponent(string textureName, Vector2 position)
         {
             _texture = AssetsManager.Instance.GetTexture(textureName);
-            _position = position;
-            _frame = new Rectangle();
+            Position = position;
+            Frame = new Rectangle();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 origin = new Vector2((int)(_frame.Width * 0.5), (int)(_frame.Height * 0.50)); // TODO: if size does not change do we need to keep calculating this?
+            Vector2 origin = new Vector2((int)(Frame.Width * 0.5), (int)(Frame.Height * 0.50)); // TODO: if size does not change do we need to keep calculating this?
 
-            spriteBatch.Draw(_texture, _position, _frame, Color.White, 0.0f, origin, 1.0f, SpriteEffects.None, 0.0f); // TODO: use scale (2.5f)
+            spriteBatch.Draw(_texture, Position, Frame, Color.White, 0.0f, origin, 1.0f, SpriteEffects.None, 0.0f); // TODO: use scale (2.5f)
         }
 
         #region Send & Receive
@@ -32,18 +32,18 @@ namespace SpaceShooterLogic.Components
         {
         }
 
-        public override void Receive(AttributeType attributeId, object payload)
+        public override void Receive(string attributeName, object payload)
         {
-            switch (attributeId)
+            switch (attributeName)
             {
-                case AttributeType.GraphicsPosition:
-                    _position = (Vector2)payload;
+                case "Position":
+                    Position = (Vector2)payload;
                     break;
-                case AttributeType.GraphicsFrame:
-                    _frame = (Rectangle)payload;
+                case "Frame":
+                    Frame = (Rectangle)payload;
                     break;
                 default:
-                    throw new NotSupportedException($"Attribute Id [{attributeId}] is not supported by GraphicsComponent.");
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by GraphicsComponent.");
             }
         }
         #endregion
