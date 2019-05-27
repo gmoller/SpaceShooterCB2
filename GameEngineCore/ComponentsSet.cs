@@ -46,6 +46,19 @@ namespace GameEngineCore
             }
         }
 
+        public bool HasComponent(Type componentType)
+        {
+            foreach (IComponent item in _components)
+            {
+                if (item.ComponentType == componentType)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public IEnumerator<IComponent> GetEnumerator()
         {
             foreach (IComponent item in _components)

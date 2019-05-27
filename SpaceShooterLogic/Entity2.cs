@@ -41,8 +41,11 @@ namespace SpaceShooterLogic
             var graphicsComponent = (GraphicsComponent)_components[typeof(GraphicsComponent)];
             graphicsComponent.Draw(spriteBatch);
 
-            var volumeGraphicsComponent = (VolumeGraphicsComponent)_components[typeof(VolumeGraphicsComponent)];
-            volumeGraphicsComponent.Draw(spriteBatch);
+            if (_components.HasComponent(typeof(VolumeGraphicsComponent)))
+            {
+                var volumeGraphicsComponent = (VolumeGraphicsComponent) _components[typeof(VolumeGraphicsComponent)];
+                volumeGraphicsComponent.Draw(spriteBatch);
+            }
         }
     }
 }

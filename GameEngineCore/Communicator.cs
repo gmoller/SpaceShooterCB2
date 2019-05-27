@@ -16,7 +16,10 @@ namespace GameEngineCore
         {
             ComponentsSet components = Registrar.Instance.GetEntity(entityId);
 
-            components[componentType].Receive(attributeName, payload);
+            if (components.HasComponent(componentType))
+            {
+                components[componentType].Receive(attributeName, payload);
+            }
         }
     }
 }

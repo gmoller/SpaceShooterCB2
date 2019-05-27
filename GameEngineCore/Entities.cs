@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using GameEngineCore.Interfaces;
 
 namespace GameEngineCore
 {
@@ -21,7 +20,7 @@ namespace GameEngineCore
 
         public int AddEntity(ComponentsSet componentsSet)
         {
-            _entityComponents.Add(componentsSet);
+            _entityComponents.Add(componentsSet); // TODO: instead of adding to end of list, check if there is a deleted spot and overwrite if there is one
 
             return _entityComponents.Count - 1;
         }
@@ -67,7 +66,7 @@ namespace GameEngineCore
             foreach (Type componentType in componentTypes)
             {
                 // does component exist in componentsSet?
-                bool foundComponent = SingleComponentExistsInComponentsSet(componentType, componentsSet);
+                bool foundComponent = componentsSet.HasComponent(componentType);
 
                 if (!foundComponent)
                 {
@@ -76,19 +75,6 @@ namespace GameEngineCore
             }
 
             return true;
-        }
-
-        private bool SingleComponentExistsInComponentsSet(Type componentType, ComponentsSet componentsSet)
-        {
-            foreach (IComponent component in componentsSet)
-            {
-                if (component.ComponentType == componentType)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public ComponentsSet this[int entityId] => GetEntity(entityId);
