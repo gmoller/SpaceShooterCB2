@@ -40,7 +40,7 @@ namespace GameEngineCore
             return _entities;
         }
 
-        public Entities FilterEntities(params ComponentType[] componentTypes)
+        public Entities FilterEntities(params Type[] componentTypes)
         {
             return _entities.FilterEntities(componentTypes);
         }

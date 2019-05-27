@@ -56,8 +56,8 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, ComponentType.Physics, AttributeType.PhysicsVelocity, _velocity);
-            if (_shootLaser) Communicator.Instance.Send(EntityId, ComponentType.Laser, AttributeType.LaserShootLaser, _playerPosition);
+            Communicator.Instance.Send(EntityId, typeof(PlayerPhysicsComponent), AttributeType.PhysicsVelocity, _velocity);
+            if (_shootLaser) Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), AttributeType.LaserShootLaser, _playerPosition);
         }
 
         public override void Receive(AttributeType attributeId, object payload)

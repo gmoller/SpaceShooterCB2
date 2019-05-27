@@ -58,7 +58,7 @@ namespace SpaceShooterLogic.Components
         private void ResolveCollisions()
         {
             // get enemies
-            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics);
+            Entities entities = Registrar.Instance.FilterEntities(typeof(ProjectilePhysicsComponent));
 
             // for each enemy
             foreach (ComponentsSet entity in entities)
@@ -66,7 +66,7 @@ namespace SpaceShooterLogic.Components
                 if (EntityId == entity.EntityId) continue;
 
                 // get physics component
-                IComponent component = entity[ComponentType.Physics];
+                IComponent component = entity[typeof(ProjectilePhysicsComponent)];
                 var physicsComponent = component as ProjectilePhysicsComponent;
 
                 // test for collision
@@ -116,9 +116,9 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, ComponentType.VolumeGraphics, AttributeType.GraphicsVolume, _volume);
-            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsPosition, _position);
-            Communicator.Instance.Send(EntityId, ComponentType.Input, AttributeType.InputPlayerPosition, _position);
+            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), AttributeType.GraphicsVolume, _volume);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), AttributeType.GraphicsPosition, _position);
+            Communicator.Instance.Send(EntityId, typeof(PlayerInputComponent), AttributeType.InputPlayerPosition, _position);
         }
 
         public override void Receive(AttributeType attributeId, object payload)

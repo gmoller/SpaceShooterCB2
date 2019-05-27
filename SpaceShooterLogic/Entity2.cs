@@ -38,10 +38,10 @@ namespace SpaceShooterLogic
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var graphicsComponent = (GraphicsComponent)_components[ComponentType.Graphics];
+            var graphicsComponent = (GraphicsComponent)_components[typeof(GraphicsComponent)];
             graphicsComponent.Draw(spriteBatch);
 
-            var volumeGraphicsComponent = (VolumeGraphicsComponent)_components[ComponentType.VolumeGraphics];
+            var volumeGraphicsComponent = (VolumeGraphicsComponent)_components[typeof(VolumeGraphicsComponent)];
             volumeGraphicsComponent.Draw(spriteBatch);
         }
     }

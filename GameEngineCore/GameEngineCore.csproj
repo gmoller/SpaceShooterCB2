@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="AttributeType.cs" />
     <Compile Include="ComponentsSet.cs" />
-    <Compile Include="ComponentType.cs" />
     <Compile Include="AbstractClasses\DrawComponent.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Interfaces\IComponent.cs" />

@@ -23,14 +23,14 @@ namespace GameEngineCore
             LifeTime = lifeTime;
         }
 
-        public void AddComponent(ComponentType componentType, IComponent component)
+        public void AddComponent(Type componentType, IComponent component)
         {
             component.EntityId = EntityId;
             component.ComponentType = componentType;
             _components.Add(component);
         }
 
-        public IComponent this[ComponentType componentType]
+        public IComponent this[Type componentType]
         {
             get
             {

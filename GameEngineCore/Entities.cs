@@ -45,7 +45,7 @@ namespace GameEngineCore
             }
         }
 
-        public Entities FilterEntities(params ComponentType[] componentTypes)
+        public Entities FilterEntities(params Type[] componentTypes)
         {
             var list = new Entities();
             foreach (ComponentsSet componentsSet in _entityComponents)
@@ -62,9 +62,9 @@ namespace GameEngineCore
             return list;
         }
 
-        private bool AllComponentsExistInComponentsSet(ComponentType[] componentTypes, ComponentsSet componentsSet)
+        private bool AllComponentsExistInComponentsSet(Type[] componentTypes, ComponentsSet componentsSet)
         {
-            foreach (ComponentType componentType in componentTypes)
+            foreach (Type componentType in componentTypes)
             {
                 // does component exist in componentsSet?
                 bool foundComponent = SingleComponentExistsInComponentsSet(componentType, componentsSet);
@@ -78,7 +78,7 @@ namespace GameEngineCore
             return true;
         }
 
-        private bool SingleComponentExistsInComponentsSet(ComponentType componentType, ComponentsSet componentsSet)
+        private bool SingleComponentExistsInComponentsSet(Type componentType, ComponentsSet componentsSet)
         {
             foreach (IComponent component in componentsSet)
             {

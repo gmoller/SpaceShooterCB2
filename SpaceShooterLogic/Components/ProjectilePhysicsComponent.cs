@@ -50,8 +50,8 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         public void Send()
         {
-            Communicator.Instance.Send(EntityId, ComponentType.VolumeGraphics, AttributeType.GraphicsVolume, _volume);
-            Communicator.Instance.Send(EntityId, ComponentType.Graphics, AttributeType.GraphicsPosition, _position);
+            Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), AttributeType.GraphicsVolume, _volume);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), AttributeType.GraphicsPosition, _position);
         }
 
         public override void Receive(AttributeType attributeId, object payload)

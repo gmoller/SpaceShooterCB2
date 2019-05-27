@@ -45,8 +45,15 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Physics); // oops, what about explosion - no physics
             //Entities entities = Registrar.Instance.GetAllEntities();
+            Entities entities = Registrar.Instance.FilterEntities(typeof(PlayerPhysicsComponent)); // oops, what about explosion - no physics
+            foreach (ComponentsSet componentsSet in entities)
+            {
+                var entity = new Entity2(componentsSet);
+                entity.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            }
+
+            entities = Registrar.Instance.FilterEntities(typeof(ProjectilePhysicsComponent)); // oops, what about explosion - no physics
             foreach (ComponentsSet componentsSet in entities)
             {
                 var entity = new Entity2(componentsSet);
@@ -99,7 +106,7 @@ namespace SpaceShooterLogic.GameStates
             _drawFrames++;
             _drawStopwatch.Start();
 
-            Entities entities = Registrar.Instance.FilterEntities(ComponentType.Graphics);
+            Entities entities = Registrar.Instance.FilterEntities(typeof(GraphicsComponent));
             foreach (ComponentsSet componentsSet in entities)
             {
                 var entity = new Entity2(componentsSet);
