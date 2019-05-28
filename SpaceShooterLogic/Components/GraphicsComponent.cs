@@ -21,7 +21,7 @@ namespace SpaceShooterLogic.Components
             Position = position;
             Size = size;
             Rotation = 0.0f;
-            Frame = new Rectangle();
+            Frame = new Rectangle(0, 0, (int)Size.X, (int)Size.Y);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

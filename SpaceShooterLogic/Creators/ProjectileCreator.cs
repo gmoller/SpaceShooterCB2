@@ -13,7 +13,7 @@ namespace SpaceShooterLogic.Creators
             var components = new ComponentsSet(1000.0f);
             components.AddComponent(typeof(ProjectilePhysicsComponent), new ProjectilePhysicsComponent(position, velocity, size));
             components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprLaserPlayer", position, size));
-            components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
+            //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
             var projectile = new Entity2(components);
 

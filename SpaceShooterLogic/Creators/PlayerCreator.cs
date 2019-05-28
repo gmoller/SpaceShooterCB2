@@ -18,7 +18,7 @@ namespace SpaceShooterLogic.Creators
             components.AddComponent(typeof(PlayerLaserComponent), new PlayerLaserComponent());
             components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprPlayer"));
             components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprPlayer", Vector2.Zero, size));
-            components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
+            //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
             var player = new Entity2(components);
 

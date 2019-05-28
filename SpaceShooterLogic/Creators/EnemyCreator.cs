@@ -20,7 +20,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 20));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy0"));
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy0", position, size));
-                    components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
+                    //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
                     enemy = new Entity2(components);
                     break;
@@ -29,7 +29,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 10));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy1"));
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy1", position, size));
-                    components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
+                    //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
                     components.AddComponent(typeof(ChasingBehaviorComponent), new ChasingBehaviorComponent());
 
                     enemy = new Entity2(components);
@@ -39,7 +39,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 5));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy2"));
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy2", position, size));
-                    components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
+                    //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
                     enemy = new Entity2(components);
                     break;
