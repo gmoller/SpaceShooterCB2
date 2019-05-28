@@ -46,7 +46,7 @@
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\PlayerLaserComponent.cs" />
     <Compile Include="Components\PlayerPhysicsComponent.cs" />
-    <Compile Include="Components\ProjectilePhysicsComponent.cs" />
+    <Compile Include="Components\PhysicsComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Components\VolumeGraphicsComponent.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />

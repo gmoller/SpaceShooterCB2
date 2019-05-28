@@ -5,7 +5,6 @@ using GameEngineCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using SpaceShooterLogic.Creators;
-using SpaceShooterLogic.Enemies;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
@@ -58,60 +57,38 @@ namespace SpaceShooterLogic.Components
 
         private void ResolveCollisions()
         {
-            // get enemies
-            Entities entities = Registrar.Instance.FilterEntities(typeof(ProjectilePhysicsComponent));
+            // get things we can collide with
+            Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(PhysicsComponent));
 
-            // for each enemy
             foreach (ComponentsSet entity in entities)
             {
                 if (EntityId == entity.EntityId) continue;
 
                 // get physics component
-                IComponent component = entity[typeof(ProjectilePhysicsComponent)];
-                var physicsComponent = component as ProjectilePhysicsComponent;
+                IComponent component = entity[typeof(PhysicsComponent)];
+                var physicsComponent = component as PhysicsComponent;
 
-                // test for collision
+                // test for collision with player
                 bool isColliding = _volume.Intersects(physicsComponent.Volume);
                 if (isColliding)
                 {
-                    KillPlayer();
-                    // kill enemy
+                    ExplodeEntity(EntityId, _position, Size, "Fireball02");
+                    ExplodeEntity(entity.EntityId, physicsComponent.Position, physicsComponent.Size, "Explosion10");
+                    GameEntitiesManager.Instance.PlayerIsDead = true;
                 }
             }
-
-            //Enemies.Enemies enemies = GameEntitiesManager.Instance.Enemies;
-            //foreach (Enemy enemy in enemies)
-            //{
-            //    // check for enemy and player collision
-            //    if (_volume.Intersects(enemy.Body.BoundingBox))
-            //    {
-            //        KillPlayer();
-            //        enemy.KillEnemy();
-            //    }
-            //}
-
-            //Projectiles projectiles = GameEntitiesManager.Instance.EnemyProjectiles;
-            //foreach (Projectile projectile in projectiles)
-            //{
-            //    // check for player and enemy projectile collision
-            //    if (_volume.Intersects(projectile.Body.BoundingBox))
-            //    {
-            //        KillPlayer();
-            //    }
-            //}
         }
 
-        public void KillPlayer()
+        private void ExplodeEntity(int entityId, Vector2 position, Vector2 size, string textureName)
         {
             // TODO: move the sound playing into the explosion
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
             SoundEffect sndExplode = AssetsManager.Instance.GetSound($"sndExplode{i}");
             sndExplode.Play();
 
-            ExplosionCreator.Create(_position, Size);
+            ExplosionCreator.Create(textureName, position, size);
 
-            Registrar.Instance.RemoveEntity(EntityId);
-            GameEntitiesManager.Instance.PlayerIsDead = true;
+            Registrar.Instance.RemoveEntity(entityId);
         }
 
         #region Send & Receive

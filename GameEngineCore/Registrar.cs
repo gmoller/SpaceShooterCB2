@@ -40,9 +40,9 @@ namespace GameEngineCore
             return _entities;
         }
 
-        public Entities FilterEntities(params Type[] componentTypes)
+        public Entities FilterEntities(Operator op, params Type[] componentTypes)
         {
-            return _entities.FilterEntities(componentTypes);
+            return _entities.FilterEntities(op, componentTypes);
         }
     }
 }

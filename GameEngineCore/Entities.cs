@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,13 +45,42 @@ namespace GameEngineCore
             }
         }
 
-        public Entities FilterEntities(params Type[] componentTypes)
+        public Entities FilterEntities(Operator op, params Type[] componentTypes)
+        {
+            if (op == Operator.And)
+            {
+                return FilterEntitiesAnd(componentTypes);
+            }
+            else
+            {
+                return FilterEntitiesOr(componentTypes);
+            }
+        }
+
+        private Entities FilterEntitiesAnd(params Type[] componentTypes)
         {
             var list = new Entities();
             foreach (ComponentsSet componentsSet in _entityComponents)
             {
                 if (componentsSet.IsDeleted) continue;
                 bool match = AllComponentsExistInComponentsSet(componentTypes, componentsSet);
+
+                if (match)
+                {
+                    list.AddEntity(componentsSet);
+                }
+            }
+
+            return list;
+        }
+
+        private Entities FilterEntitiesOr(params Type[] componentTypes)
+        {
+            var list = new Entities();
+            foreach (ComponentsSet componentsSet in _entityComponents)
+            {
+                if (componentsSet.IsDeleted) continue;
+                bool match = AtLeastOneComponentExistsInComponentsSet(componentTypes, componentsSet);
 
                 if (match)
                 {
@@ -77,6 +107,22 @@ namespace GameEngineCore
             return true;
         }
 
+        private bool AtLeastOneComponentExistsInComponentsSet(Type[] componentTypes, ComponentsSet componentsSet)
+        {
+            foreach (Type componentType in componentTypes)
+            {
+                // does component exist in componentsSet?
+                bool foundComponent = componentsSet.HasComponent(componentType);
+
+                if (foundComponent)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public ComponentsSet this[int entityId] => GetEntity(entityId);
 
         public IEnumerator<ComponentsSet> GetEnumerator()
@@ -91,5 +137,11 @@ namespace GameEngineCore
         {
             return GetEnumerator();
         }
+    }
+
+    public enum Operator
+    {
+        And,
+        Or
     }
 }

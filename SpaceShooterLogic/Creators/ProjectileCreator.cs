@@ -9,7 +9,7 @@ namespace SpaceShooterLogic.Creators
         public static Entity2 Create(Vector2 position, Vector2 velocity)
         {
             var components = new ComponentsSet(1000.0f);
-            components.AddComponent(typeof(ProjectilePhysicsComponent), new ProjectilePhysicsComponent(position, velocity, new Vector2(1.0f, 8.0f)));
+            components.AddComponent(typeof(PhysicsComponent), new PhysicsComponent(position, velocity, new Vector2(1.0f, 8.0f)));
             components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprLaserPlayer", position));
             components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 

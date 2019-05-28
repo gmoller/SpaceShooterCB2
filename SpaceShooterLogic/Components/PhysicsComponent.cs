@@ -4,18 +4,17 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class ProjectilePhysicsComponent : UpdateComponent
+    internal class PhysicsComponent : UpdateComponent
     {
         private readonly Vector2 _velocity;
 
-        private Vector2 _position;
-        private Vector2 Size => new Vector2(Volume.Width, Volume.Height);
-
+        public Vector2 Position { get; private set; }
         public Rectangle Volume { get; private set; }
+        public Vector2 Size => new Vector2(Volume.Width, Volume.Height);
 
-        internal ProjectilePhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
+        internal PhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
         {
-            _position = position;
+            Position = position;
             _velocity = velocity;
             Volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             DetermineBoundingBox();
@@ -24,7 +23,7 @@ namespace SpaceShooterLogic.Components
         public override void Update(float deltaTime)
         {
             // movement
-            _position = _position + _velocity * deltaTime;
+            Position = Position + _velocity * deltaTime;
             DetermineBoundingBox();
 
             ResolveCollisions();
@@ -37,8 +36,8 @@ namespace SpaceShooterLogic.Components
             Vector2 origin = Size / 2.0f;
 
             Volume = new Rectangle(
-                (int)(_position.X - (int)origin.X),
-                (int)(_position.Y - (int)origin.Y),
+                (int)(Position.X - (int)origin.X),
+                (int)(Position.Y - (int)origin.Y),
                 (int)Size.X,
                 (int)Size.Y);
         }
@@ -51,7 +50,7 @@ namespace SpaceShooterLogic.Components
         public void Send()
         {
             Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), Volume);
-            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), _position);
+            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), Position);
         }
 
         public override void Receive(string attributeName, object payload)
