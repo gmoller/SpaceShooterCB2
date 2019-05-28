@@ -21,6 +21,10 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Receive
+        private void Send()
+        {
+        }
+
         public override void Receive(string attributeName, object payload)
         {
             switch (attributeName)

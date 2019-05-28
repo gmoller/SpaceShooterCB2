@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Enemies
 {
@@ -19,7 +18,7 @@ namespace SpaceShooterLogic.Enemies
 
         public ChaserShip(string textureName, Vector2 position, Vector2 velocity) : base(textureName, position, velocity)
         {
-            Angle = 0;
+            Angle = 0.0f;
         }
 
         public override int Score => 10;

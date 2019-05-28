@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -13,6 +12,8 @@ namespace GameEngineCore
         {
             _entityComponents = new List<ComponentsSet>();
         }
+
+        public int Count => _entityComponents.Count;
 
         public void Clear()
         {

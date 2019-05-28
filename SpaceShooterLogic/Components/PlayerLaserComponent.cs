@@ -68,7 +68,7 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Receive
-        public void Send()
+        private void Send()
         {
         }
 

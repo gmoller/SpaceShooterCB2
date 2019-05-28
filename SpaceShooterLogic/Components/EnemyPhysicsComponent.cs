@@ -1,32 +1,32 @@
-﻿using GameEngineCore;
+﻿using System;
+using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class PhysicsComponent : UpdateComponent
+    internal class EnemyPhysicsComponent : UpdateComponent
     {
-        private readonly Vector2 _velocity;
-
         public Vector2 Position { get; private set; }
+        public Vector2 Velocity { get; private set; }
         public Rectangle Volume { get; private set; }
         public Vector2 Size => new Vector2(Volume.Width, Volume.Height);
+        public int Score { get; }
 
-        internal PhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
+        internal EnemyPhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size, int score)
         {
             Position = position;
-            _velocity = velocity;
+            Velocity = velocity;
             Volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             DetermineBoundingBox();
+            Score = score;
         }
 
         public override void Update(float deltaTime)
         {
             // movement
-            Position = Position + _velocity * deltaTime;
+            Position = Position + Velocity * deltaTime;
             DetermineBoundingBox();
-
-            ResolveCollisions();
 
             Send();
         }
@@ -42,19 +42,24 @@ namespace SpaceShooterLogic.Components
                 (int)Size.Y);
         }
 
-        private void ResolveCollisions()
-        {
-        }
-
         #region Send & Receive
-        public void Send()
+        private void Send()
         {
+            Communicator.Instance.Send(EntityId, typeof(ChasingBehaviorComponent), nameof(ChasingBehaviorComponent.Position), Position);
             Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), Volume);
             Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), Position);
         }
 
         public override void Receive(string attributeName, object payload)
         {
+            switch (attributeName)
+            {
+                case "Velocity":
+                    Velocity = (Vector2)payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by EnemyPhysicsComponent.");
+            }
         }
         #endregion
     }

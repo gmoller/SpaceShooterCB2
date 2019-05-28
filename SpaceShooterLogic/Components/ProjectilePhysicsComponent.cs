@@ -1,5 +1,4 @@
-﻿using System;
-using GameEngineCore;
+﻿using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -8,20 +7,20 @@ using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Components
 {
-    internal class PlayerPhysicsComponent : UpdateComponent
+    public class ProjectilePhysicsComponent : UpdateComponent
     {
         private const float EXPLOSION_SIZE_SCALE_FACTOR = 5.0f;
-        private const float MOVE_SPEED = 0.24f; // pixels per millisecond
+
+        private readonly Vector2 _velocity;
 
         public Vector2 Position { get; private set; }
         public Rectangle Volume { get; private set; }
         public Vector2 Size => new Vector2(Volume.Width, Volume.Height);
 
-        public Vector2 Velocity { get; private set; }
-
-        internal PlayerPhysicsComponent(Vector2 position, Vector2 size)
+        internal ProjectilePhysicsComponent(Vector2 position, Vector2 velocity, Vector2 size)
         {
             Position = position;
+            _velocity = velocity;
             Volume = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             DetermineBoundingBox();
         }
@@ -29,15 +28,8 @@ namespace SpaceShooterLogic.Components
         public override void Update(float deltaTime)
         {
             // movement
-            Position = Position + Velocity * deltaTime;
+            Position = Position + _velocity * deltaTime;
             DetermineBoundingBox();
-            
-            // do not allow our player off the screen
-            float x = Size.X / 2.0f;
-            float y = Size.Y / 2.0f;
-            Position = new Vector2(
-                MathHelper.Clamp(Position.X, x, DeviceManager.Instance.ScreenWidth - x),
-                MathHelper.Clamp(Position.Y, y, DeviceManager.Instance.ScreenHeight - y));
 
             DetectCollisions();
 
@@ -72,6 +64,7 @@ namespace SpaceShooterLogic.Components
                 if (isColliding)
                 {
                     ResolveCollision(EntityId, Position, Size, entity.EntityId, physicsComponent.Position, physicsComponent.Size);
+                    GameEntitiesManager.Instance.Score += physicsComponent.Score;
                     break;
                 }
             }
@@ -80,9 +73,8 @@ namespace SpaceShooterLogic.Components
         private void ResolveCollision(int entity1Id, Vector2 entity1Position, Vector2 entity1Size,
                                       int entity2Id, Vector2 entity2Position, Vector2 entity2Size)
         {
-            ExplodeEntity(entity1Id, entity1Position, entity1Size * EXPLOSION_SIZE_SCALE_FACTOR / 2.0f, "Fireball02");
+            ExplodeEntity(entity1Id, entity1Position, entity1Size, "Fireball02");
             ExplodeEntity(entity2Id, entity2Position, entity2Size * EXPLOSION_SIZE_SCALE_FACTOR, "Explosion10");
-            GameEntitiesManager.Instance.PlayerIsDead = true;
         }
 
         private void ExplodeEntity(int entityId, Vector2 position, Vector2 size, string textureName)
@@ -102,19 +94,10 @@ namespace SpaceShooterLogic.Components
         {
             Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), Volume);
             Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), Position);
-            Communicator.Instance.Send(EntityId, typeof(PlayerInputComponent), nameof(PlayerInputComponent.PlayerPosition), Position);
         }
 
         public override void Receive(string attributeName, object payload)
         {
-            switch (attributeName)
-            {
-                case "Velocity":
-                    Velocity = (Vector2)payload * MOVE_SPEED;
-                    break;
-                default:
-                    throw new NotSupportedException($"Attribute [{attributeName}] is not supported by PlayerPhysicsComponent.");
-            }
         }
         #endregion
     }

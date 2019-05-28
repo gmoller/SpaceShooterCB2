@@ -46,15 +46,18 @@ namespace SpaceShooterLogic.GameStates
             _updateStopwatch.Start();
 
             //Entities entities = Registrar.Instance.GetAllEntities();
-            Entities entities = Registrar.Instance.FilterEntities(Operator.Or, typeof(PlayerPhysicsComponent), typeof(PhysicsComponent), typeof(SpriteComponent));
+            Entities entities = Registrar.Instance.FilterEntities(Operator.Or, 
+                typeof(PlayerPhysicsComponent), 
+                typeof(EnemyPhysicsComponent), 
+                typeof(ProjectilePhysicsComponent),
+                typeof(SpriteComponent),
+                typeof(SpawnComponent));
             foreach (ComponentsSet componentsSet in entities)
             {
                 var entity = new Entity2(componentsSet);
                 entity.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             }
 
-            //GameEntitiesManager.Instance.Enemies.Update(gameTime);
-            //GameEntitiesManager.Instance.EnemyProjectiles.Update(gameTime);
             GameEntitiesManager.Instance.Hud.Update(gameTime);
 
             if (GameEntitiesManager.Instance.PlayerIsDead)
@@ -106,8 +109,6 @@ namespace SpaceShooterLogic.GameStates
                 entity.Draw(spriteBatch);
             }
 
-            //GameEntitiesManager.Instance.Enemies.Draw(spriteBatch);
-            //GameEntitiesManager.Instance.EnemyProjectiles.Draw(spriteBatch);
             GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
@@ -116,23 +117,15 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
-            CreatePlayer();
-            CreateEnemy();
-            //CreateEnemySpawner();
-            //GameEntitiesManager.Instance.Enemies = new Enemies.Enemies();
+            Registrar.Instance.Clear();
+
+            PlayerCreator.Create(InputComponent);
+            SpawnCreator.Create();
+            //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
+
             GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Hud = new Hud();
-        }
-
-        private void CreatePlayer()
-        {
-            PlayerCreator.Create(InputComponent);
             GameEntitiesManager.Instance.PlayerIsDead = false;
-        }
-
-        private void CreateEnemy()
-        {
-            EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
         }
     }
 }

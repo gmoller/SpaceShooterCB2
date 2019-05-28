@@ -42,14 +42,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ChasingBehaviorComponent.cs" />
     <Compile Include="Components\GraphicsComponent.cs" />
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\PlayerLaserComponent.cs" />
     <Compile Include="Components\PlayerPhysicsComponent.cs" />
-    <Compile Include="Components\PhysicsComponent.cs" />
+    <Compile Include="Components\EnemyPhysicsComponent.cs" />
+    <Compile Include="Components\ProjectilePhysicsComponent.cs" />
+    <Compile Include="Components\SpawnComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Components\VolumeGraphicsComponent.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />
+    <Compile Include="Creators\EnemySpawnerCreator.cs" />
     <Compile Include="Creators\ExplosionCreator.cs" />
     <Compile Include="Creators\PlayerCreator.cs" />
     <Compile Include="Creators\ProjectileCreator.cs" />

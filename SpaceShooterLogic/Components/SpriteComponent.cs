@@ -24,7 +24,7 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Recieve
-        public void Send(Rectangle frame)
+        private void Send(Rectangle frame)
         {
             Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Frame), frame);
         }

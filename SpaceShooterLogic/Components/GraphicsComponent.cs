@@ -11,24 +11,29 @@ namespace SpaceShooterLogic.Components
         private readonly Texture2D _texture;
 
         public Vector2 Position { get; private set; }
+        public Vector2 Size { get; private set; }
+        public float Rotation { get; private set; }
         public Rectangle Frame { get; private set; }
 
-        internal GraphicsComponent(string textureName, Vector2 position)
+        internal GraphicsComponent(string textureName, Vector2 position, Vector2 size)
         {
             _texture = AssetsManager.Instance.GetTexture(textureName);
             Position = position;
+            Size = size;
+            Rotation = 0.0f;
             Frame = new Rectangle();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 origin = new Vector2((int)(Frame.Width * 0.5), (int)(Frame.Height * 0.50)); // TODO: if size does not change do we need to keep calculating this?
+            var origin = new Vector2((int)(Frame.Width * 0.5), (int)(Frame.Height * 0.50));
+            var scale = new Vector2(Size.X / Frame.Width, Size.Y / Frame.Height);
 
-            spriteBatch.Draw(_texture, Position, Frame, Color.White, 0.0f, origin, 1.0f, SpriteEffects.None, 0.0f); // TODO: use scale (2.5f)
+            spriteBatch.Draw(_texture, Position, Frame, Color.White, Rotation, origin, scale, SpriteEffects.None, 0.0f);
         }
 
         #region Send & Receive
-        public void Send()
+        private void Send()
         {
         }
 
@@ -39,8 +44,14 @@ namespace SpaceShooterLogic.Components
                 case "Position":
                     Position = (Vector2)payload;
                     break;
+                case "Size":
+                    Size = (Vector2)payload;
+                    break;
                 case "Frame":
                     Frame = (Rectangle)payload;
+                    break;
+                case "Rotation":
+                    Rotation = (float)payload;
                     break;
                 default:
                     throw new NotSupportedException($"Attribute [{attributeName}] is not supported by GraphicsComponent.");

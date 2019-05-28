@@ -53,7 +53,7 @@ namespace SpaceShooterLogic.Components
         }
 
         #region Send & Receive
-        public void Send(Vector2 direction, bool shootLaser)
+        private void Send(Vector2 direction, bool shootLaser)
         {
             Communicator.Instance.Send(EntityId, typeof(PlayerPhysicsComponent), nameof(PlayerPhysicsComponent.Velocity), direction);
             if (shootLaser)
