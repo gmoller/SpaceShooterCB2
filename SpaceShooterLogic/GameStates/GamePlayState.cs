@@ -43,7 +43,7 @@ namespace SpaceShooterLogic.GameStates
 
         public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
-            _updateFrames++; 
+            _updateFrames++;
             _updateStopwatch.Start();
 
             //Entities entities = Registrar.Instance.GetAllEntities();
@@ -125,6 +125,7 @@ namespace SpaceShooterLogic.GameStates
         {
             Registrar.Instance.Clear();
 
+            SetController();
             PlayerCreator.Create(InputComponent);
             SpawnCreator.Create();
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
