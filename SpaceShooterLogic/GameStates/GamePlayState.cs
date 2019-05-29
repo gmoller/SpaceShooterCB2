@@ -41,7 +41,7 @@ namespace SpaceShooterLogic.GameStates
             InputComponent = new PlayerInputComponent();
         }
 
-        public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
+        public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
             _updateFrames++; 
             _updateStopwatch.Start();
@@ -66,19 +66,19 @@ namespace SpaceShooterLogic.GameStates
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
                 {
-                    return (true, new GameOverState());
+                    return (this, new GameOverState());
                 }
             }
 
             if (KeyboardHandler.IsKeyPressed(Keys.Pause))
             {
-                return (true, new PausedState());
+                return (this, new PausedState());
             }
 
             _updateStopwatch.Stop();
             BenchmarkMetrics.Instance.Metrics["GamePlayState.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
 
-            return (false, null);
+            return (this, this);
         }
 
         private bool CheckForChangeToGameOverState(GameTime gameTime)

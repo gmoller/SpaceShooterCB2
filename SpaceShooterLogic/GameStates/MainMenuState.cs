@@ -40,26 +40,26 @@ namespace SpaceShooterLogic.GameStates
             DeviceManager.Instance.IsMouseVisible = false;
         }
 
-        public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
+        public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
             if (KeyboardHandler.IsKeyDown(Keys.F1)) // record
             {
-                return (true, new GamePlayStateWithRecording());
+                return (this, new GamePlayStateWithRecording());
             }
 
             if (KeyboardHandler.IsKeyDown(Keys.F2)) // replay
             {
-                return (true, new GamePlayStateWithReplaying());
+                return (this, new GamePlayStateWithReplaying());
             }
 
             _btnPlay.Update(gameTime);
 
             if (_startGame)
             {
-                return (true, new GamePlayState());
+                return (this, new GamePlayState());
             }
 
-            return (false, null);
+            return (this, this);
         }
 
         public void Draw(SpriteBatch spriteBatch)

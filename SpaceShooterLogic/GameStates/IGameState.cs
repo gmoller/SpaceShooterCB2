@@ -7,7 +7,7 @@ namespace SpaceShooterLogic.GameStates
     {
         void Enter();
         void Leave();
-        (bool changeGameState, IGameState newGameState) Update(GameTime gameTime);
+        (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }
 }

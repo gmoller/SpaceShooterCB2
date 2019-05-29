@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.GameStates
             DeviceManager.Instance.IsMouseVisible = false;
         }
 
-        public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
+        public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
             _btnRestart.Update(gameTime);
 
@@ -50,10 +50,10 @@ namespace SpaceShooterLogic.GameStates
 
             if (_startGame)
             {
-                return (true, new GamePlayState());
+                return (this, new GamePlayState());
             }
 
-            return (false, null);
+            return (this, null);
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -21,14 +21,14 @@ namespace SpaceShooterLogic.GameStates
         {
         }
 
-        public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
+        public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
             if (KeyboardHandler.IsKeyPressed(Keys.Pause))
             {
-                return (true, new GamePlayState());
+                return (this, new GamePlayState());
             }
 
-            return (false, null);
+            return (this, this);
         }
 
         public void Draw(SpriteBatch spriteBatch)

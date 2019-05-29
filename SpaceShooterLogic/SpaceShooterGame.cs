@@ -70,8 +70,8 @@ namespace SpaceShooterLogic
             _fps.Update(gameTime);
             _scrollingBackground.Update(gameTime);
 
-            (bool changeGameState, IGameState newGameState) returnGameState = _gameState.Update(gameTime);
-            if (returnGameState.changeGameState) ChangeGameState(returnGameState.newGameState);
+            (IGameState currentGameState, IGameState newGameState) returnGameState = _gameState.Update(gameTime);
+            ChangeGameState(returnGameState.currentGameState, returnGameState.newGameState);
 
             _updateStopwatch.Stop();
             BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
@@ -99,11 +99,24 @@ namespace SpaceShooterLogic
             BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
-        private void ChangeGameState(IGameState newGameState)
+        private void ChangeGameState(IGameState currentGameState, IGameState newGameState)
         {
-            _gameState.Leave();
-            _gameState = newGameState;
-            _gameState.Enter();
+            if (currentGameState == newGameState) return;
+
+            if (currentGameState is MainMenuState && newGameState is GamePlayState ||
+                currentGameState is GamePlayState && newGameState is GameOverState ||
+                currentGameState is GameOverState && newGameState is GamePlayState)
+            {
+                _gameState.Leave();
+                _gameState = newGameState;
+                _gameState.Enter();
+            }
+
+            if (currentGameState is GamePlayState && newGameState is PausedState ||
+                currentGameState is PausedState && newGameState is GamePlayState)
+            {
+                _gameState = newGameState;
+            }
         }
     }
 }
