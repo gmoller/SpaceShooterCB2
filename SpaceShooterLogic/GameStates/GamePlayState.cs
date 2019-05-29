@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.GameStates
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
         {
-            _updateFrames++;
+            _updateFrames++; 
             _updateStopwatch.Start();
 
             //Entities entities = Registrar.Instance.GetAllEntities();
@@ -123,7 +123,6 @@ namespace SpaceShooterLogic.GameStates
             SpawnCreator.Create();
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
 
-            GameEntitiesManager.Instance.EnemyProjectiles = new Projectiles();
             GameEntitiesManager.Instance.Hud = new Hud();
             GameEntitiesManager.Instance.PlayerIsDead = false;
         }

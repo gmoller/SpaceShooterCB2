@@ -39,7 +39,7 @@ namespace SpaceShooterLogic.Components
                 MathHelper.Clamp(Position.X, x, DeviceManager.Instance.ScreenWidth - x),
                 MathHelper.Clamp(Position.Y, y, DeviceManager.Instance.ScreenHeight - y));
 
-            DetectCollisions();
+            DetectCollisionsWithEnemies();
 
             Send();
         }
@@ -55,10 +55,10 @@ namespace SpaceShooterLogic.Components
                 (int)Size.Y);
         }
 
-        private void DetectCollisions()
+        private void DetectCollisionsWithEnemies()
         {
             // get things this entity can collide with
-            Entities entities = Registrar.Instance.FilterEntities(Operator.Or, typeof(EnemyPhysicsComponent));
+            Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(EnemyPhysicsComponent));
 
             foreach (ComponentsSet entity in entities)
             {
@@ -72,6 +72,7 @@ namespace SpaceShooterLogic.Components
                 if (isColliding)
                 {
                     ResolveCollision(EntityId, Position, Size, entity.EntityId, physicsComponent.Position, physicsComponent.Size);
+                    GameEntitiesManager.Instance.PlayerIsDead = true;
                     break;
                 }
             }
@@ -82,7 +83,6 @@ namespace SpaceShooterLogic.Components
         {
             ExplodeEntity(entity1Id, entity1Position, entity1Size * EXPLOSION_SIZE_SCALE_FACTOR / 2.0f, "Fireball02");
             ExplodeEntity(entity2Id, entity2Position, entity2Size * EXPLOSION_SIZE_SCALE_FACTOR, "Explosion10");
-            GameEntitiesManager.Instance.PlayerIsDead = true;
         }
 
         private void ExplodeEntity(int entityId, Vector2 position, Vector2 size, string textureName)

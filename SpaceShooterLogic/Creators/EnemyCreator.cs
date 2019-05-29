@@ -19,6 +19,8 @@ namespace SpaceShooterLogic.Creators
                     var components = new ComponentsSet(12000.0f);
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 20));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy0"));
+                    components.AddComponent(typeof(ShootingBehaviorComponent), new ShootingBehaviorComponent());
+                    components.AddComponent(typeof(LaserComponent), new LaserComponent(new Vector2(0.0f, 1.0f), new Vector2(0.0f, size.Y), 0.3f, 1000));
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy0", position, size));
                     //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
@@ -28,9 +30,9 @@ namespace SpaceShooterLogic.Creators
                     components = new ComponentsSet(12000.0f);
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 10));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy1"));
+                    components.AddComponent(typeof(ChasingBehaviorComponent), new ChasingBehaviorComponent());
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy1", position, size));
                     //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
-                    components.AddComponent(typeof(ChasingBehaviorComponent), new ChasingBehaviorComponent());
 
                     enemy = new Entity2(components);
                     break;

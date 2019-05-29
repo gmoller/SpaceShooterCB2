@@ -31,7 +31,8 @@ namespace SpaceShooterLogic.Components
             Position = Position + _velocity * deltaTime;
             DetermineBoundingBox();
 
-            DetectCollisions();
+            DetectCollisionsWithEnemies();
+            DetectCollisionsWithPlayer();
 
             Send();
         }
@@ -47,10 +48,10 @@ namespace SpaceShooterLogic.Components
                 (int)Size.Y);
         }
 
-        private void DetectCollisions()
+        private void DetectCollisionsWithEnemies()
         {
             // get things this entity can collide with
-            Entities entities = Registrar.Instance.FilterEntities(Operator.Or, typeof(EnemyPhysicsComponent));
+            Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(EnemyPhysicsComponent));
 
             foreach (ComponentsSet entity in entities)
             {
@@ -65,6 +66,29 @@ namespace SpaceShooterLogic.Components
                 {
                     ResolveCollision(EntityId, Position, Size, entity.EntityId, physicsComponent.Position, physicsComponent.Size);
                     GameEntitiesManager.Instance.Score += physicsComponent.Score;
+                    break;
+                }
+            }
+        }
+
+        private void DetectCollisionsWithPlayer()
+        {
+            // get things this entity can collide with
+            Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(PlayerPhysicsComponent));
+
+            foreach (ComponentsSet entity in entities)
+            {
+                if (EntityId == entity.EntityId) continue;
+
+                // get physics component
+                var physicsComponent = entity[typeof(PlayerPhysicsComponent)] as PlayerPhysicsComponent;
+
+                // test for collision with this entity
+                bool isColliding = Volume.Intersects(physicsComponent.Volume);
+                if (isColliding)
+                {
+                    ResolveCollision(EntityId, Position, Size, entity.EntityId, physicsComponent.Position, physicsComponent.Size);
+                    GameEntitiesManager.Instance.PlayerIsDead = true;
                     break;
                 }
             }

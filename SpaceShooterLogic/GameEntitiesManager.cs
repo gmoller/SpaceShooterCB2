@@ -9,8 +9,6 @@ namespace SpaceShooterLogic
 
         public static GameEntitiesManager Instance => Lazy.Value;
 
-        //public Enemies.Enemies Enemies { get; set; }
-        public Projectiles EnemyProjectiles { get; set; }
         public Hud Hud { get; set; }
 
         public bool PlayerIsDead { get; set; }

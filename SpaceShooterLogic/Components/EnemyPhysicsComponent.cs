@@ -45,6 +45,7 @@ namespace SpaceShooterLogic.Components
         #region Send & Receive
         private void Send()
         {
+            Communicator.Instance.Send(EntityId, typeof(ShootingBehaviorComponent), nameof(ShootingBehaviorComponent.Position), Position);
             Communicator.Instance.Send(EntityId, typeof(ChasingBehaviorComponent), nameof(ChasingBehaviorComponent.Position), Position);
             Communicator.Instance.Send(EntityId, typeof(VolumeGraphicsComponent), nameof(VolumeGraphicsComponent.Volume), Volume);
             Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Position), Position);

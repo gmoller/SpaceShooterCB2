@@ -58,8 +58,8 @@ namespace SpaceShooterLogic.Components
             Communicator.Instance.Send(EntityId, typeof(PlayerPhysicsComponent), nameof(PlayerPhysicsComponent.Velocity), direction);
             if (shootLaser)
             {
-                Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), nameof(PlayerLaserComponent.ShootLaser), true);
-                Communicator.Instance.Send(EntityId, typeof(PlayerLaserComponent), nameof(PlayerLaserComponent.PlayerPosition), PlayerPosition);
+                Communicator.Instance.Send(EntityId, typeof(LaserComponent), nameof(LaserComponent.ShootLaser), true);
+                Communicator.Instance.Send(EntityId, typeof(LaserComponent), nameof(LaserComponent.FiringEntityPosition), PlayerPosition);
             }
         }
 
