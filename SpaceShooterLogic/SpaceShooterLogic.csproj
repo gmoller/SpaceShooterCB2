@@ -66,6 +66,7 @@
     <Compile Include="GameStates\GamePlayStateWithReplaying.cs" />
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
+    <Compile Include="GameStates\PausedState.cs" />
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PlayerController.cs" />

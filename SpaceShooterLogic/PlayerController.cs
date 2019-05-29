@@ -24,31 +24,29 @@ namespace SpaceShooterLogic
     {
         public List<PlayerAction> GetActions()
         {
-            var keyState = Keyboard.GetState();
-
             List<PlayerAction> playerActions = new List<PlayerAction>();
 
-            if (keyState.IsKeyDown(Keys.W))
+            if (KeyboardHandler.IsKeyDown(Keys.W))
             {
                 playerActions.Add(PlayerAction.MoveUp);
             }
 
-            if (keyState.IsKeyDown(Keys.S))
+            if (KeyboardHandler.IsKeyDown(Keys.S))
             {
                 playerActions.Add(PlayerAction.MoveDown);
             }
 
-            if (keyState.IsKeyDown(Keys.A))
+            if (KeyboardHandler.IsKeyDown(Keys.A))
             {
                 playerActions.Add(PlayerAction.MoveLeft);
             }
 
-            if (keyState.IsKeyDown(Keys.D))
+            if (KeyboardHandler.IsKeyDown(Keys.D))
             {
                 playerActions.Add(PlayerAction.MoveRight);
             }
 
-            if (keyState.IsKeyDown(Keys.Space))
+            if (KeyboardHandler.IsKeyDown(Keys.Space))
             {
                 playerActions.Add(PlayerAction.FireLaser);
             }
@@ -61,37 +59,35 @@ namespace SpaceShooterLogic
     {
         public List<PlayerAction> GetActions()
         {
-            var keyState = Keyboard.GetState();
-
             byte keysPressed = 0;
 
             List<PlayerAction> playerActions = new List<PlayerAction>();
 
-            if (keyState.IsKeyDown(Keys.W))
+            if (KeyboardHandler.IsKeyDown(Keys.W))
             {
                 keysPressed |= 1 << 0; // bit 0
                 playerActions.Add(PlayerAction.MoveUp);
             }
 
-            if (keyState.IsKeyDown(Keys.S))
+            if (KeyboardHandler.IsKeyDown(Keys.S))
             {
                 keysPressed |= 1 << 1; // bit 1
                 playerActions.Add(PlayerAction.MoveDown);
             }
 
-            if (keyState.IsKeyDown(Keys.A))
+            if (KeyboardHandler.IsKeyDown(Keys.A))
             {
                 keysPressed |= 1 << 2; // bit 2
                 playerActions.Add(PlayerAction.MoveLeft);
             }
 
-            if (keyState.IsKeyDown(Keys.D))
+            if (KeyboardHandler.IsKeyDown(Keys.D))
             {
                 keysPressed |= 1 << 3; // bit 3
                 playerActions.Add(PlayerAction.MoveRight);
             }
 
-            if (keyState.IsKeyDown(Keys.Space))
+            if (KeyboardHandler.IsKeyDown(Keys.Space))
             {
                 keysPressed |= 1 << 4; // bit 4
                 playerActions.Add(PlayerAction.FireLaser);

@@ -3,6 +3,7 @@ using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Creators;
 using SpaceShooterLogic.Screens;
@@ -37,7 +38,7 @@ namespace SpaceShooterLogic.GameStates
 
         protected virtual void SetController()
         {
-            InputComponent = new PlayerInputComponent(); // TODO: investigate this 1
+            InputComponent = new PlayerInputComponent();
         }
 
         public (bool changeGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -67,6 +68,11 @@ namespace SpaceShooterLogic.GameStates
                 {
                     return (true, new GameOverState());
                 }
+            }
+
+            if (KeyboardHandler.IsKeyPressed(Keys.Pause))
+            {
+                return (true, new PausedState());
             }
 
             _updateStopwatch.Stop();

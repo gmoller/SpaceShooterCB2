@@ -53,6 +53,8 @@ namespace SpaceShooterCB2
             //_game = new TestBedGame();
             _game.Initialize(Window, GraphicsDevice);
 
+            KeyboardHandler.Initialize();
+
             base.Initialize();
         }
 
@@ -96,13 +98,14 @@ namespace SpaceShooterCB2
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardHandler.Update();
+
             _updateFrames++;
             _updateStopwatch.Start();
 
             IsMouseVisible = DeviceManager.Instance.IsMouseVisible;
 
-            var keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Escape))
+            if (KeyboardHandler.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
