@@ -6,11 +6,11 @@ using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic
 {
-    public class Entity2
+    public class Entity
     {
         private readonly ComponentsSet _components;
 
-        internal Entity2(ComponentsSet components)
+        internal Entity(ComponentsSet components)
         {
             _components = components;
         }

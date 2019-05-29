@@ -8,7 +8,7 @@ namespace SpaceShooterLogic.Creators
 {
     public static class PlayerCreator
     {
-        public static Entity2 Create(UpdateComponent inputComponent)
+        public static Entity Create(UpdateComponent inputComponent)
         {
             Vector2 size = new Vector2(16.0f, 16.0f) * 2.5f;
 
@@ -20,7 +20,7 @@ namespace SpaceShooterLogic.Creators
             components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprPlayer", Vector2.Zero, size));
             //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
-            var player = new Entity2(components);
+            var player = new Entity(components);
 
             return player;
         }

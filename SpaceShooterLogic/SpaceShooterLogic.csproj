@@ -58,7 +58,7 @@
     <Compile Include="Creators\ExplosionCreator.cs" />
     <Compile Include="Creators\PlayerCreator.cs" />
     <Compile Include="Creators\ProjectileCreator.cs" />
-    <Compile Include="Entity2.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="GameEntitiesManager.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />

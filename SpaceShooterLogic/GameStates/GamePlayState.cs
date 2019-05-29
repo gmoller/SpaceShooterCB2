@@ -54,7 +54,7 @@ namespace SpaceShooterLogic.GameStates
                 typeof(SpawnComponent));
             foreach (ComponentsSet componentsSet in entities)
             {
-                var entity = new Entity2(componentsSet);
+                var entity = new Entity(componentsSet);
                 entity.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             }
 
@@ -105,7 +105,7 @@ namespace SpaceShooterLogic.GameStates
             Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(GraphicsComponent));
             foreach (ComponentsSet componentsSet in entities)
             {
-                var entity = new Entity2(componentsSet);
+                var entity = new Entity(componentsSet);
                 entity.Draw(spriteBatch);
             }
 

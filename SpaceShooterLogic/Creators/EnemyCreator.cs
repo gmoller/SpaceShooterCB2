@@ -7,12 +7,12 @@ namespace SpaceShooterLogic.Creators
 {
     public static class EnemyCreator
     {
-        public static Entity2 Create(Vector2 position, Vector2 velocity)
+        public static Entity Create(Vector2 position, Vector2 velocity)
         {
             EnemyType type = ChooseEnemyType();
             Vector2 size = DetermineSize();
 
-            Entity2 enemy = null;
+            Entity enemy = null;
             switch (type)
             {
                 case EnemyType.Gunship:
@@ -24,7 +24,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy0", position, size));
                     //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
-                    enemy = new Entity2(components);
+                    enemy = new Entity(components);
                     break;
                 case EnemyType.Chaser:
                     components = new ComponentsSet(12000.0f);
@@ -34,7 +34,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy1", position, size));
                     //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
-                    enemy = new Entity2(components);
+                    enemy = new Entity(components);
                     break;
                 case EnemyType.Carrier:
                     components = new ComponentsSet(12000.0f);
@@ -43,7 +43,7 @@ namespace SpaceShooterLogic.Creators
                     components.AddComponent(typeof(GraphicsComponent), new GraphicsComponent("sprEnemy2", position, size));
                     //components.AddComponent(typeof(VolumeGraphicsComponent), new VolumeGraphicsComponent(new Rectangle()));
 
-                    enemy = new Entity2(components);
+                    enemy = new Entity(components);
                     break;
             }
 
