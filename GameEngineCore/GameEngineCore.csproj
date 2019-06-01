@@ -41,12 +41,20 @@
     <Compile Include="Communicator.cs" />
     <Compile Include="ComponentsSet.cs" />
     <Compile Include="AbstractClasses\DrawComponent.cs" />
+    <Compile Include="Components\Components.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
     <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RangeCreator.cs" />
     <Compile Include="Registrar.cs" />
     <Compile Include="AbstractClasses\UpdateComponent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceShooterUtilities\SpaceShooterUtilities.csproj">
+      <Project>{473B293B-05E8-4E9F-ACC6-49257BF4F258}</Project>
+      <Name>SpaceShooterUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

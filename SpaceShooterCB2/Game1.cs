@@ -116,7 +116,7 @@ namespace SpaceShooterCB2
             base.Update(gameTime);
 
             _updateStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["Overall.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
+            //BenchmarkMetrics.Instance.Metrics["Overall.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace SpaceShooterCB2
             base.Draw(gameTime);
 
             _drawStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["Overall.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
+            //BenchmarkMetrics.Instance.Metrics["Overall.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
     }
 }

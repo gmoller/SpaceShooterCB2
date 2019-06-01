@@ -74,7 +74,7 @@ namespace SpaceShooterLogic
             ChangeGameState(returnGameState.currentGameState, returnGameState.newGameState);
 
             _updateStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
+            //BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -96,7 +96,7 @@ namespace SpaceShooterLogic
             spriteBatch.End();
 
             _drawStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
+            //BenchmarkMetrics.Instance.Metrics["SpaceShooterGame.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
         private void ChangeGameState(IGameState currentGameState, IGameState newGameState)

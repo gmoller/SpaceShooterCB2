@@ -22,6 +22,18 @@ namespace SpaceShooterLogic.Creators
 
             var player = new Entity(components);
 
+            // new:
+            for (int i = 0; i < 1000; ++i)
+            {
+                Registrar.Instance.AddPlayerEntity(
+                    AssetsManager.Instance.GetTexture("sprPlayer"),
+                    new Vector2(50.0f, 600.0f),
+                    size,
+                    new Rectangle(0, 0, 16, 16),
+                    0.0f,
+                    new Vector2(0.0f, 0.0f));
+            }
+
             return player;
         }
     }

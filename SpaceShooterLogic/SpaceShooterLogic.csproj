@@ -67,6 +67,7 @@
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="GameStates\PausedState.cs" />
+    <Compile Include="Prefabs\Player.cs" />
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="PlayerController.cs" />
@@ -74,6 +75,11 @@
     <Compile Include="ScrollingBackground.cs" />
     <Compile Include="ScrollingBackgroundLayer.cs" />
     <Compile Include="SpaceShooterGame.cs" />
+    <Compile Include="Systems\FireProjectileSystem.cs" />
+    <Compile Include="Systems\MovementSystem.cs" />
+    <Compile Include="Systems\PlayerInputSystem.cs" />
+    <Compile Include="Systems\RenderingSystem.cs" />
+    <Compile Include="Systems\System.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">

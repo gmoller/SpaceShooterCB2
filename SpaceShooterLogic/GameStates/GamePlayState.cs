@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Creators;
 using SpaceShooterLogic.Screens;
+using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
@@ -22,6 +23,10 @@ namespace SpaceShooterLogic.GameStates
         private readonly Stopwatch _drawStopwatch = new Stopwatch();
         private int _updateFrames;
         private int _drawFrames;
+
+        private readonly PlayerInputSystem _playerInputSystem = new PlayerInputSystem("PlayerInput");
+        private readonly MovementSystem _movementSystem = new MovementSystem("Movement");
+        private readonly RenderingSystem _renderingSystem = new RenderingSystem("Rendering");
 
         public virtual void Enter()
         {
@@ -45,6 +50,9 @@ namespace SpaceShooterLogic.GameStates
         {
             _updateFrames++;
             _updateStopwatch.Start();
+
+            _playerInputSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, 16);
+            _movementSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, 16);
 
             //Entities entities = Registrar.Instance.GetAllEntities();
             Entities entities = Registrar.Instance.FilterEntities(Operator.Or, 
@@ -107,6 +115,9 @@ namespace SpaceShooterLogic.GameStates
         {
             _drawFrames++;
             _drawStopwatch.Start();
+
+            _renderingSystem.SpriteBatch = spriteBatch;
+            _renderingSystem.Process(0.0f, 1);
 
             Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(GraphicsComponent));
             foreach (ComponentsSet componentsSet in entities)
