@@ -1,21 +1,22 @@
-﻿using GameEngineCore;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
     public class MovementSystem : System
     {
-        public MovementSystem(string name) : base(name)
+        // Components: Position, Velocity, Volume
+
+        public MovementSystem(string name, GameState gameState) : base(name, gameState)
         {
         }
 
         protected override void ProcessOne(int entityId, float deltaTime)
         {
             #region gather data
-            var position = Registrar.Instance.GetComponent<Vector2?>("Positions", entityId);
-            var velocity = Registrar.Instance.GetComponent<Vector2?>("Velocities", entityId);
-            var volume = Registrar.Instance.GetComponent<Rectangle?>("Volumes", entityId);
+            var position = GameState.Positions[entityId];
+            var velocity = GameState.Velocities[entityId];
+            var volume = GameState.Volumes[entityId];
             #endregion
 
             #region process data
@@ -42,8 +43,8 @@ namespace SpaceShooterLogic.Systems
                     MathHelper.Clamp(newPosition.Y, y, DeviceManager.Instance.ScreenHeight - y));
 
                 #region update data
-                Registrar.Instance.SetComponent<Vector2?>("Positions", entityId, newPosition);
-                Registrar.Instance.SetComponent<Rectangle?>("Volumes", entityId, newVolume);
+                GameState.Positions[entityId] = newPosition;
+                GameState.Volumes[entityId] = newVolume;
                 #endregion
             }
             #endregion

@@ -1,12 +1,15 @@
-﻿using GameEngineCore;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooterLogic.Systems
 {
     public class RenderingSystem : System
     {
-        public RenderingSystem(string name) : base(name)
+        // Components: Texture, Position, Size, Frame, Rotation
+
+        private static readonly object Lock = new object();
+
+        public RenderingSystem(string name, GameState gameState) : base(name, gameState)
         {
         }
 
@@ -15,11 +18,11 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOne(int entityId, float deltaTime)
         {
             #region gather data
-            var texture = Registrar.Instance.GetComponent<Texture2D>("Textures", entityId);
-            var position = Registrar.Instance.GetComponent<Vector2?>("Positions", entityId);
-            var size = Registrar.Instance.GetComponent<Vector2?>("Sizes", entityId);
-            var frame = Registrar.Instance.GetComponent<Rectangle?>("Frames", entityId);
-            var rotation = Registrar.Instance.GetComponent<float?>("Rotations", entityId);
+            var texture = GameState.Textures[entityId];
+            var position = GameState.Positions[entityId];
+            var size = GameState.Sizes[entityId];
+            var frame = GameState.Frames[entityId];
+            var rotation = GameState.Rotations[entityId];
             #endregion
 
             #region process data
@@ -30,7 +33,10 @@ namespace SpaceShooterLogic.Systems
                 var origin = new Vector2((int)(frm.Width * 0.5), (int)(frm.Height * 0.50));
                 var scale = new Vector2(sz.X / frm.Width, sz.Y / frm.Height);
 
-                SpriteBatch.Draw(texture, position.Value, frm, Color.White, rotation.Value, origin, scale, SpriteEffects.None, 0.0f);
+                lock (Lock)
+                {
+                    SpriteBatch.Draw(texture, position.Value, frm, Color.White, rotation.Value, origin, scale, SpriteEffects.None, 0.0f);
+                }
 
                 #region update data
                 // no updates
@@ -39,6 +45,4 @@ namespace SpaceShooterLogic.Systems
             #endregion
         }
     }
-
-    // Components: Texture, Position, Size, Frame, Rotation
 }

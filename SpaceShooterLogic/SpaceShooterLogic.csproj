@@ -60,6 +60,7 @@
     <Compile Include="Creators\ProjectileCreator.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameEntitiesManager.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
     <Compile Include="GameStates\GamePlayStateWithRecording.cs" />

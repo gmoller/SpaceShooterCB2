@@ -12,9 +12,12 @@ namespace SpaceShooterLogic.Systems
 
         private readonly string _name;
 
-        protected System(string name)
+        protected GameState GameState;
+
+        protected System(string name, GameState gameState)
         {
             _name = name;
+            GameState = gameState;
         }
 
         public void Process(float deltaTime, int numberOfThreads = 1)

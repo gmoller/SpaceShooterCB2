@@ -14,6 +14,9 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayState : IGameState
     {
+        private const int NUMBER_OF_THREADS = 16;
+        private const int NUMBER_OF_DRAW_THREADS = 8;
+
         protected UpdateComponent InputComponent;
 
         private float _timeElapsedSinceDied; // in seconds
@@ -24,9 +27,10 @@ namespace SpaceShooterLogic.GameStates
         private int _updateFrames;
         private int _drawFrames;
 
-        private readonly PlayerInputSystem _playerInputSystem = new PlayerInputSystem("PlayerInput");
-        private readonly MovementSystem _movementSystem = new MovementSystem("Movement");
-        private readonly RenderingSystem _renderingSystem = new RenderingSystem("Rendering");
+        private PlayerInputSystem _playerInputSystem;
+        private MovementSystem _movementSystem;
+        private FireProjectileSystem _fireProjectileSystem;
+        private RenderingSystem _renderingSystem;
 
         public virtual void Enter()
         {
@@ -51,8 +55,9 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            _playerInputSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, 16);
-            _movementSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, 16);
+            _playerInputSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
+            _movementSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
+            _fireProjectileSystem.Process((float) gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
 
             //Entities entities = Registrar.Instance.GetAllEntities();
             Entities entities = Registrar.Instance.FilterEntities(Operator.Or, 
@@ -117,7 +122,7 @@ namespace SpaceShooterLogic.GameStates
             _drawStopwatch.Start();
 
             _renderingSystem.SpriteBatch = spriteBatch;
-            _renderingSystem.Process(0.0f, 1);
+            _renderingSystem.Process(0.0f, NUMBER_OF_DRAW_THREADS);
 
             Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(GraphicsComponent));
             foreach (ComponentsSet componentsSet in entities)
@@ -134,10 +139,19 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
+            // setup components
+            var state = new GameState();
+
+            // setup systems
+            _playerInputSystem = new PlayerInputSystem("PlayerInput", state);
+            _movementSystem = new MovementSystem("Movement", state);
+            _fireProjectileSystem = new FireProjectileSystem("FireProjectile", state);
+            _renderingSystem = new RenderingSystem("Rendering", state);
+
             Registrar.Instance.Clear();
 
             SetController();
-            PlayerCreator.Create(InputComponent);
+            PlayerCreator.Create(InputComponent, state);
             SpawnCreator.Create();
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
 

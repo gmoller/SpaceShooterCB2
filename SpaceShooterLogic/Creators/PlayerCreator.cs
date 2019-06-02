@@ -1,4 +1,5 @@
-﻿using GameEngineCore;
+﻿using System.CodeDom;
+using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Components;
@@ -8,7 +9,7 @@ namespace SpaceShooterLogic.Creators
 {
     public static class PlayerCreator
     {
-        public static Entity Create(UpdateComponent inputComponent)
+        public static Entity Create(UpdateComponent inputComponent, GameState state)
         {
             Vector2 size = new Vector2(16.0f, 16.0f) * 2.5f;
 
@@ -23,15 +24,20 @@ namespace SpaceShooterLogic.Creators
             var player = new Entity(components);
 
             // new:
-            for (int i = 0; i < 1000; ++i)
+            //Registrar.Instance.EntityCount++; // temporary create an empty entity - for testing
+
+            for (int i = 0; i < 1; ++i)
             {
-                Registrar.Instance.AddPlayerEntity(
-                    AssetsManager.Instance.GetTexture("sprPlayer"),
-                    new Vector2(50.0f, 600.0f),
-                    size,
-                    new Rectangle(0, 0, 16, 16),
-                    0.0f,
-                    new Vector2(0.0f, 0.0f));
+                state.Tags[Registrar.Instance.EntityCount] = state.Tags[Registrar.Instance.EntityCount].SetBit(0); // 0=playerinput
+                state.Velocities[Registrar.Instance.EntityCount] = new Vector2(0.0f, 0.0f);
+                state.Positions[Registrar.Instance.EntityCount] = new Vector2(50.0f, 600.0f);
+                state.Volumes[Registrar.Instance.EntityCount] = new Rectangle(0, 0, 16, 16);
+                state.Textures[Registrar.Instance.EntityCount] = AssetsManager.Instance.GetTexture("sprPlayer");
+                state.Sizes[Registrar.Instance.EntityCount] = size;
+                state.Frames[Registrar.Instance.EntityCount] = new Rectangle(0, 0, 16, 16);
+                state.Rotations[Registrar.Instance.EntityCount] = 0.0f;
+
+                Registrar.Instance.EntityCount++;
             }
 
             return player;

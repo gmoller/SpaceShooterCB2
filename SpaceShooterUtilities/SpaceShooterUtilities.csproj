@@ -46,6 +46,7 @@
     <Compile Include="BenchmarkMetrics.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="DeviceManager.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FramesPerSecondCounter.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="KeyboardHandler.cs" />

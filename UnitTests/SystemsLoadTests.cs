@@ -2,6 +2,7 @@
 using GameEngineCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
+using SpaceShooterLogic;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
 
@@ -13,27 +14,26 @@ namespace UnitTests
         [TestMethod]
         public void TestMovementSystem()
         {
-            Vector2 size = new Vector2(16.0f, 16.0f) * 2.5f;
+            var state = new GameState();
+
             for (int i = 0; i < 100000; ++i)
             {
-                Registrar.Instance.AddPlayerEntity(
-                    null,
-                    new Vector2(50.0f, 600.0f),
-                    size,
-                    new Rectangle(0, 0, 16, 16),
-                    0.0f,
-                    new Vector2(0.0f, 0.0f));
+                state.Positions[Registrar.Instance.EntityCount] = new Vector2(50.0f, 600.0f);
+                state.Velocities[Registrar.Instance.EntityCount] = new Vector2(0.0f, 0.0f);
+                state.Volumes[Registrar.Instance.EntityCount] = new Rectangle(0, 0, 16, 16);
+
+                Registrar.Instance.EntityCount++;
             }
 
             for (int i = 1; i < 33; ++i)
             {
-                RunSystem(i);
+                RunSystem(i, state);
             }
         }
 
-        private void RunSystem(int numberOfThreads)
+        private void RunSystem(int numberOfThreads, GameState state)
         {
-            var system = new MovementSystem("Movement");
+            var system = new MovementSystem("Movement", state);
             for (int i = 0; i < 60; ++i)
             {
                 system.Process(16.0f, numberOfThreads);
