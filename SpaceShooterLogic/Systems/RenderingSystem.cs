@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooterLogic.Systems
 {
     public class RenderingSystem : System
     {
-        // Components: Texture, Position, Size, AnimationSpec, CurrentFrame, Rotation
+        // Components: Texture, Position, Size, AnimationData
 
         private static readonly object Lock = new object();
 
@@ -22,8 +21,7 @@ namespace SpaceShooterLogic.Systems
             var texture = GameState.Textures[entityId];
             var position = GameState.Positions[entityId];
             var size = GameState.Sizes[entityId];
-            var animationSpec = GameState.AnimationSpecs[entityId];
-            var currentFrame = GameState.CurrentFrames[entityId];
+            var animationData = GameState.AnimationData[entityId];
             var rotation = GameState.Rotations[entityId];
             #endregion
 
@@ -32,12 +30,15 @@ namespace SpaceShooterLogic.Systems
             {
                 var sz = size.Value;
 
-                if (animationSpec != null && currentFrame == null)
+                Rectangle frame;
+                if (animationData == null)
                 {
-                    throw new Exception("Animation spec provided, but no frame!");
+                    frame = new Rectangle(0, 0, (int)sz.X, (int)sz.Y);
                 }
-
-                var frame = animationSpec?.Frames[currentFrame.Value] ?? new Rectangle(0, 0, (int)sz.X, (int)sz.Y); // animation spec must also have a frame
+                else
+                {
+                    frame = animationData.Value.AnimationSpec.Frames[animationData.Value.CurrentFrame];
+                }
 
                 var origin = new Vector2((int)(frame.Width * 0.5), (int)(frame.Height * 0.50));
                 var scale = new Vector2(sz.X / frame.Width, sz.Y / frame.Height);

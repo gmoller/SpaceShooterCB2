@@ -15,12 +15,13 @@ namespace AnimationLibrary
 
     public static class AnimationSpecCreator
     {
-        public static AnimationSpec Create(Texture2D spriteSheetTexture, int frameWidth, int frameHeight, int duration, bool isRepeating)
+        public static AnimationSpec Create(string spriteSheetTextureName, int spriteSheetTextureWidth, int spriteSheetTextureHeight, int frameWidth, int frameHeight, int duration, bool isRepeating)
+        //public static AnimationSpec Create(Texture2D spriteSheetTexture, int frameWidth, int frameHeight, int duration, bool isRepeating)
         {
-            var spec = new AnimationSpec { SpriteSheet = spriteSheetTexture.Name, Duration = duration, Repeating = isRepeating };
+            var spec = new AnimationSpec { SpriteSheet = spriteSheetTextureName, Duration = duration, Repeating = isRepeating };
 
-            int cols = spriteSheetTexture.Width / frameWidth;
-            int rows = spriteSheetTexture.Height / frameHeight;
+            int cols = spriteSheetTextureWidth / frameWidth;
+            int rows = spriteSheetTextureHeight / frameHeight;
             spec.NumberOfFrames = cols * rows;
             spec.Frames = new Rectangle[spec.NumberOfFrames];
 
@@ -30,7 +31,7 @@ namespace AnimationLibrary
             {
                 spec.Frames[i] = new Rectangle(x, y, frameWidth, frameHeight);
                 x += frameWidth;
-                if (x >= spriteSheetTexture.Width)
+                if (x >= spriteSheetTextureWidth)
                 {
                     x = 0;
                     y += frameHeight;

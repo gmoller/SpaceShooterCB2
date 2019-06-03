@@ -7,17 +7,21 @@ namespace SpaceShooterLogic
 {
     public class GameState
     {
-        public Bag<byte> Tags { get; private set; }
-        public Bag<Vector2?> Velocities { get; private set; }
+        // standard entity
         public Bag<Vector2?> Positions { get; private set; }
+        public Bag<Vector2?> Velocities { get; private set; }
         public Bag<Rectangle?> Volumes { get; private set; }
         public Bag<Texture2D> Textures { get; private set; }
         public Bag<Vector2?> Sizes { get; private set; }
-        public Bag<int?> CurrentFrames { get; private set; }
+
         public Bag<float?> Rotations { get; private set; }
+
         public Bag<float?> TimesSinceLastShot { get; private set; }
-        public Bag<AnimationSpec> AnimationSpecs { get; private set; }
-        public Bag<float?> TimesSinceLastAnimationChange { get; private set; }
+
+        // animations
+        public Bag<AnimationData?> AnimationData { get; private set; }
+
+        public Bag<byte> Tags { get; private set; }
 
         public GameState()
         {
@@ -26,17 +30,33 @@ namespace SpaceShooterLogic
 
         public void ClearState()
         {
-            Tags = new Bag<byte>();
-            Velocities = new Bag<Vector2?>();
             Positions = new Bag<Vector2?>();
+            Velocities = new Bag<Vector2?>();
             Volumes = new Bag<Rectangle?>();
             Textures = new Bag<Texture2D>();
             Sizes = new Bag<Vector2?>();
-            CurrentFrames = new Bag<int?>();
+
             Rotations = new Bag<float?>();
+
             TimesSinceLastShot = new Bag<float?>();
-            AnimationSpecs = new Bag<AnimationSpec>();
-            TimesSinceLastAnimationChange = new Bag<float?>();
+
+            AnimationData = new Bag<AnimationData?>();
+
+            Tags = new Bag<byte>();
+        }
+    }
+
+    public struct AnimationData
+    {
+        public AnimationSpec AnimationSpec { get; }
+        public int CurrentFrame { get; set; }
+        public float TimeSinceLastAnimationChange { get; set; }
+
+        public AnimationData(AnimationSpec animationSpec, int currentFrame, float timeSinceLastAnimationChange)
+        {
+            AnimationSpec = animationSpec;
+            CurrentFrame = currentFrame;
+            TimeSinceLastAnimationChange = timeSinceLastAnimationChange;
         }
     }
 }

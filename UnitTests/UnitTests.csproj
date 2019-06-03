@@ -62,6 +62,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
+      <Project>{D6526AF1-1701-4E6E-9123-CD06F33565C9}</Project>
+      <Name>AnimationLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameEngineCore\GameEngineCore.csproj">
       <Project>{4f83c265-4209-4f99-9780-40ca5034ed77}</Project>
       <Name>GameEngineCore</Name>

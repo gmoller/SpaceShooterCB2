@@ -28,16 +28,18 @@ namespace SpaceShooterLogic.Creators
             for (int i = 0; i < 1; ++i)
             {
                 int entityId = Registrar.Instance.EntityCount;
-                state.Tags[entityId] = state.Tags[entityId].SetBit(0); // 0=playerinput
-                state.Velocities[entityId] = new Vector2(0.0f, 0.0f);
+
                 state.Positions[entityId] = new Vector2(50.0f, 600.0f);
+                state.Velocities[entityId] = new Vector2(0.0f, 0.0f);
                 state.Volumes[entityId] = new Rectangle(0, 0, 16, 16);
                 state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprPlayer");
                 state.Sizes[entityId] = size;
-                state.CurrentFrames[entityId] = 0;
+
                 state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
-                state.AnimationSpecs[entityId] = AssetsManager.Instance.GetAnimations("sprPlayer");
-                state.TimesSinceLastAnimationChange[entityId] = 0.0f;
+
+                state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
+
+                state.Tags[entityId] = state.Tags[entityId].SetBit(0); // 0=playerinput
 
                 Registrar.Instance.EntityCount++;
             }

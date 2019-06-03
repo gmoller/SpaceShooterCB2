@@ -2,7 +2,7 @@
 {
     public class AnimationSystem : System
     {
-        // Components: TimeSinceLastAnimationChange, AnimationSpec, CurrentFrame
+        // Components: AnimationData
 
         public AnimationSystem(string name, GameState gameState) : base(name, gameState)
         {
@@ -11,27 +11,26 @@
         protected override void ProcessOne(int entityId, float deltaTime)
         {
             #region gather data
-            var timeElapsedSinceLastAnimationChange = GameState.TimesSinceLastAnimationChange[entityId];
-            var animationSpec = GameState.AnimationSpecs[entityId];
-            var currentFrame = GameState.CurrentFrames[entityId];
+            var animationData = GameState.AnimationData[entityId];
             #endregion
 
             #region process data
-            if (timeElapsedSinceLastAnimationChange != null && animationSpec != null && currentFrame != null)
+            if (animationData != null)
             {
                 // is it time to change?
-                bool changeFrame = IsTimeToChangeFrame(timeElapsedSinceLastAnimationChange.Value, animationSpec.Duration);
+                var animData = animationData.Value;
+                bool changeFrame = IsTimeToChangeFrame(animData.TimeSinceLastAnimationChange, animData.AnimationSpec.Duration);
                 if (changeFrame)
                 {
                     // if yes, change to next frame
                     int nextFrame;
-                    if (currentFrame < animationSpec.NumberOfFrames - 1)
+                    if (animData.CurrentFrame < animData.AnimationSpec.NumberOfFrames - 1)
                     {
-                        nextFrame = currentFrame.Value + 1;
+                        nextFrame = animData.CurrentFrame + 1;
                     }
                     else
                     {
-                        if (animationSpec.Repeating)
+                        if (animData.AnimationSpec.Repeating)
                         {
                             nextFrame = 0;
                         }
@@ -43,15 +42,18 @@
                     }
 
                     #region update data
-                    GameState.CurrentFrames[entityId] = nextFrame;
-                    GameState.TimesSinceLastAnimationChange[entityId] = 0.0f;
+                    animData.CurrentFrame = nextFrame;
+                    animData.TimeSinceLastAnimationChange = 0.0f;
+                    GameState.AnimationData[entityId] = animData;
+
                     #endregion
                 }
                 else
                 {
                     #region update data
-                    timeElapsedSinceLastAnimationChange += deltaTime;
-                    GameState.TimesSinceLastAnimationChange[entityId] = timeElapsedSinceLastAnimationChange;
+                    animData.TimeSinceLastAnimationChange += deltaTime;
+                    GameState.AnimationData[entityId] = animData;
+
                     #endregion
                 }
             }

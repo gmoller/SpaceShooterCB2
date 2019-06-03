@@ -54,12 +54,12 @@ namespace SpaceShooterLogic
             _lblTest = new Label(_font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(0.0f, 0.0f), "Testing, testing, testing, 1, 2, 3...", Color.Cyan, 1.0f, 0.5f);
             _lblFps = new Label(_font, VerticalAlignment.Bottom, HorizontalAlignment.Right, DeviceManager.Instance.ScreenDimensions, "FPS: ", Color.Cyan) { TextShadow = true };
 
-            AssetsManager.Instance.AddAnimation("sprPlayer", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprPlayer"), 16, 16, 160, true));
-            AssetsManager.Instance.AddAnimation("sprEnemy0", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy0"), 16, 16, 160, true));
-            AssetsManager.Instance.AddAnimation("sprEnemy1", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy1"), 16, 16, 160, true));
-            AssetsManager.Instance.AddAnimation("sprEnemy2", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("sprEnemy2"), 16, 16, 160, true));
-            AssetsManager.Instance.AddAnimation("Fireball02", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("Fireball02"), 128, 128, 20, false));
-            AssetsManager.Instance.AddAnimation("Explosion10", AnimationSpecCreator.Create(AssetsManager.Instance.GetTexture("Explosion10"), 256, 256, 20, false));
+            AssetsManager.Instance.AddAnimation("sprPlayer", AnimationSpecCreator.Create("sprPlayer", 64, 16, 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy0", AnimationSpecCreator.Create("sprEnemy0", 64, 16, 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy1", AnimationSpecCreator.Create("sprEnemy1", 16, 16, 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("sprEnemy2", AnimationSpecCreator.Create("sprEnemy2", 64, 16, 16, 16, 160, true));
+            AssetsManager.Instance.AddAnimation("Fireball02", AnimationSpecCreator.Create("Fireball02", 512, 512, 128, 128, 20, false));
+            AssetsManager.Instance.AddAnimation("Explosion10", AnimationSpecCreator.Create("Explosion10", 2048, 1536, 256, 256, 20, false));
         }
 
         public void Update(GameTime gameTime)

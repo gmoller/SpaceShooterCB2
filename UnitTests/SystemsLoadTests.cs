@@ -1,4 +1,5 @@
 ﻿using System;
+using AnimationLibrary;
 using GameEngineCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
@@ -18,22 +19,38 @@ namespace UnitTests
 
             for (int i = 0; i < 100000; ++i)
             {
-                state.Positions[Registrar.Instance.EntityCount] = new Vector2(50.0f, 600.0f);
-                state.Velocities[Registrar.Instance.EntityCount] = new Vector2(0.0f, 0.0f);
-                state.Volumes[Registrar.Instance.EntityCount] = new Rectangle(0, 0, 16, 16);
+                state.Positions[i] = new Vector2(50.0f, 600.0f);
+                state.Velocities[i] = new Vector2(0.0f, 0.0f);
+                state.Volumes[i] = new Rectangle(0, 0, 16, 16);
 
                 Registrar.Instance.EntityCount++;
             }
 
             for (int i = 1; i < 33; ++i)
             {
-                RunSystem(i, state);
+                var system = new MovementSystem("Movement", state);
+                RunSystem(system, i);
             }
         }
 
-        private void RunSystem(int numberOfThreads, GameState state)
+        [TestMethod]
+        public void TestAnimationSystem()
         {
-            var system = new MovementSystem("Movement", state);
+            var state = new GameState();
+
+            for (int i = 0; i < 100000; ++i)
+            {
+                state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true), 0, 0.0f);
+
+                Registrar.Instance.EntityCount++;
+            }
+
+            var system = new AnimationSystem("Animation", state);
+            RunSystem(system, 1);
+        }
+
+        private void RunSystem(SpaceShooterLogic.Systems.System system, int numberOfThreads)
+        {
             for (int i = 0; i < 60; ++i)
             {
                 system.Process(16.0f, numberOfThreads);
