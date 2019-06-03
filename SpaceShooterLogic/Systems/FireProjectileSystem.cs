@@ -6,7 +6,7 @@ namespace SpaceShooterLogic.Systems
 {
     public class FireProjectileSystem : System
     {
-        // Components: Position, Tag-1
+        // Components: Position, TimeSinceLastShot, Tag-1
 
         private static readonly object Lock = new object();
 
@@ -15,8 +15,6 @@ namespace SpaceShooterLogic.Systems
         private readonly Vector2 _weaponDirection;
         private readonly float _weaponVelocity;
 
-        private float _timeElapsedSinceLastShot; // in milliseconds
-
         public FireProjectileSystem(string name, GameState gameState) : base(name, gameState)
         {
             // player laser settings (for now)
@@ -24,27 +22,28 @@ namespace SpaceShooterLogic.Systems
             _weaponsOffset = new Vector2(0.0f, -20.0f);
             _weaponDirection = new Vector2(0.0f, -1.0f);
             _weaponVelocity = 0.600f;
-            _timeElapsedSinceLastShot = float.MaxValue; // to ensure we don't start on cooldown
         }
 
+        // TODO: store weapon fired time, and then check if current time - weaponfiredtime > cooldown time = fire weapon (no need to keep updating last time)
         protected override void ProcessOne(int entityId, float deltaTime)
         {
             #region gather data
             var firingEntityPosition = GameState.Positions[entityId];
-            var shootLaser = GameState.Tags[entityId].IsBitSet(1); // 1-playershoots
+            var timeElapsedSinceLastShot = GameState.TimesSinceLastShot[entityId];
+            var shootWeapon = GameState.Tags[entityId].IsBitSet(1); // 1-playershoots
             #endregion
 
-            if (firingEntityPosition != null && shootLaser)
+            if (firingEntityPosition != null && timeElapsedSinceLastShot != null)
             {
                 // check if we are on cooldown
-                bool weaponOnCooldown = WeaponOnCooldown();
+                var weaponOnCooldown = WeaponOnCooldown(timeElapsedSinceLastShot.Value);
                 if (weaponOnCooldown)
                 {
-                    _timeElapsedSinceLastShot += deltaTime;
+                    timeElapsedSinceLastShot += deltaTime;
                 }
 
-                // if not on cooldown
-                if (!weaponOnCooldown)
+                // if not on cooldown and fire pressed, fire projectile
+                if (!weaponOnCooldown && shootWeapon)
                 {
                     // create new projectile
                     var sound = AssetsManager.Instance.GetSound("sndLaser");
@@ -53,29 +52,25 @@ namespace SpaceShooterLogic.Systems
                         sound.Play();
                     }
 
-                    Vector2 projectilePosition = firingEntityPosition.Value + _weaponsOffset;
-                    Vector2 projectileVelocity = _weaponDirection * _weaponVelocity;
+                    var projectilePosition = firingEntityPosition.Value + _weaponsOffset;
+                    var projectileVelocity = _weaponDirection * _weaponVelocity;
 
                     ProjectileCreator.Create2(_weaponDirection.Y < 0 ? "sprLaserPlayer" : "sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
 
                     // put weapon on cooldown
-                    StartWeaponCooldown();
+                    timeElapsedSinceLastShot = 0.0f;
                 }
 
                 #region update data
                 GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit(1); // 1-playershoots
+                GameState.TimesSinceLastShot[entityId] = timeElapsedSinceLastShot;
                 #endregion
             }
         }
 
-        private bool WeaponOnCooldown()
+        private bool WeaponOnCooldown(float timeElapsedSinceLastShot)
         {
-            return _timeElapsedSinceLastShot < _weaponCooldownTime;
-        }
-
-        private void StartWeaponCooldown()
-        {
-            _timeElapsedSinceLastShot = 0.0f;
+            return timeElapsedSinceLastShot < _weaponCooldownTime;
         }
     }
 }

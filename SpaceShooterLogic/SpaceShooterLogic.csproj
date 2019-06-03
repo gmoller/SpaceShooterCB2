@@ -76,6 +76,7 @@
     <Compile Include="ScrollingBackground.cs" />
     <Compile Include="ScrollingBackgroundLayer.cs" />
     <Compile Include="SpaceShooterGame.cs" />
+    <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\FireProjectileSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />

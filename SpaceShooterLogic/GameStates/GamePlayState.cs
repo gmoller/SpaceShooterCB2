@@ -30,6 +30,7 @@ namespace SpaceShooterLogic.GameStates
         private PlayerInputSystem _playerInputSystem;
         private MovementSystem _movementSystem;
         private FireProjectileSystem _fireProjectileSystem;
+        private AnimationSystem _animationSystem;
         private RenderingSystem _renderingSystem;
 
         public virtual void Enter()
@@ -58,6 +59,7 @@ namespace SpaceShooterLogic.GameStates
             _playerInputSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
             _movementSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
             _fireProjectileSystem.Process((float) gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
+            _animationSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
 
             //Entities entities = Registrar.Instance.GetAllEntities();
             Entities entities = Registrar.Instance.FilterEntities(Operator.Or, 
@@ -146,6 +148,8 @@ namespace SpaceShooterLogic.GameStates
             _playerInputSystem = new PlayerInputSystem("PlayerInput", state);
             _movementSystem = new MovementSystem("Movement", state);
             _fireProjectileSystem = new FireProjectileSystem("FireProjectile", state);
+            _animationSystem = new AnimationSystem("Animation", state);
+
             _renderingSystem = new RenderingSystem("Rendering", state);
 
             Registrar.Instance.Clear();

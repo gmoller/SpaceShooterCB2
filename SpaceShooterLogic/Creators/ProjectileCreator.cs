@@ -25,14 +25,13 @@ namespace SpaceShooterLogic.Creators
         {
             Vector2 size = new Vector2(1.0f, 8.0f);
 
-            state.Tags[Registrar.Instance.EntityCount] = 0;
-            state.Velocities[Registrar.Instance.EntityCount] = projectileVelocity;
-            state.Positions[Registrar.Instance.EntityCount] = projectilePosition;
-            state.Volumes[Registrar.Instance.EntityCount] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
-            state.Textures[Registrar.Instance.EntityCount] = AssetsManager.Instance.GetTexture(textureName);
-            state.Sizes[Registrar.Instance.EntityCount] = size;
-            state.Frames[Registrar.Instance.EntityCount] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
-            state.Rotations[Registrar.Instance.EntityCount] = 0.0f;
+            int entityId = Registrar.Instance.EntityCount;
+            state.Tags[entityId] = 0;
+            state.Velocities[entityId] = projectileVelocity;
+            state.Positions[entityId] = projectilePosition;
+            state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
+            state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
+            state.Sizes[entityId] = size;
 
             Registrar.Instance.EntityCount++;
         }

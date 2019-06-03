@@ -17,7 +17,7 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOne(int entityId, float deltaTime)
         {
             #region gather data
-            bool tag = GameState.Tags[entityId].IsBitSet(0); // 0-playerinput
+            var tag = GameState.Tags[entityId].IsBitSet(0); // 0-playerinput
             #endregion
 
             #region process data
