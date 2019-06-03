@@ -14,49 +14,50 @@ namespace SpaceShooterLogic.Systems
         {
         }
 
-        protected override void ProcessOne(int entityId, float deltaTime)
+        protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             #region gather data
+
             var tag = GameState.Tags[entityId].IsBitSet(0); // 0-playerinput
+
             #endregion
+
+            if (!tag) return;
 
             #region process data
-            if (tag)
+
+            var direction = Vector2.Zero;
+            var shoot = false;
+            if (KeyboardHandler.IsKeyDown(Keys.Up))
             {
-                var direction = Vector2.Zero;
-                var shoot = false;
-                if (KeyboardHandler.IsKeyDown(Keys.Up))
-                {
-                    direction = new Vector2(direction.X, -1.0f);
-                }
-                if (KeyboardHandler.IsKeyDown(Keys.Down))
-                {
-                    direction = new Vector2(direction.X, 1.0f);
-                }
-                if (KeyboardHandler.IsKeyDown(Keys.Left))
-                {
-                    direction = new Vector2(-1.0f, direction.Y);
-                }
-                if (KeyboardHandler.IsKeyDown(Keys.Right))
-                {
-                    direction = new Vector2(1.0f, direction.Y);
-                }
-                if (KeyboardHandler.IsKeyDown(Keys.RightControl))
-                {
-                    shoot = true;
-                }
-
-                #region update data
-                GameState.Velocities[entityId] = direction * MOVE_SPEED;
-                GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(shoot ? 1 : 0); // 1-playershoot
-                #endregion
+                direction = new Vector2(direction.X, -1.0f);
             }
-            #endregion
-        }
+            if (KeyboardHandler.IsKeyDown(Keys.Down))
+            {
+                direction = new Vector2(direction.X, 1.0f);
+            }
+            if (KeyboardHandler.IsKeyDown(Keys.Left))
+            {
+                direction = new Vector2(-1.0f, direction.Y);
+            }
+            if (KeyboardHandler.IsKeyDown(Keys.Right))
+            {
+                direction = new Vector2(1.0f, direction.Y);
+            }
+            if (KeyboardHandler.IsKeyDown(Keys.RightControl))
+            {
+                shoot = true;
+            }
 
-        bool IsBitSet(byte b, int pos)
-        {
-            return (b & (1 << pos)) != 0;
+            #endregion
+
+            #region update data
+
+            GameState.Velocities[entityId] = direction * MOVE_SPEED;
+            GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(shoot ? 1 : 0); // 1-playershoot
+
+            #endregion
+            
         }
     }
 }

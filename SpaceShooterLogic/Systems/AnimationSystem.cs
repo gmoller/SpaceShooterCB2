@@ -8,55 +8,60 @@
         {
         }
 
-        protected override void ProcessOne(int entityId, float deltaTime)
+        protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             #region gather data
+
             var animationData = GameState.AnimationData[entityId];
+
             #endregion
 
+            if (animationData == null) return;
+
             #region process data
-            if (animationData != null)
+
+            // is it time to change?
+            var animData = animationData.Value;
+            bool changeFrame = IsTimeToChangeFrame(animData.TimeSinceLastAnimationChange, animData.AnimationSpec.Duration);
+            if (changeFrame)
             {
-                // is it time to change?
-                var animData = animationData.Value;
-                bool changeFrame = IsTimeToChangeFrame(animData.TimeSinceLastAnimationChange, animData.AnimationSpec.Duration);
-                if (changeFrame)
+                // if yes, change to next frame
+                int nextFrame;
+                if (animData.CurrentFrame < animData.AnimationSpec.NumberOfFrames - 1)
                 {
-                    // if yes, change to next frame
-                    int nextFrame;
-                    if (animData.CurrentFrame < animData.AnimationSpec.NumberOfFrames - 1)
-                    {
-                        nextFrame = animData.CurrentFrame + 1;
-                    }
-                    else
-                    {
-                        if (animData.AnimationSpec.Repeating)
-                        {
-                            nextFrame = 0;
-                        }
-                        else
-                        {
-                            nextFrame = -1; // TODO: properly support non-repeating animation specs
-                            //isFinished = true;
-                        }
-                    }
-
-                    #region update data
-                    animData.CurrentFrame = nextFrame;
-                    animData.TimeSinceLastAnimationChange = 0.0f;
-                    GameState.AnimationData[entityId] = animData;
-
-                    #endregion
+                    nextFrame = animData.CurrentFrame + 1;
                 }
                 else
                 {
-                    #region update data
-                    animData.TimeSinceLastAnimationChange += deltaTime;
-                    GameState.AnimationData[entityId] = animData;
-
-                    #endregion
+                    if (animData.AnimationSpec.Repeating)
+                    {
+                        nextFrame = 0;
+                    }
+                    else
+                    {
+                        nextFrame = -1; // TODO: properly support non-repeating animation specs
+                        //isFinished = true;
+                    }
                 }
+
+                #region update data
+
+                animData.CurrentFrame = nextFrame;
+                animData.TimeSinceLastAnimationChange = 0.0f;
+                GameState.AnimationData[entityId] = animData;
+
+                #endregion
             }
+            else
+            {
+                #region update data
+
+                animData.TimeSinceLastAnimationChange += deltaTime;
+                GameState.AnimationData[entityId] = animData;
+
+                #endregion
+            }
+
             #endregion
         }
 

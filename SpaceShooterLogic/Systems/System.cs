@@ -45,10 +45,10 @@ namespace SpaceShooterLogic.Systems
         {
             for (int entityId = fromInclusive; entityId < toExclusive; ++entityId)
             {
-                ProcessOne(entityId, deltaTime);
+                ProcessOneEntity(entityId, deltaTime);
             }
         }
 
-        protected abstract void ProcessOne(int entityId, float deltaTime);
+        protected abstract void ProcessOneEntity(int entityId, float deltaTime);
     }
 }
