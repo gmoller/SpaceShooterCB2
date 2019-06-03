@@ -26,12 +26,13 @@ namespace SpaceShooterLogic.Creators
             Vector2 size = new Vector2(1.0f, 8.0f);
 
             int entityId = Registrar.Instance.EntityCount;
-            state.Tags[entityId] = 0;
-            state.Velocities[entityId] = projectileVelocity;
+
             state.Positions[entityId] = projectilePosition;
+            state.Velocities[entityId] = projectileVelocity;
             state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
             state.Sizes[entityId] = size;
+            state.Tags[entityId] = state.Tags[entityId].SetBit(3); // 3=destroy if outside viewport
 
             Registrar.Instance.EntityCount++;
         }

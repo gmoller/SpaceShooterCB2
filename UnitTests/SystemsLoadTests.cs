@@ -12,12 +12,14 @@ namespace UnitTests
     [TestClass]
     public class SystemsLoadTests
     {
+        private const int NUMBER_OF_ENTITIES = 100000;
+
         [TestMethod]
         public void TestAnimationSystem()
         {
             var state = new GameState();
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true), 0, 0.0f);
 
@@ -33,11 +35,59 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void TestClampToViewportSystem()
+        {
+            DeviceManager.Instance.Viewport = new Rectangle(0, 0, 480, 640);
+
+            var state = new GameState();
+
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
+            {
+                state.Positions[i] = new Vector2(50.0f, 600.0f);
+                state.Sizes[i] = new Vector2(16.0f, 16.0f);
+                state.Tags[i] = 7;
+
+                Registrar.Instance.EntityCount++;
+            }
+
+            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            for (int i = 1; i < 33; ++i)
+            {
+                var system = new ClampToViewportSystem("ClampToViewport", state);
+                RunSystem(system, i);
+            }
+        }
+
+        [TestMethod]
+        public void TestDestroyIfOutsideViewportSystem()
+        {
+            DeviceManager.Instance.Viewport = new Rectangle(0, 0, 480, 640);
+
+            var state = new GameState();
+
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
+            {
+                state.Positions[i] = new Vector2(50.0f, 600.0f);
+                state.Sizes[i] = new Vector2(16.0f, 16.0f);
+                state.Tags[i] = 8;
+
+                Registrar.Instance.EntityCount++;
+            }
+
+            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            for (int i = 1; i < 33; ++i)
+            {
+                var system = new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state);
+                RunSystem(system, i);
+            }
+        }
+
+        [TestMethod]
         public void TestFireProjectileSystem()
         {
             var state = new GameState();
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.TimesSinceLastShot[i] = 1000.0f;
@@ -59,7 +109,7 @@ namespace UnitTests
         {
             var state = new GameState();
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Velocities[i] = new Vector2(0.0f, 0.0f);
@@ -81,7 +131,7 @@ namespace UnitTests
         {
             var state = new GameState();
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Velocities[i] = new Vector2(0.0f, 0.0f);
                 state.Tags[i] = 1;
@@ -103,7 +153,7 @@ namespace UnitTests
         {
             var state = new GameState();
 
-            for (int i = 0; i < 100000; ++i)
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 //state.Textures[i] = 
                 state.Positions[i] = new Vector2(50.0f, 600.0f);

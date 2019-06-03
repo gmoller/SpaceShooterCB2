@@ -34,12 +34,10 @@ namespace SpaceShooterLogic.Creators
                 state.Volumes[entityId] = new Rectangle(0, 0, 16, 16);
                 state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprPlayer");
                 state.Sizes[entityId] = size;
-
                 state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
-
                 state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
-
-                state.Tags[entityId] = state.Tags[entityId].SetBit(0); // 0=playerinput
+                state.Tags[entityId] = state.Tags[entityId].SetBit(0); // 0=player input
+                state.Tags[entityId] = state.Tags[entityId].SetBit(2); // 2=clamp to viewport
 
                 Registrar.Instance.EntityCount++;
             }

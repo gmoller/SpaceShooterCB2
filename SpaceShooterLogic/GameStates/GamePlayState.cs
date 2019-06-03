@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using GameEngineCore;
 using GameEngineCore.AbstractClasses;
 using Microsoft.Xna.Framework;
@@ -27,10 +28,7 @@ namespace SpaceShooterLogic.GameStates
         private int _updateFrames;
         private int _drawFrames;
 
-        private PlayerInputSystem _playerInputSystem;
-        private MovementSystem _movementSystem;
-        private FireProjectileSystem _fireProjectileSystem;
-        private AnimationSystem _animationSystem;
+        private List<Systems.System> _systems;
         private RenderingSystem _renderingSystem;
 
         public virtual void Enter()
@@ -56,10 +54,10 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            _playerInputSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
-            _movementSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
-            _fireProjectileSystem.Process((float) gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
-            _animationSystem.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
+            foreach (var system in _systems)
+            {
+                system.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
+            }
 
             //Entities entities = Registrar.Instance.GetAllEntities();
             Entities entities = Registrar.Instance.FilterEntities(Operator.Or, 
@@ -145,10 +143,15 @@ namespace SpaceShooterLogic.GameStates
             var state = new GameState();
 
             // setup systems
-            _playerInputSystem = new PlayerInputSystem("PlayerInput", state);
-            _movementSystem = new MovementSystem("Movement", state);
-            _fireProjectileSystem = new FireProjectileSystem("FireProjectile", state);
-            _animationSystem = new AnimationSystem("Animation", state);
+            _systems = new List<Systems.System>
+            {
+                new PlayerInputSystem("PlayerInput", state),
+                new MovementSystem("Movement", state),
+                new ClampToViewportSystem("ClampToViewport", state),
+                new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state),
+                new FireProjectileSystem("FireProjectile", state),
+                new AnimationSystem("Animation", state)
+            };
 
             _renderingSystem = new RenderingSystem("Rendering", state);
 

@@ -39,11 +39,11 @@ namespace SpaceShooterLogic.Systems
                 vol.Height);
 
             // do not allow our player off the screen
-            var x = vol.Width / 2.0f;
-            var y = vol.Height / 2.0f;
-            newPosition = new Vector2(
-                MathHelper.Clamp(newPosition.X, x, DeviceManager.Instance.ScreenWidth - x),
-                MathHelper.Clamp(newPosition.Y, y, DeviceManager.Instance.ScreenHeight - y));
+            //var x = vol.Width / 2.0f;
+            //var y = vol.Height / 2.0f;
+            //newPosition = new Vector2(
+            //    MathHelper.Clamp(newPosition.X, x, DeviceManager.Instance.ScreenWidth - x),
+            //    MathHelper.Clamp(newPosition.Y, y, DeviceManager.Instance.ScreenHeight - y));
 
             #endregion
 
