@@ -17,12 +17,13 @@ namespace SpaceShooterLogic.Systems
             #region gather data
 
             var position = GameState.Positions[entityId];
+            var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
             var tag = GameState.Tags[entityId].IsBitSet(3); // 3-destroy if outside viewport
 
             #endregion
 
-            if (!tag || position.IsNull() || size.IsNull()) return;
+            if (!tag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
             #region process data
 
@@ -43,7 +44,8 @@ namespace SpaceShooterLogic.Systems
                 GameState.Textures[entityId] = null;
                 GameState.Sizes[entityId] = Vector2.Zero;
                 GameState.Rotations[entityId] = 0.0f;
-                GameState.TimesSinceLastShot[entityId] = 0.0f;
+                GameState.TimesSinceLastShot[entityId] = -0.1f;
+                GameState.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                 GameState.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
                 GameState.Tags[entityId] = 0;
             }

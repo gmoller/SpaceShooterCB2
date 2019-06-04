@@ -23,7 +23,7 @@ namespace SpaceShooterLogic.Systems
 
             #endregion
 
-            if (!tag || position.IsNull()|| velocity.IsNull() || size.IsNull()) return;
+            if (!tag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
             #region process data
 

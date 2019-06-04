@@ -52,7 +52,14 @@ namespace SpaceShooterLogic.Systems
             #region update data
 
             GameState.Velocities[entityId] = direction * MOVE_SPEED;
-            GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(shoot ? 1 : 0); // 1-player shoot
+            if (shoot)
+            {
+                GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(1); // 1-player shoot
+            }
+            else
+            {
+                GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit(1); // 1-player shoot
+            }
 
             #endregion
             

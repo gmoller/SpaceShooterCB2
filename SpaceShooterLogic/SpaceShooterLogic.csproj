@@ -78,6 +78,7 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
+    <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\FireProjectileSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />

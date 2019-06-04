@@ -17,6 +17,7 @@ namespace SpaceShooterLogic
         public Bag<float> Rotations { get; private set; }
 
         public Bag<float> TimesSinceLastShot { get; private set; }
+        public Bag<float> TimesSinceLastEnemySpawned { get; private set; }
 
         // animations
         public Bag<AnimationData> AnimationData { get; private set; }
@@ -39,6 +40,7 @@ namespace SpaceShooterLogic
             Rotations = new Bag<float>();
 
             TimesSinceLastShot = new Bag<float>();
+            TimesSinceLastEnemySpawned = new Bag<float>();
 
             AnimationData = new Bag<AnimationData>();
 
