@@ -6,8 +6,6 @@ namespace SpaceShooterLogic.Systems
 {
     public class FireProjectileSystem : System
     {
-        // Components: Position, TimeSinceLastShot, Tag-1
-
         private static readonly object Lock = new object();
 
         private readonly int _weaponCooldownTime; // in milliseconds
@@ -31,16 +29,16 @@ namespace SpaceShooterLogic.Systems
 
             var firingEntityPosition = GameState.Positions[entityId];
             var timeElapsedSinceLastShot = GameState.TimesSinceLastShot[entityId];
-            var shootWeapon = GameState.Tags[entityId].IsBitSet(1); // 1-playershoots
+            var shootWeapon = GameState.Tags[entityId].IsBitSet(1); // 1-player shoots
 
             #endregion
 
-            if (firingEntityPosition == null || timeElapsedSinceLastShot == null) return;
+            if (firingEntityPosition.IsNull() || timeElapsedSinceLastShot.IsNegative()) return;
 
             #region process data
 
             // check if we are on cooldown
-            var weaponOnCooldown = WeaponOnCooldown(timeElapsedSinceLastShot.Value);
+            var weaponOnCooldown = WeaponOnCooldown(timeElapsedSinceLastShot);
             if (weaponOnCooldown)
             {
                 timeElapsedSinceLastShot += deltaTime;
@@ -56,7 +54,7 @@ namespace SpaceShooterLogic.Systems
                     sound.Play();
                 }
 
-                var projectilePosition = firingEntityPosition.Value + _weaponsOffset;
+                var projectilePosition = firingEntityPosition + _weaponsOffset;
                 var projectileVelocity = _weaponDirection * _weaponVelocity;
 
                 ProjectileCreator.Create2(_weaponDirection.Y < 0 ? "sprLaserPlayer" : "sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
@@ -69,7 +67,7 @@ namespace SpaceShooterLogic.Systems
 
             #region update data
 
-            GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit(1); // 1-playershoots
+            GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit(1); // 1-player shoots
             GameState.TimesSinceLastShot[entityId] = timeElapsedSinceLastShot;
 
             #endregion

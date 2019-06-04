@@ -6,8 +6,6 @@ namespace SpaceShooterLogic.Systems
 {
     public class PlayerInputSystem : System
     {
-        // Components: Tag-0
-
         private const float MOVE_SPEED = 0.24f; // pixels per millisecond
 
         public PlayerInputSystem(string name, GameState gameState) : base(name, gameState)

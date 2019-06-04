@@ -2,8 +2,6 @@
 {
     public class AnimationSystem : System
     {
-        // Components: AnimationData
-
         public AnimationSystem(string name, GameState gameState) : base(name, gameState)
         {
         }
@@ -16,24 +14,23 @@
 
             #endregion
 
-            if (animationData == null) return;
+            if (animationData.AnimationSpec == null) return;
 
             #region process data
 
             // is it time to change?
-            var animData = animationData.Value;
-            bool changeFrame = IsTimeToChangeFrame(animData.TimeSinceLastAnimationChange, animData.AnimationSpec.Duration);
+            bool changeFrame = IsTimeToChangeFrame(animationData.TimeSinceLastAnimationChange, animationData.AnimationSpec.Duration);
             if (changeFrame)
             {
                 // if yes, change to next frame
                 int nextFrame;
-                if (animData.CurrentFrame < animData.AnimationSpec.NumberOfFrames - 1)
+                if (animationData.CurrentFrame < animationData.AnimationSpec.NumberOfFrames - 1)
                 {
-                    nextFrame = animData.CurrentFrame + 1;
+                    nextFrame = animationData.CurrentFrame + 1;
                 }
                 else
                 {
-                    if (animData.AnimationSpec.Repeating)
+                    if (animationData.AnimationSpec.Repeating)
                     {
                         nextFrame = 0;
                     }
@@ -46,9 +43,9 @@
 
                 #region update data
 
-                animData.CurrentFrame = nextFrame;
-                animData.TimeSinceLastAnimationChange = 0.0f;
-                GameState.AnimationData[entityId] = animData;
+                animationData.CurrentFrame = nextFrame;
+                animationData.TimeSinceLastAnimationChange = 0.0f;
+                GameState.AnimationData[entityId] = animationData;
 
                 #endregion
             }
@@ -56,8 +53,8 @@
             {
                 #region update data
 
-                animData.TimeSinceLastAnimationChange += deltaTime;
-                GameState.AnimationData[entityId] = animData;
+                animationData.TimeSinceLastAnimationChange += deltaTime;
+                GameState.AnimationData[entityId] = animationData;
 
                 #endregion
             }

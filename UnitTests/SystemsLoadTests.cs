@@ -32,6 +32,7 @@ namespace UnitTests
                 var system = new AnimationSystem("Animation", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -44,6 +45,7 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
+                state.Velocities[i] = new Vector2(0.0f, 0.0f);
                 state.Sizes[i] = new Vector2(16.0f, 16.0f);
                 state.Tags[i] = 7;
 
@@ -56,6 +58,7 @@ namespace UnitTests
                 var system = new ClampToViewportSystem("ClampToViewport", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -80,6 +83,7 @@ namespace UnitTests
                 var system = new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -102,6 +106,7 @@ namespace UnitTests
                 var system = new FireProjectileSystem("FireProjectile", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -112,8 +117,7 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
-                state.Velocities[i] = new Vector2(0.0f, 0.0f);
-                state.Volumes[i] = new Rectangle(0, 0, 16, 16);
+                state.Velocities[i] = new Vector2(1.0f, 1.0f);
 
                 Registrar.Instance.EntityCount++;
             }
@@ -124,6 +128,7 @@ namespace UnitTests
                 var system = new MovementSystem("Movement", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -145,6 +150,30 @@ namespace UnitTests
                 var system = new PlayerInputSystem("PlayerInput", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
+        }
+
+        [TestMethod]
+        public void TestSetBoundingBoxSystem()
+        {
+            var state = new GameState();
+
+            for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
+            {
+                state.Positions[i] = new Vector2(50.0f, 600.0f);
+                state.Velocities[i] = new Vector2(1.0f, 1.0f);
+                state.Volumes[i] = new Rectangle(0, 0, 16, 16);
+
+                Registrar.Instance.EntityCount++;
+            }
+
+            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            for (int i = 1; i < 33; ++i)
+            {
+                var system = new SetBoundingBoxSystem("SetBoundingBox", state);
+                RunSystem(system, i);
+            }
+            Registrar.Instance.EntityCount = 0;
         }
 
         [TestMethod]
@@ -168,6 +197,7 @@ namespace UnitTests
                 var system = new RenderingSystem("Rendering", state);
                 RunSystem(system, i);
             }
+            Registrar.Instance.EntityCount = 0;
         }
 
         private void RunSystem(SpaceShooterLogic.Systems.System system, int numberOfThreads)

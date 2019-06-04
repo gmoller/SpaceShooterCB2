@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
     public class RenderingSystem : System
     {
-        // Components: Texture, Position, Size, AnimationData
-
         private static readonly object Lock = new object();
 
         public RenderingSystem(string name, GameState gameState) : base(name, gameState)
@@ -27,29 +26,18 @@ namespace SpaceShooterLogic.Systems
 
             #endregion
 
-            if (texture == null || position == null || size == null) return;
+            if (texture == null || position.IsNull() || size.IsNull()) return;
 
             #region process data
 
-            var sz = size.Value;
-
-            Rectangle frame;
-            if (animationData == null)
-            {
-                frame = new Rectangle(0, 0, (int)sz.X, (int)sz.Y);
-            }
-            else
-            {
-                frame = animationData.Value.AnimationSpec.Frames[animationData.Value.CurrentFrame];
-            }
+            var frame = animationData.AnimationSpec?.Frames[animationData.CurrentFrame] ?? new Rectangle(0, 0, (int)size.X, (int)size.Y);
 
             var origin = new Vector2((int)(frame.Width * 0.5), (int)(frame.Height * 0.50));
-            var scale = new Vector2(sz.X / frame.Width, sz.Y / frame.Height);
-            var rot = rotation ?? 0.0f;
+            var scale = new Vector2(size.X / frame.Width, size.Y / frame.Height);
 
             lock (Lock)
             {
-                SpriteBatch.Draw(texture, position.Value, frame, Color.White, rot, origin, scale, SpriteEffects.None, 0.0f);
+                SpriteBatch.Draw(texture, position, frame, Color.White, rotation, origin, scale, SpriteEffects.None, 0.0f);
             }
 
             #endregion

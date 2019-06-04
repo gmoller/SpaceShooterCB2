@@ -149,6 +149,7 @@ namespace SpaceShooterLogic.GameStates
                 new MovementSystem("Movement", state),
                 new ClampToViewportSystem("ClampToViewport", state),
                 new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state),
+                new SetBoundingBoxSystem("SetBoundingBox", state),
                 new FireProjectileSystem("FireProjectile", state),
                 new AnimationSystem("Animation", state)
             };

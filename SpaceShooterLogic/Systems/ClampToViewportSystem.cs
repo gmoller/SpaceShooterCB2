@@ -17,29 +17,28 @@ namespace SpaceShooterLogic.Systems
             #region gather data
 
             var position = GameState.Positions[entityId];
+            var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
             var tag = GameState.Tags[entityId].IsBitSet(2); // 2-clamp to viewport
 
             #endregion
 
-            if (!tag || position == null || size == null) return;
+            if (!tag || position.IsNull()|| velocity.IsNull() || size.IsNull()) return;
 
             #region process data
 
             // do not allow our entity off the screen
-            var pos = position.Value;
-            var sz = size.Value;
-            var x = sz.X / 2.0f;
-            var y = sz.Y / 2.0f;
+            var x = size.X / 2.0f;
+            var y = size.Y / 2.0f;
             var newPosition = new Vector2(
-                MathHelper.Clamp(pos.X, _viewport.Left + x, _viewport.Right - x),
-                MathHelper.Clamp(pos.Y, _viewport.Top + y, _viewport.Bottom - y));
+                MathHelper.Clamp(position.X, _viewport.Left + x, _viewport.Right - x),
+                MathHelper.Clamp(position.Y, _viewport.Top + y, _viewport.Bottom - y));
 
             #endregion
 
             #region update data
 
-            if (pos != newPosition)
+            if (position != newPosition)
             {
                 GameState.Positions[entityId] = newPosition;
             }

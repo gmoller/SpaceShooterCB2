@@ -22,16 +22,14 @@ namespace SpaceShooterLogic.Systems
 
             #endregion
 
-            if (!tag || position == null || size == null) return;
+            if (!tag || position.IsNull() || size.IsNull()) return;
 
             #region process data
 
             // destroy if off screen
-            var pos = position.Value;
-            var sz = size.Value;
-            var x = sz.X / 2.0f;
-            var y = sz.Y / 2.0f;
-            bool destroy = !_viewport.Intersects(new Rectangle((int)(pos.X - x),(int)(pos.Y - y),(int)sz.X,(int)sz.Y));
+            var x = size.X / 2.0f;
+            var y = size.Y / 2.0f;
+            bool destroy = !_viewport.Intersects(new Rectangle((int)(position.X - x),(int)(position.Y - y),(int)size.X,(int)size.Y));
 
             #endregion
 
@@ -39,14 +37,14 @@ namespace SpaceShooterLogic.Systems
 
             if (destroy)
             {
-                GameState.Positions[entityId] = null;
-                GameState.Velocities[entityId] = null;
-                GameState.Volumes[entityId] = null;
+                GameState.Positions[entityId] = Vector2.Zero;
+                GameState.Velocities[entityId] = Vector2.Zero;
+                GameState.Volumes[entityId] = Rectangle.Empty;
                 GameState.Textures[entityId] = null;
-                GameState.Sizes[entityId] = null;
-                GameState.Rotations[entityId] = null;
-                GameState.TimesSinceLastShot[entityId] = null;
-                GameState.AnimationData[entityId] = null;
+                GameState.Sizes[entityId] = Vector2.Zero;
+                GameState.Rotations[entityId] = 0.0f;
+                GameState.TimesSinceLastShot[entityId] = 0.0f;
+                GameState.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
                 GameState.Tags[entityId] = 0;
             }
 

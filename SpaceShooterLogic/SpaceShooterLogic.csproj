@@ -82,6 +82,7 @@
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\RenderingSystem.cs" />
+    <Compile Include="Systems\SetBoundingBoxSystem.cs" />
     <Compile Include="Systems\System.cs" />
   </ItemGroup>
   <ItemGroup>
