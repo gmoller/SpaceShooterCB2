@@ -1,18 +1,26 @@
 ﻿using GameEngineCore;
-using SpaceShooterLogic.Components;
+using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Creators
 {
     public static class SpawnCreator
     {
-        public static Entity Create()
+        public static void Create(GameState state)
         {
-            var components = new ComponentsSet();
-            components.AddComponent(typeof(SpawnComponent), new SpawnComponent(1000));
+            int entityId = Registrar.Instance.EntityCount;
 
-            var explosion = new Entity(components);
+            state.Positions[entityId] = Vector2.Zero;
+            state.Velocities[entityId] = Vector2.Zero;
+            state.Volumes[entityId] = Rectangle.Empty;
+            state.Textures[entityId] = null;
+            state.Sizes[entityId] = Vector2.Zero;
+            state.Rotations[entityId] = 0.0f;
+            state.TimesSinceLastShot[entityId] = -0.1f;
+            state.TimesSinceLastEnemySpawned[entityId] = float.MaxValue;
+            state.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
+            state.Tags[entityId] = 0;
 
-            return explosion;
+            Registrar.Instance.EntityCount++;
         }
     }
 }

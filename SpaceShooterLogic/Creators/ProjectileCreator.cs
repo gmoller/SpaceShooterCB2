@@ -32,6 +32,10 @@ namespace SpaceShooterLogic.Creators
             state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
             state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
             state.Sizes[entityId] = size;
+            state.Rotations[entityId] = 0.0f;
+            state.TimesSinceLastShot[entityId] = -0.1f;
+            state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
+            state.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
             state.Tags[entityId] = state.Tags[entityId].SetBit(3); // 3=destroy if outside viewport
 
             Registrar.Instance.EntityCount++;

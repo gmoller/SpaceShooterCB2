@@ -64,8 +64,7 @@ namespace SpaceShooterLogic.GameStates
                 typeof(PlayerPhysicsComponent), 
                 typeof(EnemyPhysicsComponent), 
                 typeof(ProjectilePhysicsComponent),
-                typeof(SpriteComponent),
-                typeof(SpawnComponent));
+                typeof(SpriteComponent));
             foreach (ComponentsSet componentsSet in entities)
             {
                 var entity = new Entity(componentsSet);
@@ -151,7 +150,8 @@ namespace SpaceShooterLogic.GameStates
                 new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state),
                 new SetBoundingBoxSystem("SetBoundingBox", state),
                 new FireProjectileSystem("FireProjectile", state),
-                new AnimationSystem("Animation", state)
+                new AnimationSystem("Animation", state),
+                new EnemySpawnSystem("EnemySpawn", state)
             };
 
             _renderingSystem = new RenderingSystem("Rendering", state);
@@ -160,7 +160,7 @@ namespace SpaceShooterLogic.GameStates
 
             SetController();
             PlayerCreator.Create(InputComponent, state);
-            SpawnCreator.Create();
+            SpawnCreator.Create(state);
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
 
             GameEntitiesManager.Instance.Hud = new Hud();

@@ -22,24 +22,24 @@ namespace SpaceShooterLogic.Creators
 
             var player = new Entity(components);
 
-            // new:
-            //Registrar.Instance.EntityCount++; // temporary create an empty entity - for testing
-
-            for (int i = 0; i < 1; ++i)
             {
-                int entityId = Registrar.Instance.EntityCount;
+                for (int i = 0; i < 1; ++i)
+                {
+                    int entityId = Registrar.Instance.EntityCount;
 
-                state.Positions[entityId] = new Vector2(50.0f, 600.0f);
-                state.Velocities[entityId] = new Vector2(0.0f, 0.0f);
-                state.Volumes[entityId] = new Rectangle(0, 0, 16, 16);
-                state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprPlayer");
-                state.Sizes[entityId] = size;
-                state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
-                state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
-                state.Tags[entityId] = state.Tags[entityId].SetBit(0); // 0=player input
-                state.Tags[entityId] = state.Tags[entityId].SetBit(2); // 2=clamp to viewport
+                    state.Positions[entityId] = new Vector2(50.0f, 600.0f);
+                    state.Velocities[entityId] = new Vector2(0.0f, 0.0f);
+                    state.Volumes[entityId] = new Rectangle(0, 0, 16, 16);
+                    state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprPlayer");
+                    state.Sizes[entityId] = size;
+                    state.Rotations[entityId] = 0.0f;
+                    state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
+                    state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
+                    state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
+                    state.Tags[entityId] = state.Tags[entityId].SetBits(0, 2); // 0=player input, 2=clamp to viewport
 
-                Registrar.Instance.EntityCount++;
+                    Registrar.Instance.EntityCount++;
+                }
             }
 
             return player;

@@ -9,14 +9,47 @@ namespace SpaceShooterUtilities
             return (b & (1 << pos)) != 0;
         }
 
+        public static bool AreBitsSet(this byte b, params int[] pos)
+        {
+            bool bitsSet = false;
+            foreach (int p in pos)
+            {
+                bitsSet = b.IsBitSet(p);
+            }
+
+            return bitsSet;
+        }
+
         public static byte SetBit(this byte b, int pos)
         {
             return (byte)(b | (1 << pos));
         }
 
+        public static byte SetBits(this byte b, params int[] pos)
+        {
+            byte b1 = b;
+            foreach (int p in pos)
+            {
+                b1 = b1.SetBit(p);
+            }
+
+            return b1;
+        }
+
         public static byte UnsetBit(this byte b, int pos)
         {
             return (byte)(b & ~(1 << pos));
+        }
+
+        public static byte UnsetBits(this byte b, params int[] pos)
+        {
+            byte b1 = b;
+            foreach (int p in pos)
+            {
+                b1 = b1.UnsetBit(p);
+            }
+
+            return b1;
         }
 
         public static byte ToggleBit(this byte b, int pos)

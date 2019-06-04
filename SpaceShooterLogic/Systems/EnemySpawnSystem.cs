@@ -6,13 +6,17 @@ namespace SpaceShooterLogic.Systems
 {
     public class EnemySpawnSystem : System
     {
-        private const int SPAWN_COOLDOWN_TIME = 1000; // milliseconds between enemy spawns
-        private const float DISTANCE_ABOVE_SCREEN_TO_SPAWN = 20.0f;
-        private const float MIN_ENEMY_VELOCITY = 0.06f; // pixels per millisecond
-        private const float MAX_ENEMY_VELOCITY = 0.18f; // pixels per millisecond
+        private readonly int _cooldownTime; // milliseconds between enemy spawns
+        private readonly float _distanceAboveScreenToSpawn;
+        private readonly float _minimumEnemyVelocity; // pixels per millisecond
+        private readonly float _maximumEnemyVelocity; // pixels per millisecond
 
         public EnemySpawnSystem(string name, GameState gameState) : base(name, gameState)
         {
+            _cooldownTime = 1000;
+            _distanceAboveScreenToSpawn = 0.0f; // 20.0f
+            _minimumEnemyVelocity = 0.06f;
+            _maximumEnemyVelocity = 0.18f;
         }
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
@@ -27,8 +31,6 @@ namespace SpaceShooterLogic.Systems
 
             #region process data
 
-            // if time to spawn, spawn enemy, else start cooldown
-            // check if we are on cooldown
             var onCooldown = SpawnerOnCooldown(timeElapsedSinceLastEnemySpawned);
             if (onCooldown)
             {
@@ -37,9 +39,12 @@ namespace SpaceShooterLogic.Systems
             else
             {
                 // spawn enemy
-                var spawnPosition = new Vector2(RandomGenerator.Instance.GetRandomFloat(0, DeviceManager.Instance.ScreenWidth), -DISTANCE_ABOVE_SCREEN_TO_SPAWN);
-                float velocity = RandomGenerator.Instance.GetRandomFloat(MIN_ENEMY_VELOCITY, MAX_ENEMY_VELOCITY);
-                EnemyCreator.Create(spawnPosition, new Vector2(0.0f, velocity));
+                var spawnPosition = new Vector2(RandomGenerator.Instance.GetRandomFloat(0, DeviceManager.Instance.ScreenWidth), -_distanceAboveScreenToSpawn);
+                float velocity = RandomGenerator.Instance.GetRandomFloat(_minimumEnemyVelocity, _maximumEnemyVelocity);
+                EnemyCreator.Create(spawnPosition, new Vector2(0.0f, velocity), GameState);
+
+                // put on cooldown
+                timeElapsedSinceLastEnemySpawned = 0.0f;
             }
 
             #endregion
@@ -53,7 +58,7 @@ namespace SpaceShooterLogic.Systems
 
         private bool SpawnerOnCooldown(float timeElapsedSinceLastEnemySpawned)
         {
-            return timeElapsedSinceLastEnemySpawned < SPAWN_COOLDOWN_TIME;
+            return timeElapsedSinceLastEnemySpawned < _cooldownTime;
         }
     }
 }

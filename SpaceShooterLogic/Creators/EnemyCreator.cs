@@ -7,15 +7,17 @@ namespace SpaceShooterLogic.Creators
 {
     public static class EnemyCreator
     {
-        public static Entity Create(Vector2 position, Vector2 velocity)
+        public static Entity Create(Vector2 position, Vector2 velocity, GameState state)
         {
             EnemyType type = ChooseEnemyType();
             Vector2 size = DetermineSize();
+            string textureName = "";
 
             Entity enemy = null;
             switch (type)
             {
                 case EnemyType.Gunship:
+                    textureName = "sprEnemy0";
                     var components = new ComponentsSet(12000.0f);
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 20));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy0"));
@@ -27,6 +29,7 @@ namespace SpaceShooterLogic.Creators
                     enemy = new Entity(components);
                     break;
                 case EnemyType.Chaser:
+                    textureName = "sprEnemy1";
                     components = new ComponentsSet(12000.0f);
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 10));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy1"));
@@ -37,6 +40,7 @@ namespace SpaceShooterLogic.Creators
                     enemy = new Entity(components);
                     break;
                 case EnemyType.Carrier:
+                    textureName = "sprEnemy2";
                     components = new ComponentsSet(12000.0f);
                     components.AddComponent(typeof(EnemyPhysicsComponent), new EnemyPhysicsComponent(position, velocity, size, 5));
                     components.AddComponent(typeof(SpriteComponent), new SpriteComponent("sprEnemy2"));
@@ -45,6 +49,23 @@ namespace SpaceShooterLogic.Creators
 
                     enemy = new Entity(components);
                     break;
+            }
+
+            {
+                int entityId = Registrar.Instance.EntityCount;
+
+                state.Positions[entityId] = position;
+                state.Velocities[entityId] = velocity;
+                state.Volumes[entityId] = Rectangle.Empty;
+                state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
+                state.Sizes[entityId] = size;
+                state.Rotations[entityId] = 0.0f;
+                state.TimesSinceLastShot[entityId] = -0.1f;
+                state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
+                state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName), 0, 0.0f);
+                state.Tags[entityId] = state.Tags[entityId].SetBit(3); // 3=destroy if outside viewport
+
+                Registrar.Instance.EntityCount++;
             }
 
             return enemy;

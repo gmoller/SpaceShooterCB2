@@ -6,10 +6,11 @@ namespace SpaceShooterLogic.Systems
 {
     public class PlayerInputSystem : System
     {
-        private const float MOVE_SPEED = 0.24f; // pixels per millisecond
+        private readonly float _movementSpeed; // pixels per millisecond
 
         public PlayerInputSystem(string name, GameState gameState) : base(name, gameState)
         {
+            _movementSpeed = 0.24f;
         }
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
@@ -51,7 +52,7 @@ namespace SpaceShooterLogic.Systems
 
             #region update data
 
-            GameState.Velocities[entityId] = direction * MOVE_SPEED;
+            GameState.Velocities[entityId] = direction * _movementSpeed;
             if (shoot)
             {
                 GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(1); // 1-player shoot

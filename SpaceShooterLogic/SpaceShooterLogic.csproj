@@ -50,7 +50,6 @@
     <Compile Include="Components\EnemyPhysicsComponent.cs" />
     <Compile Include="Components\ProjectilePhysicsComponent.cs" />
     <Compile Include="Components\ShootingBehaviorComponent.cs" />
-    <Compile Include="Components\SpawnComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="Components\VolumeGraphicsComponent.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />
