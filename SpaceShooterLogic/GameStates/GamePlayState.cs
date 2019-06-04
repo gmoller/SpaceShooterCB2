@@ -31,7 +31,7 @@ namespace SpaceShooterLogic.GameStates
         private List<Systems.System> _systems;
         private RenderingSystem _renderingSystem;
 
-        public virtual void Enter()
+        public virtual void Enter(IGameState previousGameState)
         {
             SetController();
             ResetLevel();
@@ -165,6 +165,11 @@ namespace SpaceShooterLogic.GameStates
 
             GameEntitiesManager.Instance.Hud = new Hud();
             GameEntitiesManager.Instance.PlayerIsDead = false;
+        }
+
+        public IGameState Clone()
+        {
+            return this;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace SpaceShooterLogic
             _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });
 
             _gameState = new MainMenuState();
-            _gameState.Enter();
+            _gameState.Enter(null);
 
             _fps = new FramesPerSecondCounter();
 
@@ -103,17 +103,24 @@ namespace SpaceShooterLogic
         {
             if (currentGameState == newGameState) return;
 
+            var previousGameState = _gameState.Clone();
+
             if (currentGameState is MainMenuState && newGameState is GamePlayState ||
                 currentGameState is GamePlayState && newGameState is GameOverState ||
                 currentGameState is GameOverState && newGameState is GamePlayState)
             {
                 _gameState.Leave();
                 _gameState = newGameState;
-                _gameState.Enter();
+                _gameState.Enter(previousGameState);
             }
 
-            if (currentGameState is GamePlayState && newGameState is PausedState ||
-                currentGameState is PausedState && newGameState is GamePlayState)
+            if (currentGameState is GamePlayState && newGameState is PausedState)
+            {
+                _gameState = newGameState;
+                _gameState.Enter(previousGameState);
+            }
+
+            if (currentGameState is PausedState && newGameState is GamePlayState)
             {
                 _gameState = newGameState;
             }

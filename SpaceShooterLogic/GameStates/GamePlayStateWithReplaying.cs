@@ -5,9 +5,9 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayStateWithReplaying : GamePlayState
     {
-        public override void Enter()
+        public override void Enter(IGameState previousGameState)
         {
-            base.Enter();
+            base.Enter(previousGameState);
 
             Replayer.Instance.ReadInData();
         }

@@ -13,8 +13,11 @@ namespace SpaceShooterLogic.GameStates
         private readonly Stopwatch _drawStopwatch = new Stopwatch();
         private int _drawFrames;
 
-        public void Enter()
+        private IGameState _previousGameState;
+
+        public void Enter(IGameState previousGameState)
         {
+            _previousGameState = previousGameState;
         }
 
         public void Leave()
@@ -25,7 +28,7 @@ namespace SpaceShooterLogic.GameStates
         {
             if (KeyboardHandler.IsKeyPressed(Keys.Pause))
             {
-                return (this, new GamePlayState());
+                return (this, _previousGameState);
             }
 
             return (this, this);
@@ -47,6 +50,11 @@ namespace SpaceShooterLogic.GameStates
 
             _drawStopwatch.Stop();
             BenchmarkMetrics.Instance.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
+        }
+
+        public IGameState Clone()
+        {
+            return this;
         }
     }
 }

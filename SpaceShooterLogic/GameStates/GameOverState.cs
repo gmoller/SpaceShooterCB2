@@ -32,7 +32,7 @@ namespace SpaceShooterLogic.GameStates
             _metricsDisplay = new MetricsDisplay();
         }
 
-        public void Enter()
+        public void Enter(IGameState previousGameState)
         {
             DeviceManager.Instance.IsMouseVisible = true;
         }
@@ -69,6 +69,11 @@ namespace SpaceShooterLogic.GameStates
         private void btnRestart_Click(object sender, EventArgs e)
         {
             _startGame = true;
+        }
+
+        public IGameState Clone()
+        {
+            return this;
         }
     }
 }
