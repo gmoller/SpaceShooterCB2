@@ -81,5 +81,29 @@ namespace UnitTests
             Assert.AreEqual(0, ranges[0].from);
             Assert.AreEqual(999, ranges[0].to);
         }
+
+        [TestMethod]
+        public void Test_16_5()
+        {
+            var ranges = RangeCreator.GetRanges(16, 5);
+
+            Assert.AreEqual(5, ranges.Count);
+
+            Assert.AreEqual(0, ranges[0].from);
+            Assert.AreEqual(3, ranges[0].to);
+
+            Assert.AreEqual(3, ranges[1].from);
+            Assert.AreEqual(6, ranges[1].to);
+
+            Assert.AreEqual(6, ranges[2].from);
+            Assert.AreEqual(9, ranges[2].to);
+
+            Assert.AreEqual(9, ranges[3].from);
+            Assert.AreEqual(12, ranges[3].to);
+
+            Assert.AreEqual(12, ranges[4].from);
+            Assert.AreEqual(16, ranges[4].to);
+        }
+
     }
 }

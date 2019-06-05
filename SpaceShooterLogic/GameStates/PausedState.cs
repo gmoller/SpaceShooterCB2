@@ -39,14 +39,9 @@ namespace SpaceShooterLogic.GameStates
             _drawFrames++;
             _drawStopwatch.Start();
 
-            Entities entities = Registrar.Instance.FilterEntities(Operator.And, typeof(GraphicsComponent));
-            foreach (ComponentsSet componentsSet in entities)
-            {
-                var entity = new Entity(componentsSet);
-                entity.Draw(spriteBatch);
-            }
+            // TODO: draw rendering system
 
-            GameEntitiesManager.Instance.Hud.Draw(spriteBatch);
+            //_gameState.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
             BenchmarkMetrics.Instance.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);

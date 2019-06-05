@@ -1,5 +1,4 @@
-﻿using GameEngineCore;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace SpaceShooterLogic.Creators
 {
@@ -7,7 +6,7 @@ namespace SpaceShooterLogic.Creators
     {
         public static void Create(GameState state)
         {
-            int entityId = Registrar.Instance.EntityCount;
+            int entityId = state.EntityCount;
 
             state.Positions[entityId] = Vector2.Zero;
             state.Velocities[entityId] = Vector2.Zero;
@@ -18,9 +17,9 @@ namespace SpaceShooterLogic.Creators
             state.TimesSinceLastShot[entityId] = -0.1f;
             state.TimesSinceLastEnemySpawned[entityId] = float.MaxValue;
             state.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
-            state.Tags[entityId] = 0;
+            state.Tags[entityId] = 1;
 
-            Registrar.Instance.EntityCount++;
+            state.EntityCount++;
         }
     }
 }

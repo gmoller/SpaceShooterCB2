@@ -1,25 +1,25 @@
-﻿using System;
+﻿//using System;
 
-namespace GameEngineCore
-{
-    public sealed class Communicator
-    {
-        private static readonly Lazy<Communicator> Lazy = new Lazy<Communicator>(() => new Communicator());
+//namespace GameEngineCore
+//{
+//    public sealed class Communicator
+//    {
+//        private static readonly Lazy<Communicator> Lazy = new Lazy<Communicator>(() => new Communicator());
 
-        public static Communicator Instance => Lazy.Value;
+//        public static Communicator Instance => Lazy.Value;
 
-        private Communicator()
-        {
-        }
+//        private Communicator()
+//        {
+//        }
 
-        public void Send(int entityId, Type componentType, string attributeName, object payload)
-        {
-            ComponentsSet components = Registrar.Instance.GetEntity(entityId);
+//        public void Send(int entityId, Type componentType, string attributeName, object payload)
+//        {
+//            ComponentsSet components = Registrar.Instance.GetEntity(entityId);
 
-            if (components.HasComponent(componentType))
-            {
-                components[componentType].Receive(attributeName, payload);
-            }
-        }
-    }
-}
+//            if (components.HasComponent(componentType))
+//            {
+//                components[componentType].Receive(attributeName, payload);
+//            }
+//        }
+//    }
+//}

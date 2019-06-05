@@ -1,37 +1,37 @@
-﻿using AnimationLibrary;
-using GameEngineCore;
-using GameEngineCore.AbstractClasses;
-using Microsoft.Xna.Framework;
-using SpaceShooterUtilities;
+﻿//using AnimationLibrary;
+//using GameEngineCore;
+//using GameEngineCore.AbstractClasses;
+//using Microsoft.Xna.Framework;
+//using SpaceShooterUtilities;
 
-namespace SpaceShooterLogic.Components
-{
-    public class SpriteComponent : UpdateComponent
-    {
-        private readonly AnimatedSprite _sprite;
+//namespace SpaceShooterLogic.Components
+//{
+//    public class SpriteComponent : UpdateComponent
+//    {
+//        private readonly AnimatedSprite _sprite;
 
-        internal SpriteComponent(string textureName)
-        {
-            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
-            _sprite = new AnimatedSprite(animationSpec);
-        }
+//        internal SpriteComponent(string textureName)
+//        {
+//            AnimationSpec animationSpec = AssetsManager.Instance.GetAnimations(textureName);
+//            _sprite = new AnimatedSprite(animationSpec);
+//        }
 
-        public override void Update(float deltaTime)
-        {
-            _sprite.Update(deltaTime);
+//        public override void Update(float deltaTime)
+//        {
+//            _sprite.Update(deltaTime);
 
-            Send(_sprite.GetCurrentFrame());
-        }
+//            Send(_sprite.GetCurrentFrame());
+//        }
 
-        #region Send & Recieve
-        private void Send(Rectangle frame)
-        {
-            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Frame), frame);
-        }
+//        #region Send & Recieve
+//        private void Send(Rectangle frame)
+//        {
+//            Communicator.Instance.Send(EntityId, typeof(GraphicsComponent), nameof(GraphicsComponent.Frame), frame);
+//        }
 
-        public override void Receive(string attributeName, object payload)
-        {
-        }
-        #endregion
-    }
-}
+//        public override void Receive(string attributeName, object payload)
+//        {
+//        }
+//        #endregion
+//    }
+//}

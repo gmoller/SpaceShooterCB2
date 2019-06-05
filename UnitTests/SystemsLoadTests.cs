@@ -1,6 +1,5 @@
 ﻿using System;
 using AnimationLibrary;
-using GameEngineCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using SpaceShooterLogic;
@@ -22,17 +21,18 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true), 0, 0.0f);
+                state.Tags[i] = 1;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new AnimationSystem("Animation", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -47,18 +47,18 @@ namespace UnitTests
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Velocities[i] = new Vector2(0.0f, 0.0f);
                 state.Sizes[i] = new Vector2(16.0f, 16.0f);
-                state.Tags[i] = 7;
+                state.Tags[i] = 9;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new ClampToViewportSystem("ClampToViewport", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -72,18 +72,18 @@ namespace UnitTests
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Sizes[i] = new Vector2(16.0f, 16.0f);
-                state.Tags[i] = 8;
+                state.Tags[i] = 17;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -95,18 +95,18 @@ namespace UnitTests
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.TimesSinceLastShot[i] = 1000.0f;
-                state.Tags[i] = 0;
+                state.Tags[i] = 1;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new FireProjectileSystem("FireProjectile", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -118,17 +118,18 @@ namespace UnitTests
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Velocities[i] = new Vector2(1.0f, 1.0f);
+                state.Tags[i] = 1;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new MovementSystem("Movement", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -139,18 +140,18 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Velocities[i] = new Vector2(0.0f, 0.0f);
-                state.Tags[i] = 1;
+                state.Tags[i] = 3;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new PlayerInputSystem("PlayerInput", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -163,17 +164,18 @@ namespace UnitTests
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Velocities[i] = new Vector2(1.0f, 1.0f);
                 state.Volumes[i] = new Rectangle(0, 0, 16, 16);
+                state.Tags[i] = 1;
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new SetBoundingBoxSystem("SetBoundingBox", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         [TestMethod]
@@ -188,16 +190,16 @@ namespace UnitTests
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
                 state.Sizes[i] = new Vector2(16.0f, 16.0f);
 
-                Registrar.Instance.EntityCount++;
+                state.EntityCount++;
             }
 
-            Console.WriteLine($"Number of entities: {Registrar.Instance.EntityCount}");
+            Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
                 var system = new RenderingSystem("Rendering", state);
                 RunSystem(system, i);
             }
-            Registrar.Instance.EntityCount = 0;
+            state.ClearState();
         }
 
         private void RunSystem(SpaceShooterLogic.Systems.System system, int numberOfThreads)

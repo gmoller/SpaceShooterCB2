@@ -42,16 +42,6 @@ namespace SpaceShooterLogic.GameStates
 
         public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
         {
-            if (KeyboardHandler.IsKeyDown(Keys.F1)) // record
-            {
-                return (this, new GamePlayStateWithRecording());
-            }
-
-            if (KeyboardHandler.IsKeyDown(Keys.F2)) // replay
-            {
-                return (this, new GamePlayStateWithReplaying());
-            }
-
             _btnPlay.Update(gameTime);
 
             if (_startGame)

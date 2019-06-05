@@ -14,19 +14,16 @@ namespace SpaceShooterLogic.Systems
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
-
+            // gather data for selection
+            var tag = GameState.Tags[entityId].IsBitSet((int)Tag.ClampToViewport);
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
-            var tag = GameState.Tags[entityId].IsBitSet(2); // 2-clamp to viewport
 
-            #endregion
-
+            // selection
             if (!tag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
-            #region process data
-
+            // process data
             // do not allow our entity off the screen
             var x = size.X / 2.0f;
             var y = size.Y / 2.0f;
@@ -34,16 +31,11 @@ namespace SpaceShooterLogic.Systems
                 MathHelper.Clamp(position.X, _viewport.Left + x, _viewport.Right - x),
                 MathHelper.Clamp(position.Y, _viewport.Top + y, _viewport.Bottom - y));
 
-            #endregion
-
-            #region update data
-
+            // update data
             if (position != newPosition)
             {
                 GameState.Positions[entityId] = newPosition;
             }
-
-            #endregion
         }
     }
 }

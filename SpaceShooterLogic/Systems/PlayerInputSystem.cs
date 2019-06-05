@@ -15,16 +15,13 @@ namespace SpaceShooterLogic.Systems
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
+            // gather data for selection
+            var tag = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerInput);
 
-            var tag = GameState.Tags[entityId].IsBitSet(0); // 0-player input
-
-            #endregion
-
+            // selection
             if (!tag) return;
 
-            #region process data
-
+            // process data
             var direction = Vector2.Zero;
             var shoot = false;
             if (KeyboardHandler.IsKeyDown(Keys.Up))
@@ -48,21 +45,16 @@ namespace SpaceShooterLogic.Systems
                 shoot = true;
             }
 
-            #endregion
-
-            #region update data
-
+            // update data
             GameState.Velocities[entityId] = direction * _movementSpeed;
             if (shoot)
             {
-                GameState.Tags[entityId] = GameState.Tags[entityId].SetBit(1); // 1-player shoot
+                GameState.Tags[entityId] = GameState.Tags[entityId].SetBit((int)Tag.PlayerShoots);
             }
             else
             {
-                GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit(1); // 1-player shoot
+                GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit((int)Tag.PlayerShoots);
             }
-
-            #endregion
             
         }
     }

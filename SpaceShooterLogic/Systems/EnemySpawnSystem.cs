@@ -21,16 +21,13 @@ namespace SpaceShooterLogic.Systems
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
-
+            // gather data for selection
             var timeElapsedSinceLastEnemySpawned = GameState.TimesSinceLastEnemySpawned[entityId];
 
-            #endregion
-
+            // selection
             if (timeElapsedSinceLastEnemySpawned.IsNegative()) return;
 
-            #region process data
-
+            // process data
             var onCooldown = SpawnerOnCooldown(timeElapsedSinceLastEnemySpawned);
             if (onCooldown)
             {
@@ -47,13 +44,8 @@ namespace SpaceShooterLogic.Systems
                 timeElapsedSinceLastEnemySpawned = 0.0f;
             }
 
-            #endregion
-
-            #region update data
-
+            // update data
             GameState.TimesSinceLastEnemySpawned[entityId] = timeElapsedSinceLastEnemySpawned;
-
-            #endregion
         }
 
         private bool SpawnerOnCooldown(float timeElapsedSinceLastEnemySpawned)

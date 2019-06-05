@@ -53,8 +53,6 @@
     <Compile Include="Primitives2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomGenerator.cs" />
-    <Compile Include="Recorder.cs" />
-    <Compile Include="Replayer.cs" />
     <Compile Include="ViewportAdapters\BoxingViewportAdapter.cs" />
     <Compile Include="ViewportAdapters\DefaultViewportAdapter.cs" />
     <Compile Include="ViewportAdapters\ScalingViewportAdapter.cs" />

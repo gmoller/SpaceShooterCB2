@@ -11,18 +11,15 @@ namespace SpaceShooterLogic.Systems
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
-
+            // gather data for selection
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
             var volume = GameState.Volumes[entityId];
 
-            #endregion
-
+            // selection
             if (position.IsNull() || velocity.IsNull() || volume.IsEmpty) return;
 
-            #region process data
-
+            // process data
             // calculate new Bounding Box
             var origin = new Vector2(volume.Width / 2.0f, volume.Height / 2.0f);
 
@@ -32,13 +29,8 @@ namespace SpaceShooterLogic.Systems
                 volume.Width,
                 volume.Height);
 
-            #endregion
-
-            #region update data
-
+            // update data
             GameState.Volumes[entityId] = newVolume;
-
-            #endregion
         }
     }
 }

@@ -57,13 +57,9 @@
     <Compile Include="Creators\ExplosionCreator.cs" />
     <Compile Include="Creators\PlayerCreator.cs" />
     <Compile Include="Creators\ProjectileCreator.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="GameEntitiesManager.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
-    <Compile Include="GameStates\GamePlayStateWithRecording.cs" />
-    <Compile Include="GameStates\GamePlayStateWithReplaying.cs" />
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="GameStates\PausedState.cs" />
@@ -76,6 +72,8 @@
     <Compile Include="SpaceShooterGame.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
+    <Compile Include="Systems\CollisionDetection.cs" />
+    <Compile Include="Systems\CollisionResolution.cs" />
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\FireProjectileSystem.cs" />

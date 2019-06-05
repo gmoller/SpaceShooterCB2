@@ -24,7 +24,7 @@ namespace SpaceShooterLogic.Systems
         {
             _frames++;
 
-            var ranges = RangeCreator.GetRanges(Registrar.Instance.EntityCount, numberOfThreads);
+            var ranges = RangeCreator.GetRanges( GameState.EntityCount, numberOfThreads);
 
             _stopwatchProcess.Start();
             var tasks = new Task[numberOfThreads];
@@ -45,7 +45,12 @@ namespace SpaceShooterLogic.Systems
         {
             for (int entityId = fromInclusive; entityId < toExclusive; ++entityId)
             {
-                ProcessOneEntity(entityId, deltaTime);
+                var isAlive = GameState.Tags[entityId].IsBitSet((int)Tag.IsAlive);
+
+                if (isAlive)
+                {
+                    ProcessOneEntity(entityId, deltaTime);
+                }
             }
         }
 

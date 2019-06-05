@@ -50,7 +50,7 @@ namespace SpaceShooterLogic.Components
                 Vector2 projectilePosition = firingEntityPosition + _laserOffset;
                 Vector2 projectileVelocity = _laserDirection * _laserVelocity;
 
-                ProjectileCreator.Create(_laserDirection.Y < 0 ? "sprLaserPlayer": "sprLaserEnemy0", projectilePosition, projectileVelocity);
+                //ProjectileCreator.Create(_laserDirection.Y < 0 ? "sprLaserPlayer": "sprLaserEnemy0", projectilePosition, projectileVelocity);
 
                 StartLaserCooldown();
             }

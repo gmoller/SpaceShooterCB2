@@ -8,16 +8,13 @@
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
-
+            // gather data for selection
             var animationData = GameState.AnimationData[entityId];
 
-            #endregion
-
+            // selection
             if (animationData.AnimationSpec == null) return;
 
-            #region process data
-
+            // process data
             // is it time to change?
             bool changeFrame = IsTimeToChangeFrame(animationData.TimeSinceLastAnimationChange, animationData.AnimationSpec.Duration);
             if (changeFrame)
@@ -36,30 +33,22 @@
                     }
                     else
                     {
-                        nextFrame = -1; // TODO: properly support non-repeating animation specs
-                        //isFinished = true;
+                        nextFrame = -1;
+                        GameState.Tags[entityId] = 0;
                     }
                 }
 
-                #region update data
-
+                // update data
                 animationData.CurrentFrame = nextFrame;
                 animationData.TimeSinceLastAnimationChange = 0.0f;
                 GameState.AnimationData[entityId] = animationData;
-
-                #endregion
             }
             else
             {
-                #region update data
-
+                // update data
                 animationData.TimeSinceLastAnimationChange += deltaTime;
                 GameState.AnimationData[entityId] = animationData;
-
-                #endregion
             }
-
-            #endregion
         }
 
         private bool IsTimeToChangeFrame(float timeElapsedSinceLastAnimationChange, int duration)

@@ -10,27 +10,19 @@ namespace SpaceShooterLogic.Systems
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
-            #region gather data
-
+            // gather data for selection
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
 
-            #endregion
-
+            // selection
             if (position.IsNull() || velocity.IsNull()) return;
 
-            #region process data
-
+            // process data
             // calculate new position
             var newPosition = position + velocity * deltaTime;
 
-            #endregion
-
-            #region update data
-
+            // update data
             GameState.Positions[entityId] = newPosition;
-
-            #endregion
         }
     }
 }
