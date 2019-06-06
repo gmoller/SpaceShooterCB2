@@ -22,6 +22,7 @@ namespace SpaceShooterLogic.Systems
             // gather data for processing
             var animationData = GameState.AnimationData[entityId];
             var rotation = GameState.Rotations[entityId];
+            var volume = GameState.Volumes[entityId];
 
             // process data
             var frame = animationData.AnimationSpec?.Frames[animationData.CurrentFrame] ?? new Rectangle(0, 0, (int)size.X, (int)size.Y);
@@ -29,7 +30,7 @@ namespace SpaceShooterLogic.Systems
             var origin = new Vector2((int)(frame.Width * 0.5), (int)(frame.Height * 0.50));
             var scale = new Vector2(size.X / frame.Width, size.Y / frame.Height);
 
-            GameState.AddToSpriteBatchList(texture, position, frame, rotation, origin, scale);
+            GameState.AddToSpriteBatchList(texture, position, frame, rotation, origin, scale, volume);
 
             // update data
             // no updates

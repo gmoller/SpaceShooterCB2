@@ -57,9 +57,9 @@ namespace SpaceShooterLogic
             Hud = new Hud(this);
         }
 
-        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale)
+        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
-            SpriteBatchList.Add(texture, position, frame, rotation, origin, scale);
+            SpriteBatchList.Add(texture, position, frame, rotation, origin, scale, volume);
         }
 
         public void AddToSoundEffectList(SoundEffect sound)

@@ -64,12 +64,10 @@ namespace SpaceShooterLogic.GameStates
 
         public virtual void Enter(IGameState previousGameState)
         {
-            //ResetLevel();
         }
 
         public virtual void Leave()
         {
-            //_gameState.ClearState();
         }
 
         public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)

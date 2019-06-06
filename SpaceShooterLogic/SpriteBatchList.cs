@@ -14,9 +14,9 @@ namespace SpaceShooterLogic
             _spriteBatchList = new List<SpriteBatchEntry>();
         }
 
-        public void Add(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale)
+        public void Add(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
-            var spriteBatchEntry = new SpriteBatchEntry(texture, position, frame, rotation, origin, scale);
+            var spriteBatchEntry = new SpriteBatchEntry(texture, position, frame, rotation, origin, scale, volume);
             _spriteBatchList.Add(spriteBatchEntry);
         }
 
@@ -47,9 +47,9 @@ namespace SpaceShooterLogic
         public float Rotation { get; }
         public Vector2 Origin { get; }
         public Vector2 Scale { get; }
+        public Rectangle Volume { get; }
 
-
-        public SpriteBatchEntry(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale)
+        public SpriteBatchEntry(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
             Texture = texture;
             Position = position;
@@ -57,6 +57,7 @@ namespace SpaceShooterLogic
             Rotation = rotation;
             Origin = origin;
             Scale = scale;
+            Volume = volume;
         }
     }
 }
