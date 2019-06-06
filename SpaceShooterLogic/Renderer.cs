@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpaceShooterLogic.Systems
+namespace SpaceShooterLogic
 {
     public class Renderer
     {

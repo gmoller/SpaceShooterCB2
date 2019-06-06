@@ -80,10 +80,10 @@
     <Compile Include="Systems\KillPlayerSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
-    <Compile Include="Systems\Renderer.cs" />
+    <Compile Include="Renderer.cs" />
     <Compile Include="Systems\RenderingSystem.cs" />
     <Compile Include="Systems\SetBoundingBoxSystem.cs" />
-    <Compile Include="Systems\SoundEffectPlayer.cs" />
+    <Compile Include="SoundEffectPlayer.cs" />
     <Compile Include="Systems\System.cs" />
   </ItemGroup>
   <ItemGroup>
