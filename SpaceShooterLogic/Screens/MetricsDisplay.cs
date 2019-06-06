@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GameEngineCore;
 using GuiControls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,10 +9,13 @@ namespace SpaceShooterLogic.Screens
 {
     public class MetricsDisplay
     {
+        private readonly GameState _gameState;
         private readonly Grid _grid;
  
-        public MetricsDisplay()
+        public MetricsDisplay(GameState gameState)
         {
+            _gameState = gameState;
+
             var name = new GridColumn { Text = "Name", HorizontalAlignment = HorizontalAlignment.Left, X = 50.0f };
             var time = new GridColumn { Text = "Time (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 245.0f };
             var frames = new GridColumn { Text = "Frames", HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f };
@@ -24,12 +28,12 @@ namespace SpaceShooterLogic.Screens
         public void Update(GameTime gameTime)
         {
             _grid.ClearRows();
-            foreach (KeyValuePair<string, Metric> entry in BenchmarkMetrics.Instance.Metrics)
+            foreach (KeyValuePair<string, Metric> entry in _gameState.Metrics)
             {
                 string name = entry.Key;
-                string time = entry.Value._elapsedTime.ToString("F");
-                string frames = entry.Value._frames.ToString();
-                string avg = (entry.Value._elapsedTime / entry.Value._frames).ToString("F");
+                string time = entry.Value.ElapsedTime.ToString("F");
+                string frames = entry.Value.Frames.ToString();
+                string avg = (entry.Value.ElapsedTime / entry.Value.Frames).ToString("F");
 
                 var row = new GridRow(_grid, AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.LightBlue, name, time, frames, avg);
                 _grid.AddRow(row);

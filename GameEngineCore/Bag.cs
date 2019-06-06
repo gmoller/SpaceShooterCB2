@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace SpaceShooterUtilities
+namespace GameEngineCore
 {
     public class Bag<T> : IEnumerable<T>
     {

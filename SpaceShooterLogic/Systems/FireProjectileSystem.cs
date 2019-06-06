@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using GameEngineCore;
 using SpaceShooterLogic.Creators;
 using SpaceShooterUtilities;
 
@@ -6,8 +7,6 @@ namespace SpaceShooterLogic.Systems
 {
     public class FireProjectileSystem : System
     {
-        private static readonly object Lock = new object();
-
         private readonly int _weaponCooldownTime; // in milliseconds
         private readonly Vector2 _weaponsOffset;
         private readonly Vector2 _weaponDirection;
@@ -47,10 +46,7 @@ namespace SpaceShooterLogic.Systems
             {
                 // create new projectile
                 var sound = AssetsManager.Instance.GetSound("sndLaser");
-                lock (Lock)
-                {
-                    sound.Play();
-                }
+                GameState.AddToSoundEffectList(sound);
 
                 var projectilePosition = firingEntityPosition + _weaponsOffset;
                 var projectileVelocity = _weaponDirection * _weaponVelocity;
@@ -74,8 +70,6 @@ namespace SpaceShooterLogic.Systems
 
     public class EnemyFireProjectileSystem : System
     {
-        private static readonly object Lock = new object();
-
         private readonly int _weaponCooldownTime; // in milliseconds
         private readonly Vector2 _weaponsOffset;
         private readonly Vector2 _weaponDirection;
@@ -113,10 +107,7 @@ namespace SpaceShooterLogic.Systems
             {
                 // create new projectile
                 var sound = AssetsManager.Instance.GetSound("sndLaser");
-                lock (Lock)
-                {
-                    sound.Play();
-                }
+                GameState.AddToSoundEffectList(sound);
 
                 var projectilePosition = firingEntityPosition + _weaponsOffset;
                 var projectileVelocity = _weaponDirection * _weaponVelocity;

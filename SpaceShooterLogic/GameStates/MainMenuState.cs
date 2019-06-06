@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using GuiControls;
 using SpaceShooterUtilities;
 
@@ -14,8 +13,12 @@ namespace SpaceShooterLogic.GameStates
 
         private bool _startGame;
 
-        public MainMenuState()
+        private readonly GameState _gameState;
+
+        public MainMenuState(GameState gameState)
         {
+            _gameState = gameState;
+
             var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
             var fontLed = AssetsManager.Instance.GetSpriteFont("The Led Display St");
 
@@ -46,7 +49,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (_startGame)
             {
-                return (this, new GamePlayState());
+                return (this, new GamePlayState(_gameState));
             }
 
             return (this, this);

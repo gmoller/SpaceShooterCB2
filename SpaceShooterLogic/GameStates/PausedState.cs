@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics;
-using GameEngineCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.GameStates
@@ -14,6 +12,13 @@ namespace SpaceShooterLogic.GameStates
         private int _drawFrames;
 
         private IGameState _previousGameState;
+
+        private readonly GameState _gameState;
+
+        public PausedState(GameState gameState)
+        {
+            _gameState = gameState;
+        }
 
         public void Enter(IGameState previousGameState)
         {
@@ -41,10 +46,11 @@ namespace SpaceShooterLogic.GameStates
 
             // TODO: draw rendering system
 
-            //_gameState.Hud.Draw(spriteBatch);
+            _gameState.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
+
+            //_gameState.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
         public IGameState Clone()

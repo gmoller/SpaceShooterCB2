@@ -1,5 +1,5 @@
-﻿using SpaceShooterLogic.Creators;
-using SpaceShooterUtilities;
+﻿using GameEngineCore;
+using SpaceShooterLogic.Creators;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -26,9 +26,8 @@ namespace SpaceShooterLogic.Systems
             var scoreToAdd = GameState.ScoreValues[entityId];
 
             // process data
-            ExplosionCreator.Create2("Explosion10", position, size * _explosionSizeScaleFactor, GameState);
+            ExplosionCreator.Create("Explosion10", position, size * _explosionSizeScaleFactor, GameState);
             GameState.Score += scoreToAdd;
-            // TODO: decrease lives
 
             // update data
             GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBits((int)Tag.IsAlive, (int)Tag.CollisionDetected);

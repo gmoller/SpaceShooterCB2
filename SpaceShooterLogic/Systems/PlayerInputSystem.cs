@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using GameEngineCore;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
@@ -24,23 +25,23 @@ namespace SpaceShooterLogic.Systems
             // process data
             var direction = Vector2.Zero;
             var shoot = false;
-            if (KeyboardHandler.IsKeyDown(Keys.Up))
+            if (KeyboardHandler.IsKeyDown(Keys.W))
             {
                 direction = new Vector2(direction.X, -1.0f);
             }
-            if (KeyboardHandler.IsKeyDown(Keys.Down))
+            if (KeyboardHandler.IsKeyDown(Keys.S))
             {
                 direction = new Vector2(direction.X, 1.0f);
             }
-            if (KeyboardHandler.IsKeyDown(Keys.Left))
+            if (KeyboardHandler.IsKeyDown(Keys.A))
             {
                 direction = new Vector2(-1.0f, direction.Y);
             }
-            if (KeyboardHandler.IsKeyDown(Keys.Right))
+            if (KeyboardHandler.IsKeyDown(Keys.D))
             {
                 direction = new Vector2(1.0f, direction.Y);
             }
-            if (KeyboardHandler.IsKeyDown(Keys.RightControl))
+            if (KeyboardHandler.IsKeyDown(Keys.Space))
             {
                 shoot = true;
             }

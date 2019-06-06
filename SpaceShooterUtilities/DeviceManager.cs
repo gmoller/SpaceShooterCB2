@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceShooterUtilities
 {
@@ -15,6 +16,7 @@ namespace SpaceShooterUtilities
         public int ScreenWidth => Viewport.Width;
         public int ScreenHeight => Viewport.Height;
         public bool IsMouseVisible { get; set; }
+        public GraphicsDevice GraphicsDevice { get; set; }
 
         private DeviceManager()
         {

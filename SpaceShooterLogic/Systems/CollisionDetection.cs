@@ -1,5 +1,4 @@
 ﻿using GameEngineCore;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {

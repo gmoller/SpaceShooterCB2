@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,7 +13,6 @@ namespace SpaceShooterLogic
     {
         private FramesPerSecondCounter _fps;
         private SpriteFont _font;
-        private ScrollingBackground _scrollingBackground;
 
         private IGameState _gameState;
 
@@ -26,27 +24,30 @@ namespace SpaceShooterLogic
         private int _updateFrames;
         private int _drawFrames;
 
+        private StarField _starField;
+
         public void Initialize(GameWindow window, GraphicsDevice graphicsDevice)
         {
             ContentLoader.LoadContent(graphicsDevice);
         }
 
-        public void LoadContent(ContentManager content, int width, int height)
+        public void LoadContent(ContentManager content, int width, int height, GraphicsDevice graphicsDevice)
         {
             AssetsManager.Instance.ContentManager = content;
+            DeviceManager.Instance.GraphicsDevice = graphicsDevice;
             DeviceManager.Instance.Viewport = new Rectangle(0, 0, width, height);
 
             // Load textures
-            AssetsManager.Instance.AddTextures("sprBg0", "sprBg1", "sprBtnPlay", "sprBtnPlayDown", "sprBtnPlayHover", "sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", "sprPlayer", "sprLaserPlayer", "sprLaserEnemy0", "sprExplosion", "sprEnemy0", "sprEnemy1", "sprEnemy2", "Explosion10", "Explosion50", "Fireball02");
+            AssetsManager.Instance.AddTextures("sprBtnPlay", "sprBtnPlayDown", "sprBtnPlayHover", "sprBtnRestart", "sprBtnRestartDown", "sprBtnRestartHover", "sprPlayer", "sprLaserPlayer", "sprLaserEnemy0", "sprExplosion", "sprEnemy0", "sprEnemy1", "sprEnemy2", "Explosion10", "Explosion50", "Fireball02");
             // Load sounds
             AssetsManager.Instance.AddSounds("sndBtnDown", "sndBtnOver", "sndLaser", "sndExplode0", "sndExplode1");
             // Load sprite fonts
             AssetsManager.Instance.AddSpriteFonts("arialHeading", "arialSmall", "arialTiny");
             _font = AssetsManager.Instance.GetSpriteFont("arialTiny");
 
-            _scrollingBackground = new ScrollingBackground(new List<string> { "sprBg0", "sprBg1" });
+            _starField = new StarField(300, new Vector2(0.0f, 0.01f), new Vector2(2, 2));
 
-            _gameState = new MainMenuState();
+            _gameState = new MainMenuState(null);
             _gameState.Enter(null);
 
             _fps = new FramesPerSecondCounter();
@@ -68,7 +69,7 @@ namespace SpaceShooterLogic
             _updateStopwatch.Start();
 
             _fps.Update(gameTime);
-            _scrollingBackground.Update(gameTime);
+            _starField.Update(gameTime);
 
             (IGameState currentGameState, IGameState newGameState) returnGameState = _gameState.Update(gameTime);
             ChangeGameState(returnGameState.currentGameState, returnGameState.newGameState);
@@ -86,7 +87,7 @@ namespace SpaceShooterLogic
             //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
 
-            _scrollingBackground.Draw(spriteBatch);
+            _starField.Draw(spriteBatch);
             _gameState.Draw(spriteBatch);
 
             _lblTest.Draw(spriteBatch);

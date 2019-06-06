@@ -65,11 +65,11 @@
     <Compile Include="GameStates\PausedState.cs" />
     <Compile Include="Screens\Hud.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
-    <Compile Include="PlayerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScrollingBackground.cs" />
-    <Compile Include="ScrollingBackgroundLayer.cs" />
+    <Compile Include="SoundList.cs" />
     <Compile Include="SpaceShooterGame.cs" />
+    <Compile Include="SpriteBatchList.cs" />
+    <Compile Include="StarField.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
     <Compile Include="Systems\CollisionDetection.cs" />
@@ -77,10 +77,13 @@
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\FireProjectileSystem.cs" />
+    <Compile Include="Systems\KillPlayerSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
+    <Compile Include="Systems\Renderer.cs" />
     <Compile Include="Systems\RenderingSystem.cs" />
     <Compile Include="Systems\SetBoundingBoxSystem.cs" />
+    <Compile Include="Systems\SoundEffectPlayer.cs" />
     <Compile Include="Systems\System.cs" />
   </ItemGroup>
   <ItemGroup>

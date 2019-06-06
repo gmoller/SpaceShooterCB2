@@ -79,7 +79,7 @@ namespace SpaceShooterCB2
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _game.LoadContent(Content, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _game.LoadContent(Content, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight, GraphicsDevice);
         }
 
         /// <summary>

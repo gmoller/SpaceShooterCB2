@@ -7,7 +7,7 @@ namespace SpaceShooterUtilities
     public interface IGame
     {
         void Initialize(GameWindow window, GraphicsDevice graphicsDevice);
-        void LoadContent(ContentManager content, int width, int height);
+        void LoadContent(ContentManager content, int width, int height, GraphicsDevice graphicsDevice);
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }

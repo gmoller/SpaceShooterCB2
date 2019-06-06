@@ -14,7 +14,6 @@ namespace SpaceShooterLogic.GameStates
     public class GamePlayState : IGameState
     {
         private const int NUMBER_OF_THREADS = 16;
-        private const int NUMBER_OF_DRAW_THREADS = 8;
 
         private float _timeElapsedSinceDied; // in seconds
         private readonly int _restartDelay = 3; // in seconds
@@ -24,21 +23,53 @@ namespace SpaceShooterLogic.GameStates
         private int _updateFrames;
         private int _drawFrames;
 
-        private List<Systems.System> _systems;
-        private RenderingSystem _renderingSystem;
+        private readonly List<Systems.System> _systems;
+        private readonly SoundEffectPlayer _soundEffectPlayer;
+        private readonly Renderer _renderer;
 
-        private GameState _gameState;
+        private readonly GameState _gameState;
+
+        public GamePlayState(GameState gameState)
+        {
+            _gameState = gameState;
+
+            // setup components
+            _gameState = new GameState();
+
+            // setup systems
+            _systems = new List<Systems.System>
+            {
+                new PlayerInputSystem("PlayerInput", _gameState),
+                new MovementSystem("Movement", _gameState),
+                new ClampToViewportSystem("ClampToViewport", _gameState),
+                new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", _gameState),
+                new SetBoundingBoxSystem("SetBoundingBox", _gameState),
+                new FireProjectileSystem("FireProjectile", _gameState),
+                new EnemyFireProjectileSystem("EnemyFireProjectile", _gameState),
+                new AnimationSystem("Animation", _gameState),
+                new CollisionDetection("CollisionDetection", _gameState),
+                new KillPlayerSystem("KillPlayer", _gameState),
+                new CollisionResolution("CollisionResolution", _gameState),
+                new EnemySpawnSystem("EnemySpawn", _gameState),
+                new RenderingSystem("Rendering", _gameState)
+            };
+
+            _soundEffectPlayer = new SoundEffectPlayer();
+            _renderer = new Renderer();
+
+            PlayerCreator.Create(_gameState);
+            SpawnCreator.Create(_gameState);
+            //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
+        }
 
         public virtual void Enter(IGameState previousGameState)
         {
-            ResetLevel();
-            _gameState.Score = 0;
-            _gameState.Lives = 3;
+            //ResetLevel();
         }
 
         public virtual void Leave()
         {
-            _gameState.ClearState();
+            //_gameState.ClearState();
         }
 
         public (IGameState currentGameState, IGameState newGameState) Update(GameTime gameTime)
@@ -58,17 +89,17 @@ namespace SpaceShooterLogic.GameStates
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
                 {
-                    return (this, new GameOverState());
+                    return (this, new GameOverState(_gameState));
                 }
             }
 
             if (KeyboardHandler.IsKeyPressed(Keys.Pause))
             {
-                return (this, new PausedState());
+                return (this, new PausedState(_gameState));
             }
 
             _updateStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["GamePlayState.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
+            _gameState.Metrics["GamePlayState.Update"] = new Metric(_updateStopwatch.Elapsed.TotalMilliseconds, _updateFrames);
 
             return (this, this);
         }
@@ -86,7 +117,6 @@ namespace SpaceShooterLogic.GameStates
             if (_gameState.Lives > 1)
             {
                 ResetLevel();
-                _gameState.Lives--;
                 return false;
             }
 
@@ -99,46 +129,22 @@ namespace SpaceShooterLogic.GameStates
             _drawFrames++;
             _drawStopwatch.Start();
 
-            _renderingSystem.SpriteBatch = spriteBatch;
-            _renderingSystem.Process(0.0f, NUMBER_OF_DRAW_THREADS);
+            _soundEffectPlayer.Play(_gameState);
+            _renderer.Render(spriteBatch, _gameState);
 
             _gameState.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
-            BenchmarkMetrics.Instance.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
+            _gameState.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
         }
 
         private void ResetLevel()
         {
-            // setup components
-            _gameState = new GameState();
-
-            // setup systems
-            _systems = new List<Systems.System>
-            {
-                new PlayerInputSystem("PlayerInput", _gameState),
-                new MovementSystem("Movement", _gameState),
-                new ClampToViewportSystem("ClampToViewport", _gameState),
-                new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", _gameState),
-                new SetBoundingBoxSystem("SetBoundingBox", _gameState),
-                new FireProjectileSystem("FireProjectile", _gameState),
-                new EnemyFireProjectileSystem("EnemyFireProjectile", _gameState),
-                new AnimationSystem("Animation", _gameState),
-                new CollisionDetection("CollisionDetection", _gameState),
-                new CollisionResolution("CollisionResolution", _gameState),
-                new EnemySpawnSystem("EnemySpawn", _gameState)
-            };
-
-            _renderingSystem = new RenderingSystem("Rendering", _gameState);
-
-            _gameState.ClearState();
+            _gameState.Restart();
 
             PlayerCreator.Create(_gameState);
             SpawnCreator.Create(_gameState);
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
-
-            _gameState.Hud = new Hud(_gameState);
-            _gameState.PlayerIsDead = false;
         }
 
         public IGameState Clone()

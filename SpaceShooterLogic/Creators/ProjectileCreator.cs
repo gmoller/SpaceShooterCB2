@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using GameEngineCore;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Creators
@@ -15,11 +16,9 @@ namespace SpaceShooterLogic.Creators
             state.Velocities[entityId] = projectileVelocity;
             state.Volumes[entityId] = new Rectangle((int)(projectilePosition.X - 0.5f), (int)(projectilePosition.Y - 4.0f), (int)size.X, (int)size.Y);
             state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
-            state.Sizes[entityId] = size;
-            state.Rotations[entityId] = 0.0f;
+            state.Sizes[entityId] = new Vector2(1.0f, 8.0f);
             state.TimesSinceLastShot[entityId] = -0.1f;
             state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
-            state.AnimationData[entityId] = new AnimationData(null, 0, 0.0f);
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport); // 17
 
             state.EntityCount++;

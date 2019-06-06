@@ -31,23 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\3rdPartyBinaries\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communicator.cs" />
-    <Compile Include="ComponentsSet.cs" />
-    <Compile Include="AbstractClasses\DrawComponent.cs" />
-    <Compile Include="Entities.cs" />
-    <Compile Include="Interfaces\IComponent.cs" />
-    <Compile Include="Interfaces\IRenderer.cs" />
+    <Compile Include="Bag.cs" />
+    <Compile Include="BenchmarkMetrics.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomGenerator.cs" />
     <Compile Include="RangeCreator.cs" />
-    <Compile Include="Registrar.cs" />
-    <Compile Include="AbstractClasses\UpdateComponent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

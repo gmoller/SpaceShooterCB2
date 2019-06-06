@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpaceShooterUtilities
+namespace GameEngineCore
 {
     public sealed class RandomGenerator
     {

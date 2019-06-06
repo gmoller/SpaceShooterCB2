@@ -1,7 +1,7 @@
 ﻿using System;
-using AnimationLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
+using AnimationLibrary;
 using SpaceShooterLogic;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
@@ -209,12 +209,12 @@ namespace UnitTests
                 system.Process(16.0f, numberOfThreads);
             }
 
-            foreach (var metric in BenchmarkMetrics.Instance.Metrics)
+            foreach (var metric in system.GameState.Metrics)
             {
-                double avg = metric.Value._elapsedTime / metric.Value._frames;
-                Console.WriteLine($"Threads: {numberOfThreads} - {metric.Key}: {metric.Value._elapsedTime} ms, Frames: {metric.Value._frames}, Average: {avg:N} ms/frame.");
+                double avg = metric.Value.ElapsedTime / metric.Value.Frames;
+                Console.WriteLine($"Threads: {numberOfThreads} - {metric.Key}: {metric.Value.ElapsedTime} ms, Frames: {metric.Value.Frames}, Average: {avg:N} ms/frame.");
             }
-            BenchmarkMetrics.Instance.Metrics.Clear();
+            system.GameState.Metrics.Clear();
         }
     }
 }

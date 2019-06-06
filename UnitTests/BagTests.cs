@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SpaceShooterUtilities;
+using GameEngineCore;
 
 namespace UnitTests
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngineCore;
 using GuiControls;
 using SpaceShooterLogic.Screens;
 using SpaceShooterUtilities;
@@ -15,8 +16,12 @@ namespace SpaceShooterLogic.GameStates
 
         private bool _startGame;
 
-        public GameOverState()
+        private readonly GameState _gameState;
+
+        public GameOverState(GameState gameState)
         {
+            _gameState = gameState;
+
             var fontArial = AssetsManager.Instance.GetSpriteFont("arialHeading");
 
             string title = "GAME OVER";
@@ -29,7 +34,7 @@ namespace SpaceShooterLogic.GameStates
                 "sndBtn");
             _btnRestart.OnClick += btnRestart_Click;
 
-            _metricsDisplay = new MetricsDisplay();
+            _metricsDisplay = new MetricsDisplay(gameState);
         }
 
         public void Enter(IGameState previousGameState)
@@ -50,7 +55,7 @@ namespace SpaceShooterLogic.GameStates
 
             if (_startGame)
             {
-                return (this, new GamePlayState());
+                return (this, new GamePlayState(_gameState));
             }
 
             return (this, null);

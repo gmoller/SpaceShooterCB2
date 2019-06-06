@@ -1,20 +1,23 @@
-﻿using AnimationLibrary;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AnimationLibrary;
+using GameEngineCore;
 using SpaceShooterLogic.Screens;
-using SpaceShooterUtilities;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SpaceShooterLogic
 {
     public class GameState
     {
-        public Hud Hud { get; set; }
+        public Hud Hud { get; }
 
         public bool PlayerIsDead { get; set; }
         public int Score { get; set; }
-        public int Lives { get; set; }
+        public int Lives { get; private set; }
 
         public int EntityCount { get; set; }
+
+        #region Component Type Arrays
 
         // standard entity
         public Bag<Vector2> Positions { get; private set; }
@@ -35,9 +38,40 @@ namespace SpaceShooterLogic
 
         public Bag<byte> Tags { get; private set; }
 
+        #endregion
+
+        public SpriteBatchList SpriteBatchList { get; }
+        public SoundEffectList SoundEffectList { get; }
+
+        public BenchmarkMetrics Metrics { get; }
+
         public GameState()
         {
+            Metrics = new BenchmarkMetrics();
+            SpriteBatchList = new SpriteBatchList();
+            SoundEffectList = new SoundEffectList();
             ClearState();
+            Score = 0;
+            Lives = 3;
+
+            Hud = new Hud(this);
+        }
+
+        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale)
+        {
+            SpriteBatchList.Add(texture, position, frame, rotation, origin, scale);
+        }
+
+        public void AddToSoundEffectList(SoundEffect sound)
+        {
+            SoundEffectList.Add(sound);
+        }
+
+        public void Restart()
+        {
+            ClearState();
+            Lives--;
+            PlayerIsDead = false;
         }
 
         public void ClearState()

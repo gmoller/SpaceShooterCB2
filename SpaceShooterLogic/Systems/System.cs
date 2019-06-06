@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using GameEngineCore;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -12,7 +11,7 @@ namespace SpaceShooterLogic.Systems
 
         private readonly string _name;
 
-        protected GameState GameState;
+        public GameState GameState { get; }
 
         protected System(string name, GameState gameState)
         {
@@ -38,7 +37,7 @@ namespace SpaceShooterLogic.Systems
             Task.WaitAll(tasks);
             _stopwatchProcess.Stop();
 
-            BenchmarkMetrics.Instance.Metrics[$"System:{_name}.Process"] = new Metric(_stopwatchProcess.Elapsed.TotalMilliseconds, _frames);
+            GameState.Metrics[$"System:{_name}.Process"] = new Metric(_stopwatchProcess.Elapsed.TotalMilliseconds, _frames);
         }
 
         private void ProcessBatch(int fromInclusive, int toExclusive, float deltaTime)

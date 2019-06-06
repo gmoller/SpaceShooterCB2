@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using GameEngineCore;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Creators
@@ -20,7 +21,6 @@ namespace SpaceShooterLogic.Creators
                     state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
                     state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprEnemy0");
                     state.Sizes[entityId] = size;
-                    state.Rotations[entityId] = 0.0f;
                     state.TimesSinceLastShot[entityId] = 0.0f;
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy0"), 0, 0.0f);
@@ -38,7 +38,6 @@ namespace SpaceShooterLogic.Creators
                     state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
                     state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprEnemy1");
                     state.Sizes[entityId] = size;
-                    state.Rotations[entityId] = 0.0f;
                     state.TimesSinceLastShot[entityId] = -0.1f;
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy1"), 0, 0.0f);
@@ -56,7 +55,6 @@ namespace SpaceShooterLogic.Creators
                     state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
                     state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprEnemy2");
                     state.Sizes[entityId] = size;
-                    state.Rotations[entityId] = 0.0f;
                     state.TimesSinceLastShot[entityId] = -0.1f;
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy2"), 0, 0.0f);
