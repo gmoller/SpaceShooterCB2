@@ -16,7 +16,7 @@ namespace SpaceShooterLogic.Creators
             state.TimesSinceLastShot[entityId] = -0.1f;
             state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
             state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName), 0, 0.0f);
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport); // 17
+            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
         }

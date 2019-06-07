@@ -31,7 +31,7 @@ namespace SpaceShooterLogic.Systems
             if (firingEntityPosition.IsNull() || timeElapsedSinceLastShot.IsNegative()) return;
 
             // gather data for processing
-            var shootWeapon = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerShoots);
+            var playerShootsTag = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerShoots);
 
             // process data
             // check if we are on cooldown
@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.Systems
             }
 
             // if not on cooldown and fire pressed, fire projectile
-            if (!weaponOnCooldown && shootWeapon)
+            if (!weaponOnCooldown && playerShootsTag)
             {
                 // create new projectile
                 var sound = AssetsManager.Instance.GetSound("sndLaser");

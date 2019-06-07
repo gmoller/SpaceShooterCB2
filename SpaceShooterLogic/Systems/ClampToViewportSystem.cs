@@ -16,13 +16,13 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var tag = GameState.Tags[entityId].IsBitSet((int)Tag.ClampToViewport);
+            var isPlayerTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsPlayer);
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
 
             // selection
-            if (!tag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
+            if (!isPlayerTag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
             // process data
             // do not allow our entity off the screen

@@ -20,7 +20,7 @@ namespace SpaceShooterLogic.Creators
             state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
             state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
             state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.PlayerInput, (int)Tag.ClampToViewport, (int)Tag.IsPlayer);
+            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.PlayerInput, (int)Tag.IsPlayer);
 
             state.EntityCount++;
         }

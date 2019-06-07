@@ -17,10 +17,10 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var tag = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerInput);
+            var playerInputTag = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerInput);
 
             // selection
-            if (!tag) return;
+            if (!playerInputTag) return;
 
             // process data
             var direction = Vector2.Zero;

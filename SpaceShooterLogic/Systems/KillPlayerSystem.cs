@@ -11,11 +11,11 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var tag1 = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerInput);
-            var tag5 = GameState.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
+            var isPlayerTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsPlayer);
+            var collisionDetectedTag = GameState.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
 
             // selection
-            if (!tag1 || !tag5) return;
+            if (!isPlayerTag || !collisionDetectedTag) return;
 
             // process data
             GameState.PlayerIsDead = true;

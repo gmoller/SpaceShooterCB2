@@ -15,10 +15,10 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var tag = GameState.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
+            var collisionDetectedTag = GameState.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
 
             // selection
-            if (!tag) return;
+            if (!collisionDetectedTag) return;
 
             // gather data for processing
             var position = GameState.Positions[entityId];

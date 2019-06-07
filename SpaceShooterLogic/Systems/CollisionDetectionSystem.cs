@@ -22,8 +22,8 @@ namespace SpaceShooterLogic.Systems
             for (int i = 0; i < GameState.EntityCount - 1; ++i)
             {
                 if (entityId == i) continue; // do not check with self
-                var isAlive = GameState.Tags[i].IsBitSet((int)Tag.IsAlive);
-                if (!isAlive) continue;
+                var isAliveTag = GameState.Tags[i].IsBitSet((int)Tag.IsAlive);
+                if (!isAliveTag) continue;
 
                 var volume2 = GameState.Volumes[i];
                 if (volume2.IsEmpty) continue;
