@@ -25,7 +25,7 @@ namespace SpaceShooterLogic.Creators
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy0"), 0, 0.0f);
                     state.ScoreValues[entityId] = 20;
-                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.EnemyIsShooter);
+                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.EnemyIsShooter, (int)Tag.IsEnemy);
 
                     state.EntityCount++;
                     break;
@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.Creators
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy1"), 0, 0.0f);
                     state.ScoreValues[entityId] = 10;
-                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.EnemyIsChaser); // 81
+                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.EnemyIsChaser, (int)Tag.IsEnemy);
 
                     state.EntityCount++;
                     break;
@@ -59,7 +59,7 @@ namespace SpaceShooterLogic.Creators
                     state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy2"), 0, 0.0f);
                     state.ScoreValues[entityId] = 5;
-                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport); // 17
+                    state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.IsEnemy);
 
                     state.EntityCount++;
                     break;

@@ -19,7 +19,7 @@ namespace SpaceShooterLogic.Creators
             state.Sizes[entityId] = new Vector2(1.0f, 8.0f);
             state.TimesSinceLastShot[entityId] = -0.1f;
             state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport); // 17
+            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.DestroyIfOutsideViewport, (int)Tag.IsProjectile);
 
             state.EntityCount++;
         }

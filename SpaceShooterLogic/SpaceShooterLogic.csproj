@@ -72,8 +72,8 @@
     <Compile Include="StarField.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
-    <Compile Include="Systems\CollisionDetection.cs" />
-    <Compile Include="Systems\CollisionResolution.cs" />
+    <Compile Include="Systems\CollisionDetectionSystem.cs" />
+    <Compile Include="Systems\CollisionResolutionSystem.cs" />
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\FireProjectileSystem.cs" />

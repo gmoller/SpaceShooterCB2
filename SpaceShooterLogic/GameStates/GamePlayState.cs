@@ -46,9 +46,10 @@ namespace SpaceShooterLogic.GameStates
                 new FireProjectileSystem("FireProjectile", _gameState),
                 new EnemyFireProjectileSystem("EnemyFireProjectile", _gameState),
                 new AnimationSystem("Animation", _gameState),
-                new CollisionDetection("CollisionDetection", _gameState),
+                new PlayerCollisionDetectionSystem("PlayerCollisionDetection", _gameState),
+                new ProjectileCollisionDetectionSystem("ProjectileCollisionDetection", _gameState),
                 new KillPlayerSystem("KillPlayer", _gameState),
-                new CollisionResolution("CollisionResolution", _gameState),
+                new CollisionResolutionSystem("CollisionResolution", _gameState),
                 new EnemySpawnSystem("EnemySpawn", _gameState),
                 new RenderingSystem("Rendering", _gameState)
             };

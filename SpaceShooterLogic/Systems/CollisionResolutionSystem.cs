@@ -3,11 +3,11 @@ using SpaceShooterLogic.Creators;
 
 namespace SpaceShooterLogic.Systems
 {
-    public class CollisionResolution : System
+    public class CollisionResolutionSystem : System
     {
         private readonly float _explosionSizeScaleFactor;
 
-        public CollisionResolution(string name, GameState gameState) : base(name, gameState)
+        public CollisionResolutionSystem(string name, GameState gameState) : base(name, gameState)
         {
             _explosionSizeScaleFactor = 5.0f;
         }

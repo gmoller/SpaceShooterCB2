@@ -35,7 +35,7 @@ namespace SpaceShooterLogic
 
         public Bag<byte> ScoreValues { get; private set; }
 
-        public Bag<`> Tags { get; private set; }
+        public Bag<int> Tags { get; private set; }
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace SpaceShooterLogic
             TimesSinceLastEnemySpawned = new Bag<float>();
             AnimationData = new Bag<AnimationData>();
             ScoreValues = new Bag<byte>();
-            Tags = new Bag<byte>();
+            Tags = new Bag<int>();
         }
     }
 }
