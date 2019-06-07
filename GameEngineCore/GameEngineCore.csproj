@@ -34,12 +34,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationData.cs" />
+    <Compile Include="AnimationSpec.cs" />
+    <Compile Include="AnimationSpecCreator.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="BenchmarkMetrics.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="RangeCreator.cs" />
+    <Compile Include="RectangleF.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

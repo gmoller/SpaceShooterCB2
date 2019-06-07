@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using AnimationLibrary;
 using GameEngineCore;
 using SpaceShooterLogic.Screens;
-using Microsoft.Xna.Framework.Audio;
 
 namespace SpaceShooterLogic
 {
@@ -36,7 +35,7 @@ namespace SpaceShooterLogic
 
         public Bag<byte> ScoreValues { get; private set; }
 
-        public Bag<byte> Tags { get; private set; }
+        public Bag<`> Tags { get; private set; }
 
         #endregion
 
@@ -57,7 +56,7 @@ namespace SpaceShooterLogic
             Hud = new Hud(this);
         }
 
-        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
+        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
             SpriteBatchList.Add(texture, position, frame, rotation, origin, scale, volume);
         }
@@ -90,31 +89,5 @@ namespace SpaceShooterLogic
             ScoreValues = new Bag<byte>();
             Tags = new Bag<byte>();
         }
-    }
-
-    public struct AnimationData
-    {
-        public AnimationSpec AnimationSpec { get; }
-        public int CurrentFrame { get; set; }
-        public float TimeSinceLastAnimationChange { get; set; }
-
-        public AnimationData(AnimationSpec animationSpec, int currentFrame, float timeSinceLastAnimationChange)
-        {
-            AnimationSpec = animationSpec;
-            CurrentFrame = currentFrame;
-            TimeSinceLastAnimationChange = timeSinceLastAnimationChange;
-        }
-    }
-
-    public enum Tag
-    {
-        IsAlive = 0,
-        PlayerInput = 1,
-        PlayerShoots = 2,
-        ClampToViewport = 3,
-        DestroyIfOutsideViewport = 4,
-        CollisionDetected = 5,
-        EnemyIsChaser = 6,
-        EnemyIsShooter = 7
     }
 }

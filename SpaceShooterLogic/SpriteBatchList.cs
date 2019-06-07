@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameEngineCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,7 +15,7 @@ namespace SpaceShooterLogic
             _spriteBatchList = new List<SpriteBatchEntry>();
         }
 
-        public void Add(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
+        public void Add(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
             var spriteBatchEntry = new SpriteBatchEntry(texture, position, frame, rotation, origin, scale, volume);
             _spriteBatchList.Add(spriteBatchEntry);
@@ -43,13 +44,13 @@ namespace SpaceShooterLogic
     {
         public Texture2D Texture { get; }
         public Vector2 Position { get; }
-        public Rectangle Frame { get; }
+        public RectangleF Frame { get; }
         public float Rotation { get; }
         public Vector2 Origin { get; }
         public Vector2 Scale { get; }
         public Rectangle Volume { get; }
 
-        public SpriteBatchEntry(Texture2D texture, Vector2 position, Rectangle frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
+        public SpriteBatchEntry(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
             Texture = texture;
             Position = position;

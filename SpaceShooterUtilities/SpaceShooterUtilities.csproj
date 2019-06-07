@@ -57,9 +57,9 @@
     <Compile Include="ViewportAdapters\WindowViewportAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnimationLibrary\AnimationLibrary.csproj">
-      <Project>{d6526af1-1701-4e6e-9123-cd06f33565c9}</Project>
-      <Name>AnimationLibrary</Name>
+    <ProjectReference Include="..\GameEngineCore\GameEngineCore.csproj">
+      <Project>{4f83c265-4209-4f99-9780-40ca5034ed77}</Project>
+      <Name>GameEngineCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

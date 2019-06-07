@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceShooterLogic.Creators;
-using SpaceShooterLogic.Screens;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
 

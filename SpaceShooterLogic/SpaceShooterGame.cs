@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using AnimationLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngineCore;
 using GuiControls;
 using SpaceShooterLogic.GameStates;
 using SpaceShooterUtilities;

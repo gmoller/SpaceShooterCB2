@@ -1,35 +1,21 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace AnimationLibrary
+﻿namespace GameEngineCore
 {
-    public class AnimationSpec
-    {
-        public string SpriteSheet { get; set; }
-        public int Duration { get; set; } // in milliseconds
-        public int NumberOfFrames { get; set; }
-        public bool Repeating { get; set; }
-
-        public Rectangle[] Frames { get; set; }
-    }
-
-    public static class AnimationSpecCreator
+    public class AnimationSpecCreator
     {
         public static AnimationSpec Create(string spriteSheetTextureName, int spriteSheetTextureWidth, int spriteSheetTextureHeight, int frameWidth, int frameHeight, int duration, bool isRepeating)
-        //public static AnimationSpec Create(Texture2D spriteSheetTexture, int frameWidth, int frameHeight, int duration, bool isRepeating)
         {
             var spec = new AnimationSpec { SpriteSheet = spriteSheetTextureName, Duration = duration, Repeating = isRepeating };
 
             int cols = spriteSheetTextureWidth / frameWidth;
             int rows = spriteSheetTextureHeight / frameHeight;
             spec.NumberOfFrames = cols * rows;
-            spec.Frames = new Rectangle[spec.NumberOfFrames];
+            spec.Frames = new RectangleF[spec.NumberOfFrames];
 
             int x = 0;
             int y = 0;
             for (int i = 0; i < spec.NumberOfFrames; i++)
             {
-                spec.Frames[i] = new Rectangle(x, y, frameWidth, frameHeight);
+                spec.Frames[i] = new RectangleF(x, y, frameWidth, frameHeight);
                 x += frameWidth;
                 if (x >= spriteSheetTextureWidth)
                 {

@@ -25,6 +25,7 @@ namespace SpaceShooterLogic.Systems
                 if (!isAlive) continue;
 
                 var volume2 = GameState.Volumes[i];
+                if (volume2.IsEmpty) continue;
                 if (volume.Intersects(volume2))
                 {
                     collidedWithEntity = i;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-using AnimationLibrary;
+using GameEngineCore;
 using SpaceShooterLogic;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
