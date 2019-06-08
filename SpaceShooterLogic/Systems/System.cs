@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using GameEngineCore;
 
@@ -26,7 +27,7 @@ namespace SpaceShooterLogic.Systems
             var ranges = RangeCreator.GetRanges( GameState.EntityCount, numberOfThreads);
 
             _stopwatchProcess.Start();
-            var tasks = new Task[numberOfThreads];
+            var tasks = new Task<int>[numberOfThreads];
             for (int i = 0; i < numberOfThreads; ++i)
             {
                 var range = ranges[i];
@@ -35,22 +36,31 @@ namespace SpaceShooterLogic.Systems
             }
 
             Task.WaitAll(tasks);
+
             _stopwatchProcess.Stop();
 
+            foreach (Task<int> task in tasks)
+            {
+                GameState.AliveEntities += task.Result;
+            }
             GameState.Metrics[$"System:{_name}.Process"] = new Metric(_stopwatchProcess.Elapsed.TotalMilliseconds, _frames);
         }
 
-        private void ProcessBatch(int fromInclusive, int toExclusive, float deltaTime)
+        private int ProcessBatch(int fromInclusive, int toExclusive, float deltaTime)
         {
+            int aliveEntities = 0;
             for (int entityId = fromInclusive; entityId < toExclusive; ++entityId)
             {
                 var isAlive = GameState.Tags[entityId].IsBitSet((int)Tag.IsAlive);
 
                 if (isAlive)
                 {
+                    aliveEntities++;
                     ProcessOneEntity(entityId, deltaTime);
                 }
             }
+
+            return aliveEntities;
         }
 
         protected abstract void ProcessOneEntity(int entityId, float deltaTime);

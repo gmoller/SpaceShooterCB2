@@ -1,4 +1,6 @@
-﻿namespace GameEngineCore
+﻿using GameEngineCore;
+
+namespace SpaceShooterLogic.Components
 {
     public struct AnimationData
     {
@@ -11,6 +13,11 @@
             AnimationSpec = animationSpec;
             CurrentFrame = currentFrame;
             TimeSinceLastAnimationChange = timeSinceLastAnimationChange;
+        }
+
+        public bool IsNull()
+        {
+            return AnimationSpec == null;
         }
     }
 }

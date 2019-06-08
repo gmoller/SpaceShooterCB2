@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using GameEngineCore;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
@@ -16,13 +15,13 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var isPlayerTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsPlayer);
+            var player = GameState.Players[entityId];
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
 
             // selection
-            if (!isPlayerTag || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
+            if (player.IsNull() || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
             // process data
             // do not allow our entity off the screen

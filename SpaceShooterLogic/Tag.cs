@@ -1,15 +1,9 @@
 ﻿namespace SpaceShooterLogic
 {
-    public enum Tag
+    public enum Tag : byte
     {
         IsAlive = 0,
-        PlayerInput = 1,
-        PlayerShoots = 2,
-        CollisionDetected = 5,
-        EnemyIsChaser = 6,
-        EnemyIsShooter = 7,
-        IsPlayer = 8,
-        IsEnemy = 9,
-        IsProjectile = 10
+        CollisionDetected = 1,
+        IsProjectile = 2
     }
 }

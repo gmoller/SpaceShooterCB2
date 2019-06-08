@@ -34,7 +34,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationData.cs" />
     <Compile Include="AnimationSpec.cs" />
     <Compile Include="AnimationSpecCreator.cs" />
     <Compile Include="Bag.cs" />

@@ -22,6 +22,9 @@ namespace SpaceShooterLogic.Creators
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.IsProjectile);
 
             state.EntityCount++;
+
+            var sound = AssetsManager.Instance.GetSound("sndLaser");
+            state.AddToSoundEffectList(sound);
         }
     }
 }

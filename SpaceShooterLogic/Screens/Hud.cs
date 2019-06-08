@@ -22,8 +22,9 @@ namespace SpaceShooterLogic.Screens
 
         public void Update(GameTime gameTime)
         {
-            _lblScore.Text = $"Score: {_gameState.Score}";
-            _lblLives.Text = $"Lives: {_gameState.Lives}";
+            var p = _gameState.FindPlayer();
+            _lblScore.Text = $"Score: {p.player.Score}";
+            _lblLives.Text = $"Lives: {p.player.Lives}";
         }
 
         public void Draw(SpriteBatch spriteBatch)

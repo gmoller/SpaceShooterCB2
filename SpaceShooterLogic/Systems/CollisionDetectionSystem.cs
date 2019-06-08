@@ -12,10 +12,10 @@ namespace SpaceShooterLogic.Systems
         {
             // gather data for selection
             var volume = GameState.Volumes[entityId];
-            var isPlayerTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsPlayer);
+            var player = GameState.Players[entityId];
 
             // selection
-            if (!isPlayerTag || volume.IsEmpty) return;
+            if (player.IsNull() || volume.IsEmpty) return;
 
             // process data
             var collidedWithEntity = -1;
@@ -28,8 +28,9 @@ namespace SpaceShooterLogic.Systems
                 var volume2 = GameState.Volumes[i];
                 if (volume2.IsEmpty) continue;
 
-                var isEnemyTag = GameState.Tags[i].IsBitSet((int)Tag.IsEnemy);
-                if (isEnemyTag && volume.Intersects(volume2))
+                var enemy = GameState.Enemies[i];
+                if (enemy.IsNull()) continue;
+                if (volume.Intersects(volume2))
                 {
                     collidedWithEntity = i;
                     break;
@@ -71,15 +72,15 @@ namespace SpaceShooterLogic.Systems
                 var volume2 = GameState.Volumes[i];
                 if (volume2.IsEmpty) continue;
 
-                var isEnemyTag = GameState.Tags[i].IsBitSet((int)Tag.IsEnemy);
-                if (isEnemyTag && volume.Intersects(volume2))
+                var enemy = GameState.Enemies[i];
+                if (!enemy.IsNull() && volume.Intersects(volume2))
                 {
                     collidedWithEntity = i;
                     break;
                 }
 
-                var isPlayerTag = GameState.Tags[i].IsBitSet((int)Tag.IsPlayer);
-                if (isPlayerTag && volume.Intersects(volume2))
+                var player = GameState.Players[i];
+                if (!player.IsNull() && volume.Intersects(volume2))
                 {
                     collidedWithEntity = i;
                     break;

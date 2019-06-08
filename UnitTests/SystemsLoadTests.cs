@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 using GameEngineCore;
 using SpaceShooterLogic;
+using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
 
@@ -103,7 +104,7 @@ namespace UnitTests
             Console.WriteLine($"Number of entities: {state.EntityCount}");
             for (int i = 1; i < 33; ++i)
             {
-                var system = new FireProjectileSystem("FireProjectile", state);
+                var system = new PlayerFireProjectileSystem("FireProjectile", state);
                 RunSystem(system, i);
             }
             state.ClearState();

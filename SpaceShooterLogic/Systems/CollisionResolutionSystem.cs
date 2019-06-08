@@ -23,11 +23,25 @@ namespace SpaceShooterLogic.Systems
             // gather data for processing
             var position = GameState.Positions[entityId];
             var size = GameState.Sizes[entityId];
-            var scoreToAdd = GameState.ScoreValues[entityId];
+            var enemy = GameState.Enemies[entityId];
 
             // process data
             ExplosionCreator.Create("Explosion10", position, size * _explosionSizeScaleFactor, GameState);
-            GameState.Score += scoreToAdd;
+
+            var p = GameState.FindPlayer();
+            p.player.Score += enemy.Score;
+            GameState.Players[p.index] = p.player;
+
+            //for (int i = 0; i < GameState.EntityCount - 1; ++i)
+            //{
+            //    var player = GameState.Players[i];
+            //    if (!player.IsNull())
+            //    {
+            //        player.Score += enemy.Score;
+            //        GameState.Players[i] = player;
+            //        break;
+            //    }
+            //}
 
             // update data
             GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBits((int)Tag.IsAlive, (int)Tag.CollisionDetected);

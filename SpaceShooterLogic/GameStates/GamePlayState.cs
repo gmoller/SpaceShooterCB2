@@ -43,7 +43,7 @@ namespace SpaceShooterLogic.GameStates
                 new ClampToViewportSystem("ClampToViewport", _gameState),
                 new DestroyIfOutsideViewportSystem("DestroyIfOutsideViewport", _gameState),
                 new SetBoundingBoxSystem("SetBoundingBox", _gameState),
-                new FireProjectileSystem("FireProjectile", _gameState),
+                new PlayerFireProjectileSystem("FireProjectile", _gameState),
                 new EnemyFireProjectileSystem("EnemyFireProjectile", _gameState),
                 new AnimationSystem("Animation", _gameState),
                 new PlayerCollisionDetectionSystem("PlayerCollisionDetection", _gameState),
@@ -57,7 +57,7 @@ namespace SpaceShooterLogic.GameStates
             _soundEffectPlayer = new SoundEffectPlayer();
             _renderer = new Renderer();
 
-            PlayerCreator.Create(_gameState);
+            PlayerCreator.Create(_gameState, 0, 3);
             SpawnCreator.Create(_gameState);
             //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
         }
@@ -112,7 +112,7 @@ namespace SpaceShooterLogic.GameStates
             }
 
             _timeElapsedSinceDied = 0.0f;
-            if (_gameState.Lives > 1)
+            if (_gameState.FindPlayer().player.Lives > 1)
             {
                 ResetLevel();
                 return false;
@@ -138,11 +138,11 @@ namespace SpaceShooterLogic.GameStates
 
         private void ResetLevel()
         {
+            var p = _gameState.FindPlayer();
             _gameState.Restart();
 
-            PlayerCreator.Create(_gameState);
+            PlayerCreator.Create(_gameState, p.player.Score, p.player.Lives);
             SpawnCreator.Create(_gameState);
-            //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
         }
 
         public IGameState Clone()

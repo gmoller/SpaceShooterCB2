@@ -16,14 +16,14 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var isEnemyTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsEnemy);
+            var enemy = GameState.Enemies[entityId];
             var isProjectileTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
             var position = GameState.Positions[entityId];
             var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
 
             // selection
-            if ((!isEnemyTag && !isProjectileTag) || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
+            if ((enemy.IsNull() && !isProjectileTag) || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
 
             // process data
             // destroy if off screen

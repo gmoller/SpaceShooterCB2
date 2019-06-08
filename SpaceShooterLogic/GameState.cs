@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngineCore;
+using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Screens;
 
 namespace SpaceShooterLogic
@@ -11,10 +13,9 @@ namespace SpaceShooterLogic
         public Hud Hud { get; }
 
         public bool PlayerIsDead { get; set; }
-        public int Score { get; set; }
-        public int Lives { get; private set; }
 
         public int EntityCount { get; set; }
+        public int AliveEntities { get; set; }
 
         #region Component Type Arrays
 
@@ -33,9 +34,10 @@ namespace SpaceShooterLogic
         // animations
         public Bag<AnimationData> AnimationData { get; private set; }
 
-        public Bag<byte> ScoreValues { get; private set; }
+        public Bag<Player> Players { get; private set; }
+        public Bag<Enemy> Enemies { get; private set; }
 
-        public Bag<int> Tags { get; private set; }
+        public Bag<byte> Tags { get; private set; }
 
         #endregion
 
@@ -50,8 +52,7 @@ namespace SpaceShooterLogic
             SpriteBatchList = new SpriteBatchList();
             SoundEffectList = new SoundEffectList();
             ClearState();
-            Score = 0;
-            Lives = 3;
+            //Lives = 3;
 
             Hud = new Hud(this);
         }
@@ -69,7 +70,7 @@ namespace SpaceShooterLogic
         public void Restart()
         {
             ClearState();
-            Lives--;
+            //Lives--;
             PlayerIsDead = false;
         }
 
@@ -86,8 +87,23 @@ namespace SpaceShooterLogic
             TimesSinceLastShot = new Bag<float>();
             TimesSinceLastEnemySpawned = new Bag<float>();
             AnimationData = new Bag<AnimationData>();
-            ScoreValues = new Bag<byte>();
-            Tags = new Bag<int>();
+            Players = new Bag<Player>();
+            Enemies = new Bag<Enemy>();
+            Tags = new Bag<byte>();
+        }
+
+        public (Player player, int index) FindPlayer()
+        {
+            for (int i = 0; i < EntityCount - 1; ++i)
+            {
+                var player = Players[i];
+                if (!player.IsNull())
+                {
+                    return (player, i);
+                }
+            }
+
+            throw new Exception("Player not found!");
         }
     }
 }

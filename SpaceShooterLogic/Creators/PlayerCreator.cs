@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using GameEngineCore;
+using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Creators
 {
     public static class PlayerCreator
     {
-        public static void Create(GameState state)
+        public static void Create(GameState state, int score, byte lives)
         {
             Vector2 size = new Vector2(16.0f, 16.0f) * 2.5f;
 
@@ -20,7 +21,8 @@ namespace SpaceShooterLogic.Creators
             state.TimesSinceLastShot[entityId] = float.MaxValue; // to ensure we don't start on cooldown
             state.TimesSinceLastEnemySpawned[entityId] = -0.1f;
             state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive, (int)Tag.PlayerInput, (int)Tag.IsPlayer);
+            state.Players[entityId] = new Player(score, lives);
+            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
         }

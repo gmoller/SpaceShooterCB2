@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using GameEngineCore;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
@@ -17,14 +16,14 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var playerInputTag = GameState.Tags[entityId].IsBitSet((int)Tag.PlayerInput);
+            var player = GameState.Players[entityId];
 
             // selection
-            if (!playerInputTag) return;
+            if (player.IsNull()) return;
 
             // process data
             var direction = Vector2.Zero;
-            var shoot = false;
+            player.ShootAction = false;
             if (KeyboardHandler.IsKeyDown(Keys.W))
             {
                 direction = new Vector2(direction.X, -1.0f);
@@ -43,20 +42,15 @@ namespace SpaceShooterLogic.Systems
             }
             if (KeyboardHandler.IsKeyDown(Keys.Space))
             {
-                shoot = true;
+                player.ShootAction = true;
             }
 
             // update data
             GameState.Velocities[entityId] = direction * _movementSpeed;
-            if (shoot)
+            if (player.ShootAction)
             {
-                GameState.Tags[entityId] = GameState.Tags[entityId].SetBit((int)Tag.PlayerShoots);
+                GameState.Players[entityId] = player;
             }
-            else
-            {
-                GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBit((int)Tag.PlayerShoots);
-            }
-            
         }
     }
 }

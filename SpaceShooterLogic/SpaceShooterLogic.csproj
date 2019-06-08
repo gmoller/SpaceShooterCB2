@@ -42,16 +42,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AnimationData.cs" />
     <Compile Include="Components\ChasingBehaviorComponent.cs" />
-    <Compile Include="Components\GraphicsComponent.cs" />
-    <Compile Include="Components\PlayerInputComponent.cs" />
-    <Compile Include="Components\LaserComponent.cs" />
+    <Compile Include="Components\Enemy.cs" />
+    <Compile Include="Components\Player.cs" />
     <Compile Include="Components\PlayerPhysicsComponent.cs" />
     <Compile Include="Components\EnemyPhysicsComponent.cs" />
     <Compile Include="Components\ProjectilePhysicsComponent.cs" />
-    <Compile Include="Components\ShootingBehaviorComponent.cs" />
-    <Compile Include="Components\SpriteComponent.cs" />
-    <Compile Include="Components\VolumeGraphicsComponent.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />
     <Compile Include="Creators\EnemySpawnerCreator.cs" />
     <Compile Include="Creators\ExplosionCreator.cs" />
@@ -75,8 +72,9 @@
     <Compile Include="Systems\CollisionDetectionSystem.cs" />
     <Compile Include="Systems\CollisionResolutionSystem.cs" />
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
+    <Compile Include="Systems\EnemyFireProjectileSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
-    <Compile Include="Systems\FireProjectileSystem.cs" />
+    <Compile Include="Systems\PlayerFireProjectileSystem.cs" />
     <Compile Include="Systems\KillPlayerSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />

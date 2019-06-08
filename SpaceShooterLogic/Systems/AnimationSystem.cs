@@ -12,7 +12,7 @@
             var animationData = GameState.AnimationData[entityId];
 
             // selection
-            if (animationData.AnimationSpec == null) return;
+            if (animationData.IsNull()) return;
 
             // process data
             // is it time to change?

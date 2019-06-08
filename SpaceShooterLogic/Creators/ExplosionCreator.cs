@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using GameEngineCore;
+using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Creators
@@ -19,6 +20,10 @@ namespace SpaceShooterLogic.Creators
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
+
+            int i = RandomGenerator.Instance.GetRandomInt(0, 1);
+            var sound = AssetsManager.Instance.GetSound($"sndExplode{i}");
+            state.AddToSoundEffectList(sound);
         }
     }
 }
