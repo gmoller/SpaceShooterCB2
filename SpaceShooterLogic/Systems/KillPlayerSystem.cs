@@ -18,7 +18,7 @@ namespace SpaceShooterLogic.Systems
             if (player.IsNull() || !collisionDetectedTag) return;
 
             // process data
-            GameState.PlayerIsDead = true;
+            //GameState.PlayerIsDead = true;
             player.Lives--;
 
             // update data

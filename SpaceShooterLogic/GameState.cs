@@ -12,8 +12,6 @@ namespace SpaceShooterLogic
     {
         public Hud Hud { get; }
 
-        public bool PlayerIsDead { get; set; }
-
         public int EntityCount { get; set; }
         public int AliveEntities { get; set; }
 
@@ -52,7 +50,6 @@ namespace SpaceShooterLogic
             SpriteBatchList = new SpriteBatchList();
             SoundEffectList = new SoundEffectList();
             ClearState();
-            //Lives = 3;
 
             Hud = new Hud(this);
         }
@@ -65,13 +62,6 @@ namespace SpaceShooterLogic
         public void AddToSoundEffectList(SoundEffect sound)
         {
             SoundEffectList.Add(sound);
-        }
-
-        public void Restart()
-        {
-            ClearState();
-            //Lives--;
-            PlayerIsDead = false;
         }
 
         public void ClearState()

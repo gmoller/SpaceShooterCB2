@@ -59,7 +59,6 @@ namespace SpaceShooterLogic.GameStates
 
             PlayerCreator.Create(_gameState, 0, 3);
             SpawnCreator.Create(_gameState);
-            //EnemyCreator.Create(new Vector2(50.0f, 16.0f), new Vector2(0.0f, 0.005f)); // pixels per millisecond
         }
 
         public virtual void Enter(IGameState previousGameState)
@@ -82,7 +81,7 @@ namespace SpaceShooterLogic.GameStates
 
             _gameState.Hud.Update(gameTime);
 
-            if (_gameState.PlayerIsDead)
+            if (_gameState.Tags[_gameState.FindPlayer().index].IsBitSet((int)Tag.IsAlive) == false)
             {
                 bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
                 if (changeToGameOverState)
@@ -112,7 +111,7 @@ namespace SpaceShooterLogic.GameStates
             }
 
             _timeElapsedSinceDied = 0.0f;
-            if (_gameState.FindPlayer().player.Lives > 1)
+            if (_gameState.FindPlayer().player.Lives > 0)
             {
                 ResetLevel();
                 return false;
@@ -139,7 +138,7 @@ namespace SpaceShooterLogic.GameStates
         private void ResetLevel()
         {
             var p = _gameState.FindPlayer();
-            _gameState.Restart();
+            _gameState.ClearState();
 
             PlayerCreator.Create(_gameState, p.player.Score, p.player.Lives);
             SpawnCreator.Create(_gameState);
