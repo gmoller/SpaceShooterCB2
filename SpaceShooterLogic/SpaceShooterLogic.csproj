@@ -61,6 +61,7 @@
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="GameStates\PausedState.cs" />
     <Compile Include="Screens\Hud.cs" />
+    <Compile Include="Screens\Metrics.cs" />
     <Compile Include="Screens\MetricsDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundList.cs" />
@@ -69,20 +70,23 @@
     <Compile Include="StarField.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
-    <Compile Include="Systems\CollisionDetectionSystem.cs" />
+    <Compile Include="Systems\IsGameOverSystem.cs" />
+    <Compile Include="Systems\PlayerCollisionDetectionSystem.cs" />
     <Compile Include="Systems\CollisionResolutionSystem.cs" />
     <Compile Include="Systems\DestroyIfOutsideViewportSystem.cs" />
     <Compile Include="Systems\EnemyFireProjectileSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\PlayerFireProjectileSystem.cs" />
-    <Compile Include="Systems\KillPlayerSystem.cs" />
+    <Compile Include="Systems\RestorePlayerSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="Systems\ProjectileCollisionDetectionSystem.cs" />
     <Compile Include="Systems\RenderingSystem.cs" />
     <Compile Include="Systems\SetBoundingBoxSystem.cs" />
     <Compile Include="SoundEffectPlayer.cs" />
     <Compile Include="Systems\System.cs" />
+    <Compile Include="Systems\Systems.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>
   <ItemGroup>

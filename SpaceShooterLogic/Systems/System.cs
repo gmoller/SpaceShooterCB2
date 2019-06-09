@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using GameEngineCore;
 
@@ -39,10 +38,10 @@ namespace SpaceShooterLogic.Systems
 
             _stopwatchProcess.Stop();
 
-            foreach (Task<int> task in tasks)
-            {
-                GameState.AliveEntities += task.Result;
-            }
+            //foreach (Task<int> task in tasks)
+            //{
+            //    GameState.AliveEntityCount += task.Result;
+            //}
             GameState.Metrics[$"System:{_name}.Process"] = new Metric(_stopwatchProcess.Elapsed.TotalMilliseconds, _frames);
         }
 

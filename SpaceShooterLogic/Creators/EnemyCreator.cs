@@ -47,6 +47,7 @@ namespace SpaceShooterLogic.Creators
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
+            state.AliveEntityCount++;
         }
 
         private static EnemyType ChooseEnemyType()

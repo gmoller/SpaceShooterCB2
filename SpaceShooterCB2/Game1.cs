@@ -40,8 +40,8 @@ namespace SpaceShooterCB2
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = 480; // 480
-            _graphics.PreferredBackBufferHeight = 640; // 640
+            _graphics.PreferredBackBufferWidth = 480;
+            _graphics.PreferredBackBufferHeight = 640;
             _graphics.SynchronizeWithVerticalRetrace = false;
 
             VariableTimeStep();

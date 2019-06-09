@@ -24,6 +24,7 @@ namespace SpaceShooterLogic.Creators
             int i = RandomGenerator.Instance.GetRandomInt(0, 1);
             var sound = AssetsManager.Instance.GetSound($"sndExplode{i}");
             state.AddToSoundEffectList(sound);
+            state.AliveEntityCount++;
         }
     }
 }

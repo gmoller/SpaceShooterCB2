@@ -22,7 +22,7 @@ namespace SpaceShooterLogic.Screens
             var avg = new GridColumn { Text = "Avg. (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
 
             var gridColumns = new GridColumns(name, time, frames, avg);
-            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 400.0f), true, gridColumns);
+            _grid = new Grid(AssetsManager.Instance.GetSpriteFont("arialSmall"), AssetsManager.Instance.GetSpriteFont("arialTiny"), Color.CornflowerBlue, new Vector2(50.0f, 300.0f), true, gridColumns);
         }
 
         public void Update(GameTime gameTime)

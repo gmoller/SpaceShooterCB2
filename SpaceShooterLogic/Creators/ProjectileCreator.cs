@@ -25,6 +25,7 @@ namespace SpaceShooterLogic.Creators
 
             var sound = AssetsManager.Instance.GetSound("sndLaser");
             state.AddToSoundEffectList(sound);
+            state.AliveEntityCount++;
         }
     }
 }

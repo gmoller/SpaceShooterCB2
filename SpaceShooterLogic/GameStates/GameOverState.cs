@@ -30,7 +30,8 @@ namespace SpaceShooterLogic.GameStates
                 title, Color.White);
 
             _btnRestart = new Button(fontArial, VerticalAlignment.Middle, HorizontalAlignment.Center,
-                DeviceManager.Instance.ScreenDimensions * 0.5f, new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnRestart",
+                new Vector2(DeviceManager.Instance.ScreenWidth * 0.5f, DeviceManager.Instance.ScreenHeight * 0.3f),
+                new Vector2(128.0f, 32.0f), string.Empty, Color.White, 1.0f, 1.0f, "sprBtnRestart",
                 "sndBtn");
             _btnRestart.OnClick += btnRestart_Click;
 

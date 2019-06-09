@@ -10,10 +10,14 @@ namespace SpaceShooterLogic
 {
     public class GameState
     {
+        public bool GameOver { get; set; }
+
         public Hud Hud { get; }
+        public Metrics QMetrics { get; }
 
         public int EntityCount { get; set; }
-        public int AliveEntities { get; set; }
+        public int AliveEntityCount { get; set; }
+        public float AlivePercentage => AliveEntityCount / (float)EntityCount * 100;
 
         #region Component Type Arrays
 
@@ -52,6 +56,7 @@ namespace SpaceShooterLogic
             ClearState();
 
             Hud = new Hud(this);
+            QMetrics = new Metrics(this);
         }
 
         public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
@@ -67,6 +72,7 @@ namespace SpaceShooterLogic
         public void ClearState()
         {
             EntityCount = 0;
+            AliveEntityCount = 0;
 
             Positions = new Bag<Vector2>();
             Velocities = new Bag<Vector2>();
@@ -94,6 +100,60 @@ namespace SpaceShooterLogic
             }
 
             throw new Exception("Player not found!");
+        }
+
+        public void CompactEntities()
+        {
+            var newPositions = new Bag<Vector2>();
+            var newVelocities = new Bag<Vector2>();
+            var newVolumes = new Bag<Rectangle>();
+            var newTextures = new Bag<Texture2D>();
+            var newSizes = new Bag<Vector2>();
+            var newRotations = new Bag<float>();
+            var newTimesSinceLastShot = new Bag<float>();
+            var newTimesSinceLastEnemySpawned = new Bag<float>();
+            var newAnimationData = new Bag<AnimationData>();
+            var newPlayers = new Bag<Player>();
+            var newEnemies = new Bag<Enemy>();
+            var newTags = new Bag<byte>();
+
+            int aliveCount = 0;
+            for (int entityId = 0; entityId < EntityCount; ++entityId)
+            {
+                var isAlive = Tags[entityId].IsBitSet((int)Tag.IsAlive);
+                if (isAlive)
+                {
+                    aliveCount++;
+                    newPositions.Add(Positions[entityId]);
+                    newVelocities.Add(Velocities[entityId]);
+                    newVolumes.Add(Volumes[entityId]);
+                    newTextures.Add(Textures[entityId]);
+                    newSizes.Add(Sizes[entityId]);
+                    newRotations.Add(Rotations[entityId]);
+                    newTimesSinceLastShot.Add(TimesSinceLastShot[entityId]);
+                    newTimesSinceLastEnemySpawned.Add(TimesSinceLastEnemySpawned[entityId]);
+                    newAnimationData.Add(AnimationData[entityId]);
+                    newPlayers.Add(Players[entityId]);
+                    newEnemies.Add(Enemies[entityId]);
+                    newTags.Add(Tags[entityId]);
+                }
+            }
+
+            Positions = newPositions;
+            Velocities = newVelocities;
+            Volumes = newVolumes;
+            Textures = newTextures;
+            Sizes = newSizes;
+            Rotations = newRotations;
+            TimesSinceLastShot = newTimesSinceLastShot;
+            TimesSinceLastEnemySpawned = newTimesSinceLastEnemySpawned;
+            AnimationData = newAnimationData;
+            Players = newPlayers;
+            Enemies = newEnemies;
+            Tags = newTags;
+
+            EntityCount = aliveCount;
+            AliveEntityCount = aliveCount;
         }
     }
 }

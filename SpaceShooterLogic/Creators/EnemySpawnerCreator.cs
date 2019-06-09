@@ -11,6 +11,7 @@
             state.Tags[entityId] = 1;
 
             state.EntityCount++;
+            state.AliveEntityCount++;
         }
     }
 }

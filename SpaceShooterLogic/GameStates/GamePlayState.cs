@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GameEngineCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,17 +11,12 @@ namespace SpaceShooterLogic.GameStates
 {
     public class GamePlayState : IGameState
     {
-        private const int NUMBER_OF_THREADS = 16;
-
-        private float _timeElapsedSinceDied; // in seconds
-        private readonly int _restartDelay = 3; // in seconds
-
         private readonly Stopwatch _updateStopwatch = new Stopwatch();
         private readonly Stopwatch _drawStopwatch = new Stopwatch();
         private int _updateFrames;
         private int _drawFrames;
 
-        private readonly List<Systems.System> _systems;
+        private readonly Systems.Systems _systems;
         private readonly SoundEffectPlayer _soundEffectPlayer;
         private readonly Renderer _renderer;
 
@@ -36,7 +30,7 @@ namespace SpaceShooterLogic.GameStates
             _gameState = new GameState();
 
             // setup systems
-            _systems = new List<Systems.System>
+            var systems = new Systems.System[]
             {
                 new PlayerInputSystem("PlayerInput", _gameState),
                 new MovementSystem("Movement", _gameState),
@@ -48,11 +42,13 @@ namespace SpaceShooterLogic.GameStates
                 new AnimationSystem("Animation", _gameState),
                 new PlayerCollisionDetectionSystem("PlayerCollisionDetection", _gameState),
                 new ProjectileCollisionDetectionSystem("ProjectileCollisionDetection", _gameState),
-                new KillPlayerSystem("KillPlayer", _gameState),
+                new RestorePlayerSystem("KillPlayer", _gameState),
                 new CollisionResolutionSystem("CollisionResolution", _gameState),
                 new EnemySpawnSystem("EnemySpawn", _gameState),
+                new IsGameOverSystem("IsGameOver", _gameState), 
                 new RenderingSystem("Rendering", _gameState)
             };
+            _systems = new Systems.Systems(_gameState, systems);
 
             _soundEffectPlayer = new SoundEffectPlayer();
             _renderer = new Renderer();
@@ -74,20 +70,14 @@ namespace SpaceShooterLogic.GameStates
             _updateFrames++;
             _updateStopwatch.Start();
 
-            foreach (var system in _systems)
-            {
-                system.Process((float)gameTime.ElapsedGameTime.TotalMilliseconds, NUMBER_OF_THREADS);
-            }
+            _systems.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             _gameState.Hud.Update(gameTime);
+            _gameState.QMetrics.Update(gameTime);
 
-            if (_gameState.Tags[_gameState.FindPlayer().index].IsBitSet((int)Tag.IsAlive) == false)
+            if (_gameState.GameOver)
             {
-                bool changeToGameOverState = CheckForChangeToGameOverState(gameTime);
-                if (changeToGameOverState)
-                {
-                    return (this, new GameOverState(_gameState));
-                }
+                return (this, new GameOverState(_gameState));
             }
 
             if (KeyboardHandler.IsKeyPressed(Keys.Pause))
@@ -101,26 +91,6 @@ namespace SpaceShooterLogic.GameStates
             return (this, this);
         }
 
-        private bool CheckForChangeToGameOverState(GameTime gameTime)
-        {
-            if (_timeElapsedSinceDied < _restartDelay)
-            {
-                _timeElapsedSinceDied += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                return false;
-            }
-
-            _timeElapsedSinceDied = 0.0f;
-            if (_gameState.FindPlayer().player.Lives > 0)
-            {
-                ResetLevel();
-                return false;
-            }
-
-            // out of lives, game over!
-            return true;
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             _drawFrames++;
@@ -130,18 +100,10 @@ namespace SpaceShooterLogic.GameStates
             _renderer.Render(spriteBatch, _gameState);
 
             _gameState.Hud.Draw(spriteBatch);
+            _gameState.QMetrics.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
             _gameState.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);
-        }
-
-        private void ResetLevel()
-        {
-            var p = _gameState.FindPlayer();
-            _gameState.ClearState();
-
-            PlayerCreator.Create(_gameState, p.player.Score, p.player.Lives);
-            SpawnCreator.Create(_gameState);
         }
 
         public IGameState Clone()
