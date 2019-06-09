@@ -17,11 +17,10 @@ namespace SpaceShooterLogic.Systems
             // gather data for selection
             var player = GameState.Players[entityId];
             var position = GameState.Positions[entityId];
-            var velocity = GameState.Velocities[entityId];
             var size = GameState.Sizes[entityId];
 
             // selection
-            if (player.IsNull() || position.IsNull() || velocity.IsNull() || size.IsNull()) return;
+            if (player.IsNull() || position.IsNull() || size.IsNull()) return;
 
             // process data
             // do not allow our entity off the screen

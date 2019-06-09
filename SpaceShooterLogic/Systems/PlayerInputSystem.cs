@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
@@ -19,7 +20,7 @@ namespace SpaceShooterLogic.Systems
             var player = GameState.Players[entityId];
 
             // selection
-            if (player.IsNull()) return;
+            if (player.IsNull() || player.Status == PlayerStatus.Destroyed) return;
 
             // process data
             var direction = Vector2.Zero;

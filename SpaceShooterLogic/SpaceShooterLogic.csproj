@@ -43,13 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AnimationData.cs" />
-    <Compile Include="Components\ChasingBehaviorComponent.cs" />
     <Compile Include="Components\Enemy.cs" />
     <Compile Include="Components\EnemySpawner.cs" />
     <Compile Include="Components\Player.cs" />
-    <Compile Include="Components\PlayerPhysicsComponent.cs" />
-    <Compile Include="Components\EnemyPhysicsComponent.cs" />
-    <Compile Include="Components\ProjectilePhysicsComponent.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />
     <Compile Include="Creators\EnemySpawnerCreator.cs" />
     <Compile Include="Creators\ExplosionCreator.cs" />
@@ -70,6 +66,7 @@
     <Compile Include="StarField.cs" />
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\ClampToViewportSystem.cs" />
+    <Compile Include="Systems\EnemyChaseSystem.cs" />
     <Compile Include="Systems\IsGameOverSystem.cs" />
     <Compile Include="Systems\PlayerCollisionDetectionSystem.cs" />
     <Compile Include="Systems\CollisionResolutionSystem.cs" />

@@ -63,7 +63,14 @@ namespace SpaceShooterUtilities
 
         public Texture2D GetTexture(string key)
         {
-            return _textures[key];
+            try
+            {
+                return _textures[key];
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Key [{key}] not found in Textures.", e);
+            }
         }
         #endregion
 
@@ -75,7 +82,14 @@ namespace SpaceShooterUtilities
 
         public AnimationSpec GetAnimations(string key)
         {
-            return _animations[key];
+            try
+            {
+                return _animations[key];
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Key [{key}] not found in Animations.", e);
+            }
         }
         #endregion
 
@@ -101,6 +115,11 @@ namespace SpaceShooterUtilities
             AddSound(assetName, assetName);
         }
 
+        public void AddSound(string key, SoundEffect sound)
+        {
+            _sounds.Add(key, sound);
+        }
+
         public void AddSound(string key, string assetName)
         {
             var sound = ContentManager.Load<SoundEffect>(assetName);
@@ -109,7 +128,14 @@ namespace SpaceShooterUtilities
 
         public SoundEffect GetSound(string key)
         {
-            return _sounds[key];
+            try
+            {
+                return _sounds[key];
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Key [{key}] not found in Sounds.", e);
+            }
         }
         #endregion
 

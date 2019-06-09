@@ -42,6 +42,7 @@ namespace SpaceShooterLogic.GameStates
                 new SetBoundingBoxSystem("SetBoundingBox", _gameState),
                 new PlayerFireProjectileSystem("FireProjectile", _gameState),
                 new EnemyFireProjectileSystem("EnemyFireProjectile", _gameState),
+                new EnemyChaseSystem("EnemyChase", _gameState), 
                 new AnimationSystem("Animation", _gameState),
                 new PlayerCollisionDetectionSystem("PlayerCollisionDetection", _gameState),
                 new ProjectileCollisionDetectionSystem("ProjectileCollisionDetection", _gameState),

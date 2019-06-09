@@ -17,8 +17,8 @@ namespace SpaceShooterLogic.Screens
             _gameState = gameState;
 
             var name = new GridColumn { Text = "Name", HorizontalAlignment = HorizontalAlignment.Left, X = 50.0f };
-            var time = new GridColumn { Text = "Time (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 245.0f };
-            var frames = new GridColumn { Text = "Frames", HorizontalAlignment = HorizontalAlignment.Right, X = 335.0f };
+            var time = new GridColumn { Text = "Time (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 285.0f };
+            var frames = new GridColumn { Text = "Frames", HorizontalAlignment = HorizontalAlignment.Right, X = 355.0f };
             var avg = new GridColumn { Text = "Avg. (ms)", HorizontalAlignment = HorizontalAlignment.Right, X = 425.0f };
 
             var gridColumns = new GridColumns(name, time, frames, avg);

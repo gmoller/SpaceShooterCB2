@@ -5,8 +5,11 @@ namespace SpaceShooterLogic.Systems
 {
     public class RestorePlayerSystem : System
     {
+        private readonly float _deathRotationSpeed;
+
         public RestorePlayerSystem(string name, GameState gameState) : base(name, gameState)
         {
+            _deathRotationSpeed = 0.0075f;
         }
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
@@ -19,7 +22,7 @@ namespace SpaceShooterLogic.Systems
 
             // process data
             var rotation = GameState.Rotations[entityId];
-            rotation += 0.5f;
+            rotation += _deathRotationSpeed * deltaTime;
 
             if (!player.DeathOnCooldown)
             {

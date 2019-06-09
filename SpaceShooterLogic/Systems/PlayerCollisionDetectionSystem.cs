@@ -1,4 +1,5 @@
 ﻿using GameEngineCore;
+using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Systems
@@ -50,6 +51,7 @@ namespace SpaceShooterLogic.Systems
             {
                 player.DeathCooldownTime = 3000.0f; // 3 seconds
                 GameState.Players[entityId] = player;
+                GameState.Velocities[entityId] = Vector2.Zero;
             }
         }
     }

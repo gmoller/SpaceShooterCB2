@@ -13,11 +13,10 @@ namespace SpaceShooterLogic.Systems
         {
             // gather data for selection
             var position = GameState.Positions[entityId];
-            var velocity = GameState.Velocities[entityId];
             var volume = GameState.Volumes[entityId];
 
             // selection
-            if (position.IsNull() || velocity.IsNull() || volume.IsEmpty) return;
+            if (position.IsNull() || volume.IsEmpty) return;
 
             // process data
             // calculate new Bounding Box
