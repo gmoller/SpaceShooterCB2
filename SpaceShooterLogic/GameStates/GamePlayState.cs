@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceShooterLogic.Creators;
+using SpaceShooterLogic.Screens;
 using SpaceShooterLogic.Systems;
 using SpaceShooterUtilities;
 
@@ -17,6 +18,8 @@ namespace SpaceShooterLogic.GameStates
         private int _drawFrames;
 
         private readonly Systems.Systems _systems;
+        private readonly Hud _hud;
+
         private readonly SoundEffectPlayer _soundEffectPlayer;
         private readonly Renderer _renderer;
 
@@ -50,6 +53,8 @@ namespace SpaceShooterLogic.GameStates
             };
             _systems = new Systems.Systems(_gameState, systems);
 
+            _hud = new Hud(_gameState);
+
             _soundEffectPlayer = new SoundEffectPlayer();
             _renderer = new Renderer();
 
@@ -72,8 +77,7 @@ namespace SpaceShooterLogic.GameStates
 
             _systems.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
-            _gameState.Hud.Update(gameTime);
-            _gameState.QMetrics.Update(gameTime);
+            _hud.Update(gameTime);
 
             if (_gameState.GameOver)
             {
@@ -99,8 +103,7 @@ namespace SpaceShooterLogic.GameStates
             _soundEffectPlayer.Play(_gameState);
             _renderer.Render(spriteBatch, _gameState);
 
-            _gameState.Hud.Draw(spriteBatch);
-            _gameState.QMetrics.Draw(spriteBatch);
+            _hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
             _gameState.Metrics["GamePlayState.Draw"] = new Metric(_drawStopwatch.Elapsed.TotalMilliseconds, _drawFrames);

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using GameEngineCore;
 using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Creators;
 using SpaceShooterUtilities;
@@ -27,21 +26,19 @@ namespace SpaceShooterLogic.Systems
             // gather data for selection
             var enemy = GameState.Enemies[entityId];
             var firingEntityPosition = GameState.Positions[entityId];
-            var timeElapsedSinceLastShot = GameState.TimesSinceLastShot[entityId];
 
             // selection
-            if (enemy.Type != EnemyType.Gunship || firingEntityPosition.IsNull() || timeElapsedSinceLastShot.IsNegative()) return;
+            if (enemy.Type != EnemyType.Gunship || firingEntityPosition.IsNull()) return;
 
             // process data
             // check if we are on cooldown
-            var weaponOnCooldown = WeaponOnCooldown(timeElapsedSinceLastShot);
+            var weaponOnCooldown = enemy.WeaponOnCooldown;
             if (weaponOnCooldown)
             {
-                timeElapsedSinceLastShot += deltaTime;
+                enemy.WeaponCooldownTime -= deltaTime;
+                enemy.WeaponCooldownTime = MathHelper.Clamp(enemy.WeaponCooldownTime, 0.0f, _weaponCooldownTime);
             }
-
-            // if not on cooldown and fire pressed, fire projectile
-            if (!weaponOnCooldown)
+            else // if not on cooldown, fire projectile
             {
                 // create new projectile
                 var projectilePosition = firingEntityPosition + _weaponsOffset;
@@ -49,16 +46,11 @@ namespace SpaceShooterLogic.Systems
                 ProjectileCreator.Create("sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
 
                 // put weapon on cooldown
-                timeElapsedSinceLastShot = 0.0f;
+                enemy.WeaponCooldownTime = _weaponCooldownTime;
             }
 
             // update data
-            GameState.TimesSinceLastShot[entityId] = timeElapsedSinceLastShot;
-        }
-
-        private bool WeaponOnCooldown(float timeElapsedSinceLastShot)
-        {
-            return timeElapsedSinceLastShot < _weaponCooldownTime;
+            GameState.Enemies[entityId] = enemy;
         }
     }
 }

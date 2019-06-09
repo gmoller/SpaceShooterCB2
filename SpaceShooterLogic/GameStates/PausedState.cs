@@ -46,7 +46,7 @@ namespace SpaceShooterLogic.GameStates
 
             // TODO: draw rendering system
 
-            _gameState.Hud.Draw(spriteBatch);
+            //_gameState.Hud.Draw(spriteBatch);
 
             _drawStopwatch.Stop();
 

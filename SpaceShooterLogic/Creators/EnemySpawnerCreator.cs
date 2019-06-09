@@ -1,4 +1,6 @@
-﻿namespace SpaceShooterLogic.Creators
+﻿using SpaceShooterLogic.Components;
+
+namespace SpaceShooterLogic.Creators
 {
     public static class SpawnCreator
     {
@@ -6,8 +8,7 @@
         {
             int entityId = state.EntityCount;
 
-            state.TimesSinceLastShot[entityId] = -0.1f;
-            state.TimesSinceLastEnemySpawned[entityId] = float.MaxValue;
+            state.EnemySpawner[entityId] = new EnemySpawner();
             state.Tags[entityId] = 1;
 
             state.EntityCount++;

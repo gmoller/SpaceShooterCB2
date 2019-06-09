@@ -95,7 +95,6 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 state.Positions[i] = new Vector2(50.0f, 600.0f);
-                state.TimesSinceLastShot[i] = 1000.0f;
                 state.Tags[i] = 1;
 
                 state.EntityCount++;

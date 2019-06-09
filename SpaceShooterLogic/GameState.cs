@@ -4,16 +4,12 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngineCore;
 using SpaceShooterLogic.Components;
-using SpaceShooterLogic.Screens;
 
 namespace SpaceShooterLogic
 {
     public class GameState
     {
         public bool GameOver { get; set; }
-
-        public Hud Hud { get; }
-        public Metrics QMetrics { get; }
 
         public int EntityCount { get; set; }
         public int AliveEntityCount { get; set; }
@@ -30,8 +26,7 @@ namespace SpaceShooterLogic
 
         public Bag<float> Rotations { get; private set; }
 
-        public Bag<float> TimesSinceLastShot { get; private set; }
-        public Bag<float> TimesSinceLastEnemySpawned { get; private set; }
+        public Bag<EnemySpawner> EnemySpawner { get; private set; }
 
         // animations
         public Bag<AnimationData> AnimationData { get; private set; }
@@ -54,9 +49,6 @@ namespace SpaceShooterLogic
             SpriteBatchList = new SpriteBatchList();
             SoundEffectList = new SoundEffectList();
             ClearState();
-
-            Hud = new Hud(this);
-            QMetrics = new Metrics(this);
         }
 
         public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
@@ -80,8 +72,7 @@ namespace SpaceShooterLogic
             Textures = new Bag<Texture2D>();
             Sizes = new Bag<Vector2>();
             Rotations = new Bag<float>();
-            TimesSinceLastShot = new Bag<float>();
-            TimesSinceLastEnemySpawned = new Bag<float>();
+            EnemySpawner = new Bag<EnemySpawner>();
             AnimationData = new Bag<AnimationData>();
             Players = new Bag<Player>();
             Enemies = new Bag<Enemy>();
@@ -110,8 +101,7 @@ namespace SpaceShooterLogic
             var newTextures = new Bag<Texture2D>();
             var newSizes = new Bag<Vector2>();
             var newRotations = new Bag<float>();
-            var newTimesSinceLastShot = new Bag<float>();
-            var newTimesSinceLastEnemySpawned = new Bag<float>();
+            var newEnemySpawner = new Bag<EnemySpawner>();
             var newAnimationData = new Bag<AnimationData>();
             var newPlayers = new Bag<Player>();
             var newEnemies = new Bag<Enemy>();
@@ -130,8 +120,7 @@ namespace SpaceShooterLogic
                     newTextures.Add(Textures[entityId]);
                     newSizes.Add(Sizes[entityId]);
                     newRotations.Add(Rotations[entityId]);
-                    newTimesSinceLastShot.Add(TimesSinceLastShot[entityId]);
-                    newTimesSinceLastEnemySpawned.Add(TimesSinceLastEnemySpawned[entityId]);
+                    newEnemySpawner.Add(EnemySpawner[entityId]);
                     newAnimationData.Add(AnimationData[entityId]);
                     newPlayers.Add(Players[entityId]);
                     newEnemies.Add(Enemies[entityId]);
@@ -145,8 +134,7 @@ namespace SpaceShooterLogic
             Textures = newTextures;
             Sizes = newSizes;
             Rotations = newRotations;
-            TimesSinceLastShot = newTimesSinceLastShot;
-            TimesSinceLastEnemySpawned = newTimesSinceLastEnemySpawned;
+            EnemySpawner = newEnemySpawner;
             AnimationData = newAnimationData;
             Players = newPlayers;
             Enemies = newEnemies;

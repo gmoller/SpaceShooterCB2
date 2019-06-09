@@ -23,16 +23,17 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var timeElapsedSinceLastEnemySpawned = GameState.TimesSinceLastEnemySpawned[entityId];
+            var enemySpawner = GameState.EnemySpawner[entityId];
 
             // selection
-            if (timeElapsedSinceLastEnemySpawned.IsNegative()) return;
+            if (enemySpawner.IsNull()) return;
 
             // process data
-            var onCooldown = SpawnerOnCooldown(timeElapsedSinceLastEnemySpawned);
+            var onCooldown = enemySpawner.SpawnOnCooldown;
             if (onCooldown)
             {
-                timeElapsedSinceLastEnemySpawned += deltaTime;
+                enemySpawner.SpawnCooldownTime -= deltaTime;
+                enemySpawner.SpawnCooldownTime = MathHelper.Clamp(enemySpawner.SpawnCooldownTime, 0.0f, _cooldownTime);
             }
             else
             {
@@ -42,16 +43,11 @@ namespace SpaceShooterLogic.Systems
                 EnemyCreator.Create(spawnPosition, new Vector2(0.0f, velocity), GameState);
 
                 // put on cooldown
-                timeElapsedSinceLastEnemySpawned = 0.0f;
+                enemySpawner.SpawnCooldownTime = _cooldownTime;
             }
 
             // update data
-            GameState.TimesSinceLastEnemySpawned[entityId] = timeElapsedSinceLastEnemySpawned;
-        }
-
-        private bool SpawnerOnCooldown(float timeElapsedSinceLastEnemySpawned)
-        {
-            return timeElapsedSinceLastEnemySpawned < _cooldownTime;
+            GameState.EnemySpawner[entityId] = enemySpawner;
         }
     }
 }
