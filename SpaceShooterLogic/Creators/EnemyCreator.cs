@@ -10,15 +10,14 @@ namespace SpaceShooterLogic.Creators
         public static void Create(Vector2 position, Vector2 velocity, GameState state)
         {
             EnemyType type = ChooseEnemyType();
-            Vector2 size = DetermineSize();
+            float scale = DetermineScale();
+            var size = new Vector2(16.0f, 16.0f);
 
             int entityId = state.EntityCount;
 
-            state.Positions[entityId] = position;
+            state.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scale), size);
             state.Velocities[entityId] = velocity;
-            state.Volumes[entityId] = new Rectangle(0, 0, (int)size.X, (int)size.Y);
-            state.Sizes[entityId] = size;
-            state.EnemySpawner[entityId] = new EnemySpawner(-0.1f);
+            state.Volumes[entityId] = new Rectangle(0, 0, (int)(size.X * scale), (int)(size.Y * scale));
 
             switch (type)
             {
@@ -26,6 +25,7 @@ namespace SpaceShooterLogic.Creators
                     state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprEnemy0");
                     state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprEnemy0"), 0, 0.0f);
                     state.Enemies[entityId] = new Enemy(EnemyType.Gunship, 20);
+                    state.Weapons[entityId] = new Weapon(true);
                     break;
 
                 case EnemyType.Chaser:
@@ -62,12 +62,11 @@ namespace SpaceShooterLogic.Creators
             return EnemyType.Carrier;
         }
 
-        private static Vector2 DetermineSize()
+        private static float DetermineScale()
         {
             float scale = RandomGenerator.Instance.GetRandomFloat(1.0f, 3.0f);
-            Vector2 size = new Vector2(16.0f, 16.0f) * scale;
 
-            return size;
+            return scale;
         }
     }
 }

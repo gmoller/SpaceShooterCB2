@@ -4,20 +4,15 @@ namespace SpaceShooterLogic.Components
 {
     public struct AnimationData
     {
-        public AnimationSpec AnimationSpec { get; }
+        public AnimationSpec Spec { get; }
         public int CurrentFrame { get; set; }
         public float TimeSinceLastAnimationChange { get; set; }
 
-        public AnimationData(AnimationSpec animationSpec, int currentFrame, float timeSinceLastAnimationChange)
+        public AnimationData(AnimationSpec spec, int currentFrame, float timeSinceLastAnimationChange)
         {
-            AnimationSpec = animationSpec;
+            Spec = spec;
             CurrentFrame = currentFrame;
             TimeSinceLastAnimationChange = timeSinceLastAnimationChange;
-        }
-
-        public bool IsNull()
-        {
-            return AnimationSpec == null;
         }
     }
 }

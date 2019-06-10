@@ -12,7 +12,7 @@
             var player = GameState.Players[entityId];
 
             // selection
-            if (player.IsNull() || player.Lives > 0) return;
+            if (player == null || player.Value.Lives > 0) return;
 
             // process data
             GameState.GameOver = true;

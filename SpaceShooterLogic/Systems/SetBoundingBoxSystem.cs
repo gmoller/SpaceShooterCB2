@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -12,21 +11,23 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var position = GameState.Positions[entityId];
+            var transform = GameState.Transforms[entityId];
             var volume = GameState.Volumes[entityId];
 
             // selection
-            if (position.IsNull() || volume.IsEmpty) return;
+            if (transform == null || volume == null) return;
 
             // process data
             // calculate new Bounding Box
-            var origin = new Vector2(volume.Width / 2.0f, volume.Height / 2.0f);
+            var t = transform.Value;
+            var v = volume.Value;
+            var origin = new Vector2(v.Width / 2.0f, v.Height / 2.0f);
 
             var newVolume = new Rectangle(
-                (int)(position.X - (int)origin.X),
-                (int)(position.Y - (int)origin.Y),
-                volume.Width,
-                volume.Height);
+                (int)(t.Position.X - (int)origin.X),
+                (int)(t.Position.Y - (int)origin.Y),
+                v.Width,
+                v.Height);
 
             // update data
             GameState.Volumes[entityId] = newVolume;

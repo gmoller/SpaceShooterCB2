@@ -17,9 +17,10 @@ namespace SpaceShooterLogic.Systems
             var player = GameState.Players[entityId];
              
             // selection
-            if (player.IsNull() || player.Status == PlayerStatus.Destroyed || volume.IsEmpty) return;
+            if (player == null || player.Value.Status == PlayerStatus.Destroyed || volume == null) return;
 
             // process data
+            var p = player.Value;
             for (int i = 0; i < GameState.EntityCount - 1; ++i)
             {
                 if (entityId == i) continue; // do not check with self
@@ -27,30 +28,32 @@ namespace SpaceShooterLogic.Systems
                 if (!isAliveTag) continue;
 
                 var volume2 = GameState.Volumes[i];
-                if (volume2.IsEmpty) continue;
+                if (volume2 == null) continue;
 
                 // collision with enemy:
                 var enemy = GameState.Enemies[i];
-                if (!enemy.IsNull() && volume.Intersects(volume2))
+                var v = volume.Value;
+                var v2 = volume2.Value;
+                if (enemy != null && v.Intersects(v2))
                 {
-                    player.Status = PlayerStatus.Destroyed;
+                    p.Status = PlayerStatus.Destroyed;
                     break;
                 }
 
                 // collision with projectile:
                 var isProjectileTag = GameState.Tags[i].IsBitSet((int)Tag.IsProjectile);
-                if (isProjectileTag && volume.Intersects(volume2))
+                if (isProjectileTag && v.Intersects(v2))
                 {
-                    player.Status = PlayerStatus.Destroyed;
+                    p.Status = PlayerStatus.Destroyed;
                     break;
                 }
             }
 
             // update data
-            if (player.Status == PlayerStatus.Destroyed)
+            if (p.Status == PlayerStatus.Destroyed)
             {
-                player.DeathCooldownTime = 3000.0f; // 3 seconds
-                GameState.Players[entityId] = player;
+                p.DeathCooldownTime = 3000.0f; // 3 seconds
+                GameState.Players[entityId] = p;
                 GameState.Velocities[entityId] = Vector2.Zero;
             }
         }

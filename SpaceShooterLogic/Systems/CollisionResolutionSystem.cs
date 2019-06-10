@@ -9,7 +9,7 @@ namespace SpaceShooterLogic.Systems
 
         public CollisionResolutionSystem(string name, GameState gameState) : base(name, gameState)
         {
-            _explosionSizeScaleFactor = 5.0f;
+            _explosionSizeScaleFactor = 10.0f;
         }
 
         protected override void ProcessOneEntity(int entityId, float deltaTime)
@@ -21,15 +21,15 @@ namespace SpaceShooterLogic.Systems
             if (!collisionDetectedTag) return;
 
             // gather data for processing
-            var position = GameState.Positions[entityId];
-            var size = GameState.Sizes[entityId];
+            var transform = GameState.Transforms[entityId];
             var enemy = GameState.Enemies[entityId];
 
             // process data
-            ExplosionCreator.Create("Explosion10", position, size * _explosionSizeScaleFactor, GameState);
+            var t = transform.Value;
+            ExplosionCreator.Create("Explosion10", t.Position, _explosionSizeScaleFactor, t.Size * t.Scale, GameState);
 
             var p = GameState.FindPlayer();
-            p.player.Score += enemy.Score;
+            p.player.Score += enemy.Value.Score;
             GameState.Players[p.index] = p.player;
 
             // update data

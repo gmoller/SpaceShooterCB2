@@ -26,14 +26,15 @@ namespace SpaceShooterLogic.Systems
             var enemySpawner = GameState.EnemySpawner[entityId];
 
             // selection
-            if (enemySpawner.IsNull()) return;
+            if (enemySpawner == null) return;
 
             // process data
-            var onCooldown = enemySpawner.SpawnOnCooldown;
+            var es = enemySpawner.Value;
+            var onCooldown = es.SpawnOnCooldown;
             if (onCooldown)
             {
-                enemySpawner.SpawnCooldownTime -= deltaTime;
-                enemySpawner.SpawnCooldownTime = MathHelper.Clamp(enemySpawner.SpawnCooldownTime, 0.0f, _cooldownTime);
+                es.SpawnCooldownTime -= deltaTime;
+                es.SpawnCooldownTime = MathHelper.Clamp(es.SpawnCooldownTime, 0.0f, _cooldownTime);
             }
             else
             {
@@ -43,11 +44,11 @@ namespace SpaceShooterLogic.Systems
                 EnemyCreator.Create(spawnPosition, new Vector2(0.0f, velocity), GameState);
 
                 // put on cooldown
-                enemySpawner.SpawnCooldownTime = _cooldownTime;
+                es.SpawnCooldownTime = _cooldownTime;
             }
 
             // update data
-            GameState.EnemySpawner[entityId] = enemySpawner;
+            GameState.EnemySpawner[entityId] = es;
         }
     }
 }

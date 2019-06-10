@@ -20,11 +20,14 @@ namespace SpaceShooterLogic.Systems
             var player = GameState.Players[entityId];
 
             // selection
-            if (player.IsNull() || player.Status == PlayerStatus.Destroyed) return;
+            if (player == null || player.Value.Status == PlayerStatus.Destroyed) return;
 
             // process data
+            var weapon = GameState.Weapons[entityId];
+            var w = weapon.Value;
+
             var direction = Vector2.Zero;
-            player.ShootAction = false;
+            w.MustShoot = false;
             if (KeyboardHandler.IsKeyDown(Keys.W))
             {
                 direction = new Vector2(direction.X, -1.0f);
@@ -43,15 +46,12 @@ namespace SpaceShooterLogic.Systems
             }
             if (KeyboardHandler.IsKeyDown(Keys.Space))
             {
-                player.ShootAction = true;
+                w.MustShoot = true;
             }
 
             // update data
             GameState.Velocities[entityId] = direction * _movementSpeed;
-            if (player.ShootAction)
-            {
-                GameState.Players[entityId] = player;
-            }
+            GameState.Weapons[entityId] = w;
         }
     }
 }

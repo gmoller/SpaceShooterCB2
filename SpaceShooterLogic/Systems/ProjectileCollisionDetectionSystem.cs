@@ -15,7 +15,7 @@ namespace SpaceShooterLogic.Systems
             var isProjectileTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
 
             // selection
-            if (!isProjectileTag || volume.IsEmpty) return;
+            if (!isProjectileTag || volume == null) return;
 
             // process data
             var collidedWithEntity = -1;
@@ -26,10 +26,10 @@ namespace SpaceShooterLogic.Systems
                 if (!isAlive) continue;
 
                 var volume2 = GameState.Volumes[i];
-                if (volume2.IsEmpty) continue;
+                if (volume2 == null) continue;
 
                 var enemy = GameState.Enemies[i];
-                if (!enemy.IsNull() && volume.Intersects(volume2))
+                if (enemy != null && volume.Value.Intersects(volume2.Value))
                 {
                     collidedWithEntity = i;
                     break;

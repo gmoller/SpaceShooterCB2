@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Creators;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -25,32 +24,37 @@ namespace SpaceShooterLogic.Systems
         {
             // gather data for selection
             var enemy = GameState.Enemies[entityId];
-            var firingEntityPosition = GameState.Positions[entityId];
+            var weapon = GameState.Weapons[entityId];
 
             // selection
-            if (enemy.Type != EnemyType.Gunship || firingEntityPosition.IsNull()) return;
+            if (enemy == null || weapon == null) return;
 
             // process data
             // check if we are on cooldown
-            var weaponOnCooldown = enemy.WeaponOnCooldown;
+            var w = weapon.Value;
+            var weaponOnCooldown = w.WeaponOnCooldown;
             if (weaponOnCooldown)
             {
-                enemy.WeaponCooldownTime -= deltaTime;
-                enemy.WeaponCooldownTime = MathHelper.Clamp(enemy.WeaponCooldownTime, 0.0f, _weaponCooldownTime);
+                w.WeaponCooldownTime -= deltaTime;
+                w.WeaponCooldownTime = MathHelper.Clamp(w.WeaponCooldownTime, 0.0f, _weaponCooldownTime);
             }
-            else // if not on cooldown, fire projectile
+            else // if not on cooldown and must shoot, fire projectile
             {
-                // create new projectile
-                var projectilePosition = firingEntityPosition + _weaponsOffset;
-                var projectileVelocity = _weaponDirection * _weaponVelocity;
-                ProjectileCreator.Create("sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
+                if (w.MustShoot)
+                {
+                    // create new projectile
+                    var entityPosition = GameState.Transforms[entityId].Value.Position;
+                    var projectilePosition = entityPosition + _weaponsOffset;
+                    var projectileVelocity = _weaponDirection * _weaponVelocity;
+                    ProjectileCreator.Create("sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
 
-                // put weapon on cooldown
-                enemy.WeaponCooldownTime = _weaponCooldownTime;
+                    // put weapon on cooldown
+                    w.WeaponCooldownTime = _weaponCooldownTime;
+                }
             }
 
             // update data
-            GameState.Enemies[entityId] = enemy;
+            GameState.Weapons[entityId] = w;
         }
     }
 }

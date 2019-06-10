@@ -7,14 +7,14 @@ namespace SpaceShooterLogic.Creators
 {
     public static class ExplosionCreator
     {
-        public static void Create(string textureName, Vector2 position, Vector2 size, GameState state)
+        public static void Create(string textureName, Vector2 position, float scale, Vector2 size, GameState state)
         {
             int entityId = state.EntityCount;
 
-            state.Positions[entityId] = position;
+            float scaleX = size.X * scale / 256.0f;
+            float scaleY = size.Y * scale / 256.0f;
+            state.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
             state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
-            state.Sizes[entityId] = size;
-            state.EnemySpawner[entityId] = new EnemySpawner(-0.1f);
             state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName), 0, 0.0f);
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 

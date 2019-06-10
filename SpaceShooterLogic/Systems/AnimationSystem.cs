@@ -12,22 +12,23 @@
             var animationData = GameState.AnimationData[entityId];
 
             // selection
-            if (animationData.IsNull()) return;
+            if (animationData == null) return;
 
             // process data
             // is it time to change?
-            bool changeFrame = IsTimeToChangeFrame(animationData.TimeSinceLastAnimationChange, animationData.AnimationSpec.Duration);
+            var ad = animationData.Value;
+            bool changeFrame = IsTimeToChangeFrame(ad.TimeSinceLastAnimationChange, ad.Spec.Duration);
             if (changeFrame)
             {
                 // if yes, change to next frame
                 int nextFrame;
-                if (animationData.CurrentFrame < animationData.AnimationSpec.NumberOfFrames - 1)
+                if (ad.CurrentFrame < ad.Spec.NumberOfFrames - 1)
                 {
-                    nextFrame = animationData.CurrentFrame + 1;
+                    nextFrame = ad.CurrentFrame + 1;
                 }
                 else
                 {
-                    if (animationData.AnimationSpec.Repeating)
+                    if (ad.Spec.Repeating)
                     {
                         nextFrame = 0;
                     }
@@ -39,15 +40,15 @@
                 }
 
                 // update data
-                animationData.CurrentFrame = nextFrame;
-                animationData.TimeSinceLastAnimationChange = 0.0f;
-                GameState.AnimationData[entityId] = animationData;
+                ad.CurrentFrame = nextFrame;
+                ad.TimeSinceLastAnimationChange = 0.0f;
+                GameState.AnimationData[entityId] = ad;
             }
             else
             {
                 // update data
-                animationData.TimeSinceLastAnimationChange += deltaTime;
-                GameState.AnimationData[entityId] = animationData;
+                ad.TimeSinceLastAnimationChange += deltaTime;
+                GameState.AnimationData[entityId] = ad;
             }
         }
 

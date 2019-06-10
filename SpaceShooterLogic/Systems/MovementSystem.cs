@@ -1,4 +1,4 @@
-﻿using SpaceShooterUtilities;
+﻿using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -11,18 +11,19 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var position = GameState.Positions[entityId];
+            var transform = GameState.Transforms[entityId];
             var velocity = GameState.Velocities[entityId];
 
             // selection
-            if (position.IsNull() || velocity.IsNull()) return;
+            if (transform == null|| velocity == null) return;
 
             // process data
             // calculate new position
-            var newPosition = position + velocity * deltaTime;
+            var t = transform.Value;
+            var newPosition = t.Position + velocity.Value * deltaTime;
 
             // update data
-            GameState.Positions[entityId] = newPosition;
+            GameState.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
         }
     }
 }

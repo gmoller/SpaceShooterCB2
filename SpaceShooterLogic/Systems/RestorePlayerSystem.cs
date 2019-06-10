@@ -18,30 +18,31 @@ namespace SpaceShooterLogic.Systems
             var player = GameState.Players[entityId];
 
             // selection
-            if (player.IsNull() || player.Status != PlayerStatus.Destroyed) return;
+            if (player == null || player.Value.Status != PlayerStatus.Destroyed) return;
 
             // process data
-            var rotation = GameState.Rotations[entityId];
-            rotation += _deathRotationSpeed * deltaTime;
+            var transform = GameState.Transforms[entityId].Value;
+            transform.Rotation += _deathRotationSpeed * deltaTime;
 
-            if (!player.DeathOnCooldown)
+            var p = player.Value;
+            if (!p.DeathOnCooldown)
             {
-                player.DeathCooldownTime = 0.0f;
-                player.Lives--;
-                rotation = 0.0f;
-                player.Status = PlayerStatus.Alive;
+                p.DeathCooldownTime = 0.0f;
+                p.Lives--;
+                transform.Rotation = 0.0f;
+                p.Status = PlayerStatus.Alive;
 
                 GameState.ClearState();
 
-                PlayerCreator.Create(GameState, player.Score, player.Lives.GetValueOrDefault());
+                PlayerCreator.Create(GameState, p.Score, p.Lives.GetValueOrDefault());
                 SpawnCreator.Create(GameState);
             }
 
-            player.DeathCooldownTime -= deltaTime;
+            p.DeathCooldownTime -= deltaTime;
 
             // update data
-            GameState.Players[entityId] = player;
-            GameState.Rotations[entityId] = rotation;
+            GameState.Players[entityId] = p;
+            GameState.Transforms[entityId] = transform;
         }
     }
 }

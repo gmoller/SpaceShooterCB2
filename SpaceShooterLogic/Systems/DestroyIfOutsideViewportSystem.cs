@@ -16,19 +16,19 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
+            var transform = GameState.Transforms[entityId];
             var enemy = GameState.Enemies[entityId];
             var isProjectileTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
-            var position = GameState.Positions[entityId];
-            var size = GameState.Sizes[entityId];
 
             // selection
-            if ((enemy.IsNull() && !isProjectileTag) || position.IsNull() || size.IsNull()) return;
+            if (transform == null || (enemy == null && !isProjectileTag)) return;
 
             // process data
             // destroy if off screen
-            var x = size.X / 2.0f;
-            var y = size.Y / 2.0f;
-            bool destroy = !_viewport.Intersects(new Rectangle((int)(position.X - x),(int)(position.Y - y),(int)size.X,(int)size.Y));
+            var t = transform.Value;
+            var x = t.Size.X / 2.0f;
+            var y = t.Size.Y / 2.0f;
+            bool destroy = !_viewport.Intersects(new Rectangle((int)(t.Position.X - x),(int)(t.Position.Y - y),(int)t.Size.X, (int)t.Size.Y));
 
             // update data
             if (destroy)

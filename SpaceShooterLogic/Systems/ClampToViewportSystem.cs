@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpaceShooterLogic.Components;
 using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
@@ -15,25 +16,25 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
+            var transform = GameState.Transforms[entityId];
             var player = GameState.Players[entityId];
-            var position = GameState.Positions[entityId];
-            var size = GameState.Sizes[entityId];
 
             // selection
-            if (player.IsNull() || position.IsNull() || size.IsNull()) return;
+            if (transform == null || player == null) return;
 
             // process data
             // do not allow our entity off the screen
-            var x = size.X / 2.0f;
-            var y = size.Y / 2.0f;
+            var t = transform.Value;
+            var x = t.Size.X * t.Scale.X / 2.0f;
+            var y = t.Size.Y * t.Scale.Y / 2.0f;
             var newPosition = new Vector2(
-                MathHelper.Clamp(position.X, _viewport.Left + x, _viewport.Right - x),
-                MathHelper.Clamp(position.Y, _viewport.Top + y, _viewport.Bottom - y));
+                MathHelper.Clamp(t.Position.X, _viewport.Left + x, _viewport.Right - x),
+                MathHelper.Clamp(t.Position.Y, _viewport.Top + y, _viewport.Bottom - y));
 
             // update data
-            if (position != newPosition)
+            if (t.Position != newPosition)
             {
-                GameState.Positions[entityId] = newPosition;
+                GameState.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
             }
         }
     }

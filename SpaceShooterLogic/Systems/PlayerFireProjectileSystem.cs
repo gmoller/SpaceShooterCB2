@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using SpaceShooterLogic.Creators;
-using SpaceShooterUtilities;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -24,36 +23,37 @@ namespace SpaceShooterLogic.Systems
         {
             // gather data for selection
             var player = GameState.Players[entityId];
-            var firingEntityPosition = GameState.Positions[entityId];
+            var weapon = GameState.Weapons[entityId];
 
             // selection
-            if (player.IsNull() || firingEntityPosition.IsNull()) return;
+            if (player == null || weapon == null) return;
 
             // process data
             // check if we are on cooldown
-            var weaponOnCooldown = player.WeaponOnCooldown;
+            var w = weapon.Value;
+            var weaponOnCooldown = w.WeaponOnCooldown;
             if (weaponOnCooldown)
             {
-                player.WeaponCooldownTime -= deltaTime;
-                player.WeaponCooldownTime = MathHelper.Clamp(player.WeaponCooldownTime, 0.0f, _weaponCooldownTime);
+                w.WeaponCooldownTime -= deltaTime;
+                w.WeaponCooldownTime = MathHelper.Clamp(w.WeaponCooldownTime, 0.0f, _weaponCooldownTime);
             }
-            else // if not on cooldown and fire pressed, fire projectile
+            else // if not on cooldown and must shoot, fire projectile
             {
-                if (player.ShootAction)
+                if (w.MustShoot)
                 {
                     // create new projectile
-                    var projectilePosition = firingEntityPosition + _weaponsOffset;
+                    var entityPosition = GameState.Transforms[entityId].Value.Position;
+                    var projectilePosition = entityPosition + _weaponsOffset;
                     var projectileVelocity = _weaponDirection * _weaponVelocity;
                     ProjectileCreator.Create("sprLaserPlayer", projectilePosition, projectileVelocity, GameState);
 
                     // put weapon on cooldown
-                    player.WeaponCooldownTime = _weaponCooldownTime;
-                    player.ShootAction = false;
+                    w.WeaponCooldownTime = _weaponCooldownTime;
                 }
             }
 
             // update data
-            GameState.Players[entityId] = player;
+            GameState.Weapons[entityId] = w;
         }
     }
 }

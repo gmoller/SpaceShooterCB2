@@ -20,40 +20,41 @@ namespace SpaceShooterLogic.Systems
         {
             // gather data for selection
             var enemy = GameState.Enemies[entityId];
-            var position = GameState.Positions[entityId];
 
             // selection
-            if (enemy.IsNull() || enemy.Type != EnemyType.Chaser) return;
+            if (enemy == null || enemy.Value.Type != EnemyType.Chaser) return;
 
             // process data
+            var enemyTransform = GameState.Transforms[entityId].Value;
+            var enemyPosition = enemyTransform.Position;
             var p = GameState.FindPlayer();
-            var playerPosition = GameState.Positions[p.index];
+            var playerPosition = GameState.Transforms[p.index].Value.Position;
             if (p.player.Status == PlayerStatus.Destroyed)
             {
                 GameState.Velocities[entityId] = new Vector2(0.0f, 0.1f);
-                GameState.Rotations[entityId] = 0.0f;
+                enemyTransform.Rotation = 0.0f;
+                GameState.Transforms[entityId] = enemyTransform;
             }
             else
             {
-                if (Vector2.Distance(position, playerPosition) < _rangeToStartChasing)
+                if (Vector2.Distance(enemyPosition, playerPosition) < _rangeToStartChasing)
                 {
-                    Vector2 direction = playerPosition - position;
+                    Vector2 direction = playerPosition - enemyPosition;
                     direction.Normalize();
                     var velocity = direction * _chasingMovementSpeed;
                     float rotationSpeed = _rotationSpeed * deltaTime;
-                    var angle = GameState.Rotations[entityId];
-                    if (position.X < playerPosition.X) // is ChaserShip to the left or right of player?
+                    if (enemyPosition.X < playerPosition.X) // is ChaserShip to the left or right of player?
                     {
-                        angle -= rotationSpeed;
+                        enemyTransform.Rotation -= rotationSpeed;
                     }
                     else
                     {
-                        angle += rotationSpeed;
+                        enemyTransform.Rotation += rotationSpeed;
                     }
 
                     // update data
                     GameState.Velocities[entityId] = velocity;
-                    GameState.Rotations[entityId] = angle;
+                    GameState.Transforms[entityId] = enemyTransform;
                 }
             }
         }

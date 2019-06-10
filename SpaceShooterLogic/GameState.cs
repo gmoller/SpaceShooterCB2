@@ -17,22 +17,17 @@ namespace SpaceShooterLogic
 
         #region Component Type Arrays
 
-        // standard entity
-        public Bag<Vector2> Positions { get; private set; }
-        public Bag<Vector2> Velocities { get; private set; }
-        public Bag<Rectangle> Volumes { get; private set; }
+        public Bag<Transform?> Transforms { get; private set; }
+        public Bag<Vector2?> Velocities { get; private set; }
+        public Bag<Rectangle?> Volumes { get; private set; }
         public Bag<Texture2D> Textures { get; private set; }
-        public Bag<Vector2> Sizes { get; private set; }
+        public Bag<AnimationData?> AnimationData { get; private set; }
 
-        public Bag<float> Rotations { get; private set; }
+        public Bag<Player?> Players { get; private set; }
+        public Bag<Enemy?> Enemies { get; private set; }
+        public Bag<Weapon?> Weapons { get; private set; }
 
-        public Bag<EnemySpawner> EnemySpawner { get; private set; }
-
-        // animations
-        public Bag<AnimationData> AnimationData { get; private set; }
-
-        public Bag<Player> Players { get; private set; }
-        public Bag<Enemy> Enemies { get; private set; }
+        public Bag<EnemySpawner?> EnemySpawner { get; private set; }
 
         public Bag<byte> Tags { get; private set; }
 
@@ -66,16 +61,15 @@ namespace SpaceShooterLogic
             EntityCount = 0;
             AliveEntityCount = 0;
 
-            Positions = new Bag<Vector2>();
-            Velocities = new Bag<Vector2>();
-            Volumes = new Bag<Rectangle>();
+            Transforms = new Bag<Transform?>();
+            Velocities = new Bag<Vector2?>();
+            Volumes = new Bag<Rectangle?>();
             Textures = new Bag<Texture2D>();
-            Sizes = new Bag<Vector2>();
-            Rotations = new Bag<float>();
-            EnemySpawner = new Bag<EnemySpawner>();
-            AnimationData = new Bag<AnimationData>();
-            Players = new Bag<Player>();
-            Enemies = new Bag<Enemy>();
+            EnemySpawner = new Bag<EnemySpawner?>();
+            AnimationData = new Bag<AnimationData?>();
+            Players = new Bag<Player?>();
+            Enemies = new Bag<Enemy?>();
+            Weapons = new Bag<Weapon?>();
             Tags = new Bag<byte>();
         }
 
@@ -84,9 +78,9 @@ namespace SpaceShooterLogic
             for (int i = 0; i < EntityCount - 1; ++i)
             {
                 var player = Players[i];
-                if (!player.IsNull())
+                if (player != null)
                 {
-                    return (player, i);
+                    return (player.Value, i);
                 }
             }
 
@@ -95,16 +89,15 @@ namespace SpaceShooterLogic
 
         public void CompactEntities()
         {
-            var newPositions = new Bag<Vector2>();
-            var newVelocities = new Bag<Vector2>();
-            var newVolumes = new Bag<Rectangle>();
+            var newTransforms = new Bag<Transform?>();
+            var newVelocities = new Bag<Vector2?>();
+            var newVolumes = new Bag<Rectangle?>();
             var newTextures = new Bag<Texture2D>();
-            var newSizes = new Bag<Vector2>();
-            var newRotations = new Bag<float>();
-            var newEnemySpawner = new Bag<EnemySpawner>();
-            var newAnimationData = new Bag<AnimationData>();
-            var newPlayers = new Bag<Player>();
-            var newEnemies = new Bag<Enemy>();
+            var newEnemySpawner = new Bag<EnemySpawner?>();
+            var newAnimationData = new Bag<AnimationData?>();
+            var newPlayers = new Bag<Player?>();
+            var newEnemies = new Bag<Enemy?>();
+            var newWeapons = new Bag<Weapon?>();
             var newTags = new Bag<byte>();
 
             int aliveCount = 0;
@@ -114,30 +107,28 @@ namespace SpaceShooterLogic
                 if (isAlive)
                 {
                     aliveCount++;
-                    newPositions.Add(Positions[entityId]);
+                    newTransforms.Add(Transforms[entityId]);
                     newVelocities.Add(Velocities[entityId]);
                     newVolumes.Add(Volumes[entityId]);
                     newTextures.Add(Textures[entityId]);
-                    newSizes.Add(Sizes[entityId]);
-                    newRotations.Add(Rotations[entityId]);
                     newEnemySpawner.Add(EnemySpawner[entityId]);
                     newAnimationData.Add(AnimationData[entityId]);
                     newPlayers.Add(Players[entityId]);
                     newEnemies.Add(Enemies[entityId]);
+                    newWeapons.Add(Weapons[entityId]);
                     newTags.Add(Tags[entityId]);
                 }
             }
 
-            Positions = newPositions;
+            Transforms = newTransforms;
             Velocities = newVelocities;
             Volumes = newVolumes;
             Textures = newTextures;
-            Sizes = newSizes;
-            Rotations = newRotations;
             EnemySpawner = newEnemySpawner;
             AnimationData = newAnimationData;
             Players = newPlayers;
             Enemies = newEnemies;
+            Weapons = newWeapons;
             Tags = newTags;
 
             EntityCount = aliveCount;

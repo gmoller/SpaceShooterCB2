@@ -1,6 +1,6 @@
 ﻿using GameEngineCore;
 using Microsoft.Xna.Framework;
-using SpaceShooterUtilities;
+using SpaceShooterLogic.Components;
 
 namespace SpaceShooterLogic.Systems
 {
@@ -13,28 +13,41 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
+            var transform = GameState.Transforms[entityId];
             var texture = GameState.Textures[entityId];
-            var position = GameState.Positions[entityId];
-            var size = GameState.Sizes[entityId];
 
             // selection
-            if (texture == null || position.IsNull() || size.IsNull()) return;
+            if (transform == null || texture == null) return;
 
             // gather data for processing
             var animationData = GameState.AnimationData[entityId];
-            var rotation = GameState.Rotations[entityId];
             var volume = GameState.Volumes[entityId];
 
             // process data
-            var frame = animationData.AnimationSpec?.Frames[animationData.CurrentFrame] ?? new RectangleF(0, 0, (int)size.X, (int)size.Y);
+            RectangleF frame = CalculateSourceRectangle(animationData.GetValueOrDefault(), texture.Width, texture.Height);
 
-            var origin = new Vector2((int)(frame.Width * 0.5), (int)(frame.Height * 0.50));
-            var scale = new Vector2(size.X / frame.Width, size.Y / frame.Height);
+            var origin = new Vector2((int)(frame.Width * 0.5f), (int)(frame.Height * 0.5f));
 
-            GameState.AddToSpriteBatchList(texture, position, frame, rotation, origin, scale, volume);
+            var t = transform.Value;
+            GameState.AddToSpriteBatchList(texture, t.Position, frame, t.Rotation, origin, t.Scale, volume.GetValueOrDefault());
 
             // update data
             // no updates
+        }
+
+        private RectangleF CalculateSourceRectangle(AnimationData animationData, int textureWidth, int textureHeight)
+        {
+            RectangleF frame;
+            if (animationData.Spec == null)
+            {
+                frame = new RectangleF(0, 0, textureWidth, textureHeight);
+            }
+            else
+            {
+                frame = animationData.Spec.Frames[animationData.CurrentFrame];
+            }
+
+            return frame;
         }
     }
 }
