@@ -23,7 +23,7 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true), 0, 0.0f);
+                state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true));
                 state.Tags[i] = 1;
 
                 state.EntityCount++;

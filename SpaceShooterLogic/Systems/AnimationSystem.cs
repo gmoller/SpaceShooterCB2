@@ -17,7 +17,7 @@
             // process data
             // is it time to change?
             var ad = animationData.Value;
-            bool changeFrame = IsTimeToChangeFrame(ad.TimeSinceLastAnimationChange, ad.Spec.Duration);
+            bool changeFrame = IsTimeToChangeFrame(ad.FrameCooldownTime);
             if (changeFrame)
             {
                 // if yes, change to next frame
@@ -41,20 +41,20 @@
 
                 // update data
                 ad.CurrentFrame = nextFrame;
-                ad.TimeSinceLastAnimationChange = 0.0f;
+                ad.FrameCooldownTime = ad.Spec.Duration;
                 GameState.AnimationData[entityId] = ad;
             }
             else
             {
                 // update data
-                ad.TimeSinceLastAnimationChange += deltaTime;
+                ad.FrameCooldownTime -= deltaTime;
                 GameState.AnimationData[entityId] = ad;
             }
         }
 
-        private bool IsTimeToChangeFrame(float timeElapsedSinceLastAnimationChange, int duration)
+        private bool IsTimeToChangeFrame(float frameCooldownTime)
         {
-            return !(timeElapsedSinceLastAnimationChange < duration);
+            return frameCooldownTime <= 0.0f;
         }
     }
 }

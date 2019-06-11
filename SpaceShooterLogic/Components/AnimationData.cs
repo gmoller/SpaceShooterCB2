@@ -6,13 +6,13 @@ namespace SpaceShooterLogic.Components
     {
         public AnimationSpec Spec { get; }
         public int CurrentFrame { get; set; }
-        public float TimeSinceLastAnimationChange { get; set; }
+        public float FrameCooldownTime { get; set; }
 
-        public AnimationData(AnimationSpec spec, int currentFrame, float timeSinceLastAnimationChange)
+        public AnimationData(AnimationSpec spec)
         {
             Spec = spec;
-            CurrentFrame = currentFrame;
-            TimeSinceLastAnimationChange = timeSinceLastAnimationChange;
+            CurrentFrame = 0;
+            FrameCooldownTime = spec.Duration;
         }
     }
 }

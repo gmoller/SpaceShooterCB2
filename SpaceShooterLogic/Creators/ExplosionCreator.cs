@@ -15,7 +15,7 @@ namespace SpaceShooterLogic.Creators
             float scaleY = size.Y * scale / 256.0f;
             state.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
             state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
-            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName), 0, 0.0f);
+            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;

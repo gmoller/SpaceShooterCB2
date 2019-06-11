@@ -17,7 +17,7 @@ namespace SpaceShooterLogic.Creators
             state.Velocities[entityId] = new Vector2(0.0f, 0.0f);
             state.Volumes[entityId] = new Rectangle((int)(50.0f - 8.0f), (int)(600.0f - 8.0f), 32, 32);
             state.Textures[entityId] = AssetsManager.Instance.GetTexture("sprPlayer");
-            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"), 0, 0.0f);
+            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations("sprPlayer"));
             state.Players[entityId] = new Player(score, lives);
             state.Weapons[entityId] = new Weapon();
             state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
