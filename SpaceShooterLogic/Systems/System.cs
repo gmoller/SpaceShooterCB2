@@ -50,7 +50,7 @@ namespace SpaceShooterLogic.Systems
             int aliveEntities = 0;
             for (int entityId = fromInclusive; entityId < toExclusive; ++entityId)
             {
-                var isAlive = GameState.Tags[entityId].IsBitSet((int)Tag.IsAlive);
+                var isAlive = GameState.GameData.Tags[entityId].IsBitSet((int)Tag.IsAlive);
 
                 if (isAlive)
                 {

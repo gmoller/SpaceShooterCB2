@@ -11,8 +11,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var transform = GameState.Transforms[entityId];
-            var volume = GameState.Volumes[entityId];
+            var transform = GameState.GameData.Transforms[entityId];
+            var volume = GameState.GameData.Volumes[entityId];
 
             // selection
             if (transform == null || volume == null) return;
@@ -30,7 +30,7 @@ namespace SpaceShooterLogic.Systems
                 v.Height);
 
             // update data
-            GameState.Volumes[entityId] = newVolume;
+            GameState.GameData.Volumes[entityId] = newVolume;
         }
     }
 }

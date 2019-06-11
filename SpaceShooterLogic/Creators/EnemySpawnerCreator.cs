@@ -8,8 +8,8 @@ namespace SpaceShooterLogic.Creators
         {
             int entityId = state.EntityCount;
 
-            state.EnemySpawner[entityId] = new EnemySpawner();
-            state.Tags[entityId] = 1;
+            state.GameData.EnemySpawner[entityId] = new EnemySpawner();
+            state.GameData.Tags[entityId] = 1;
 
             state.EntityCount++;
             state.AliveEntityCount++;

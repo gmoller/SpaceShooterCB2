@@ -12,7 +12,10 @@ namespace SpaceShooterLogic.Components
         {
             Spec = spec;
             CurrentFrame = 0;
-            FrameCooldownTime = spec.Duration;
+            if (spec == null)
+                FrameCooldownTime = 0.0f;
+            else
+                FrameCooldownTime = spec.Duration;
         }
     }
 }

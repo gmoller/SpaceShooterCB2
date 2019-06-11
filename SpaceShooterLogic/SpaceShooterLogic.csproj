@@ -53,6 +53,7 @@
     <Compile Include="Creators\ExplosionCreator.cs" />
     <Compile Include="Creators\PlayerCreator.cs" />
     <Compile Include="Creators\ProjectileCreator.cs" />
+    <Compile Include="Data\GameData.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />

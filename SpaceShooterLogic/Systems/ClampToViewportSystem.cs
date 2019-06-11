@@ -16,8 +16,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var transform = GameState.Transforms[entityId];
-            var player = GameState.Players[entityId];
+            var transform = GameState.GameData.Transforms[entityId];
+            var player = GameState.GameData.Players[entityId];
 
             // selection
             if (transform == null || player == null) return;
@@ -34,7 +34,7 @@ namespace SpaceShooterLogic.Systems
             // update data
             if (t.Position != newPosition)
             {
-                GameState.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
+                GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
             }
         }
     }

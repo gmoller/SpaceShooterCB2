@@ -13,10 +13,10 @@ namespace SpaceShooterLogic.Creators
 
             float scaleX = size.X * scale / 256.0f;
             float scaleY = size.Y * scale / 256.0f;
-            state.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
-            state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
-            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
+            state.GameData.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
+            state.GameData.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
+            state.GameData.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
+            state.GameData.Tags[entityId] = state.GameData.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
 

@@ -23,7 +23,7 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var enemySpawner = GameState.EnemySpawner[entityId];
+            var enemySpawner = GameState.GameData.EnemySpawner[entityId];
 
             // selection
             if (enemySpawner == null) return;
@@ -48,7 +48,7 @@ namespace SpaceShooterLogic.Systems
             }
 
             // update data
-            GameState.EnemySpawner[entityId] = es;
+            GameState.GameData.EnemySpawner[entityId] = es;
         }
     }
 }

@@ -13,15 +13,15 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var transform = GameState.Transforms[entityId];
-            var texture = GameState.Textures[entityId];
+            var transform = GameState.GameData.Transforms[entityId];
+            var texture = GameState.GameData.Textures[entityId];
 
             // selection
             if (transform == null || texture == null) return;
 
             // gather data for processing
-            var animationData = GameState.AnimationData[entityId];
-            var volume = GameState.Volumes[entityId];
+            var animationData = GameState.GameData.AnimationData[entityId];
+            var volume = GameState.GameData.Volumes[entityId];
 
             // process data
             RectangleF frame = CalculateSourceRectangle(animationData.GetValueOrDefault(), texture.Width, texture.Height);

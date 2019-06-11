@@ -15,33 +15,33 @@ namespace SpaceShooterLogic.Creators
 
             int entityId = state.EntityCount;
 
-            state.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scale), size);
-            state.Velocities[entityId] = velocity;
-            state.Volumes[entityId] = new Rectangle(0, 0, (int)(size.X * scale), (int)(size.Y * scale));
+            state.GameData.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scale), size);
+            state.GameData.Velocities[entityId] = velocity;
+            state.GameData.Volumes[entityId] = new Rectangle(0, 0, (int)(size.X * scale), (int)(size.Y * scale));
 
             string textureName = string.Empty;
             switch (type)
             {
                 case EnemyType.Gunship:
-                    state.Enemies[entityId] = new Enemy(EnemyType.Gunship, 20);
-                    state.Weapons[entityId] = new Weapon(true);
+                    state.GameData.Enemies[entityId] = new Enemy(EnemyType.Gunship, 20);
+                    state.GameData.Weapons[entityId] = new Weapon(true);
                     textureName = "sprEnemy0";
                     break;
 
                 case EnemyType.Chaser:
-                    state.Enemies[entityId] = new Enemy(EnemyType.Chaser, 10);
+                    state.GameData.Enemies[entityId] = new Enemy(EnemyType.Chaser, 10);
                     textureName = "sprEnemy1";
                     break;
 
                 case EnemyType.Carrier:
-                    state.Enemies[entityId] = new Enemy(EnemyType.Carrier, 5);
+                    state.GameData.Enemies[entityId] = new Enemy(EnemyType.Carrier, 5);
                     textureName = "sprEnemy2";
                     break;
             }
 
-            state.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
-            state.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
-            state.Tags[entityId] = state.Tags[entityId].SetBits((int)Tag.IsAlive);
+            state.GameData.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
+            state.GameData.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
+            state.GameData.Tags[entityId] = state.GameData.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
             state.AliveEntityCount++;

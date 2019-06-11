@@ -15,13 +15,13 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var player = GameState.Players[entityId];
+            var player = GameState.GameData.Players[entityId];
 
             // selection
             if (player == null || player.Value.Status != PlayerStatus.Destroyed) return;
 
             // process data
-            var transform = GameState.Transforms[entityId].Value;
+            var transform = GameState.GameData.Transforms[entityId].Value;
             transform.Rotation += _deathRotationSpeed * deltaTime;
 
             var p = player.Value;
@@ -41,8 +41,8 @@ namespace SpaceShooterLogic.Systems
             p.DeathCooldownTime -= deltaTime;
 
             // update data
-            GameState.Players[entityId] = p;
-            GameState.Transforms[entityId] = transform;
+            GameState.GameData.Players[entityId] = p;
+            GameState.GameData.Transforms[entityId] = transform;
         }
     }
 }

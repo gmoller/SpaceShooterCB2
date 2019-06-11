@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SpaceShooterLogic.Components;
 using SpaceShooterLogic.Creators;
 
 namespace SpaceShooterLogic.Systems
@@ -23,8 +22,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var enemy = GameState.Enemies[entityId];
-            var weapon = GameState.Weapons[entityId];
+            var enemy = GameState.GameData.Enemies[entityId];
+            var weapon = GameState.GameData.Weapons[entityId];
 
             // selection
             if (enemy == null || weapon == null) return;
@@ -43,7 +42,7 @@ namespace SpaceShooterLogic.Systems
                 if (w.MustShoot)
                 {
                     // create new projectile
-                    var entityPosition = GameState.Transforms[entityId].Value.Position;
+                    var entityPosition = GameState.GameData.Transforms[entityId].Value.Position;
                     var projectilePosition = entityPosition + _weaponsOffset;
                     var projectileVelocity = _weaponDirection * _weaponVelocity;
                     ProjectileCreator.Create("sprLaserEnemy0", projectilePosition, projectileVelocity, GameState);
@@ -54,7 +53,7 @@ namespace SpaceShooterLogic.Systems
             }
 
             // update data
-            GameState.Weapons[entityId] = w;
+            GameState.GameData.Weapons[entityId] = w;
         }
     }
 }

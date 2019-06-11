@@ -15,14 +15,14 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var collisionDetectedTag = GameState.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
+            var collisionDetectedTag = GameState.GameData.Tags[entityId].IsBitSet((int)Tag.CollisionDetected);
 
             // selection
             if (!collisionDetectedTag) return;
 
             // gather data for processing
-            var transform = GameState.Transforms[entityId];
-            var enemy = GameState.Enemies[entityId];
+            var transform = GameState.GameData.Transforms[entityId];
+            var enemy = GameState.GameData.Enemies[entityId];
 
             // process data
             var t = transform.Value;
@@ -30,10 +30,10 @@ namespace SpaceShooterLogic.Systems
 
             var p = GameState.FindPlayer();
             p.player.Score += enemy.Value.Score;
-            GameState.Players[p.index] = p.player;
+            GameState.GameData.Players[p.index] = p.player;
 
             // update data
-            GameState.Tags[entityId] = GameState.Tags[entityId].UnsetBits((int)Tag.IsAlive, (int)Tag.CollisionDetected);
+            GameState.GameData.Tags[entityId] = GameState.GameData.Tags[entityId].UnsetBits((int)Tag.IsAlive, (int)Tag.CollisionDetected);
         }
     }
 }

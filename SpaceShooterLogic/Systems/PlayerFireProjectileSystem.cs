@@ -22,8 +22,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var player = GameState.Players[entityId];
-            var weapon = GameState.Weapons[entityId];
+            var player = GameState.GameData.Players[entityId];
+            var weapon = GameState.GameData.Weapons[entityId];
 
             // selection
             if (player == null || weapon == null) return;
@@ -42,7 +42,7 @@ namespace SpaceShooterLogic.Systems
                 if (w.MustShoot)
                 {
                     // create new projectile
-                    var entityPosition = GameState.Transforms[entityId].Value.Position;
+                    var entityPosition = GameState.GameData.Transforms[entityId].Value.Position;
                     var projectilePosition = entityPosition + _weaponsOffset;
                     var projectileVelocity = _weaponDirection * _weaponVelocity;
                     ProjectileCreator.Create("sprLaserPlayer", projectilePosition, projectileVelocity, GameState);
@@ -53,7 +53,7 @@ namespace SpaceShooterLogic.Systems
             }
 
             // update data
-            GameState.Weapons[entityId] = w;
+            GameState.GameData.Weapons[entityId] = w;
         }
     }
 }

@@ -9,7 +9,7 @@
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var animationData = GameState.AnimationData[entityId];
+            var animationData = GameState.GameData.AnimationData[entityId];
 
             // selection
             if (animationData == null) return;
@@ -35,20 +35,20 @@
                     else
                     {
                         nextFrame = -1;
-                        GameState.Tags[entityId] = 0;
+                        GameState.GameData.Tags[entityId] = 0;
                     }
                 }
 
                 // update data
                 ad.CurrentFrame = nextFrame;
                 ad.FrameCooldownTime = ad.Spec.Duration;
-                GameState.AnimationData[entityId] = ad;
+                GameState.GameData.AnimationData[entityId] = ad;
             }
             else
             {
                 // update data
                 ad.FrameCooldownTime -= deltaTime;
-                GameState.AnimationData[entityId] = ad;
+                GameState.GameData.AnimationData[entityId] = ad;
             }
         }
 

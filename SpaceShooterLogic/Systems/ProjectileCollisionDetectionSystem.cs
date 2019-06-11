@@ -11,8 +11,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var volume = GameState.Volumes[entityId];
-            var isProjectileTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
+            var volume = GameState.GameData.Volumes[entityId];
+            var isProjectileTag = GameState.GameData.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
 
             // selection
             if (!isProjectileTag || volume == null) return;
@@ -22,13 +22,13 @@ namespace SpaceShooterLogic.Systems
             for (int i = 0; i < GameState.EntityCount - 1; ++i)
             {
                 if (entityId == i) continue; // do not check with self
-                var isAlive = GameState.Tags[i].IsBitSet((int)Tag.IsAlive);
+                var isAlive = GameState.GameData.Tags[i].IsBitSet((int)Tag.IsAlive);
                 if (!isAlive) continue;
 
-                var volume2 = GameState.Volumes[i];
+                var volume2 = GameState.GameData.Volumes[i];
                 if (volume2 == null) continue;
 
-                var enemy = GameState.Enemies[i];
+                var enemy = GameState.GameData.Enemies[i];
                 if (enemy != null && volume.Value.Intersects(volume2.Value))
                 {
                     collidedWithEntity = i;
@@ -39,7 +39,7 @@ namespace SpaceShooterLogic.Systems
             // update data
             if (collidedWithEntity >= 0)
             {
-                GameState.Tags[collidedWithEntity] = GameState.Tags[collidedWithEntity].SetBit((int)Tag.CollisionDetected);
+                GameState.GameData.Tags[collidedWithEntity] = GameState.GameData.Tags[collidedWithEntity].SetBit((int)Tag.CollisionDetected);
             }
         }
     }

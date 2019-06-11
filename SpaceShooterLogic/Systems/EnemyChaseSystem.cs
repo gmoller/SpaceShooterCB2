@@ -19,21 +19,21 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var enemy = GameState.Enemies[entityId];
+            var enemy = GameState.GameData.Enemies[entityId];
 
             // selection
             if (enemy == null || enemy.Value.Type != EnemyType.Chaser) return;
 
             // process data
-            var enemyTransform = GameState.Transforms[entityId].Value;
+            var enemyTransform = GameState.GameData.Transforms[entityId].Value;
             var enemyPosition = enemyTransform.Position;
             var p = GameState.FindPlayer();
-            var playerPosition = GameState.Transforms[p.index].Value.Position;
+            var playerPosition = GameState.GameData.Transforms[p.index].Value.Position;
             if (p.player.Status == PlayerStatus.Destroyed)
             {
-                GameState.Velocities[entityId] = new Vector2(0.0f, 0.1f);
+                GameState.GameData.Velocities[entityId] = new Vector2(0.0f, 0.1f);
                 enemyTransform.Rotation = 0.0f;
-                GameState.Transforms[entityId] = enemyTransform;
+                GameState.GameData.Transforms[entityId] = enemyTransform;
             }
             else
             {
@@ -53,8 +53,8 @@ namespace SpaceShooterLogic.Systems
                     }
 
                     // update data
-                    GameState.Velocities[entityId] = velocity;
-                    GameState.Transforms[entityId] = enemyTransform;
+                    GameState.GameData.Velocities[entityId] = velocity;
+                    GameState.GameData.Transforms[entityId] = enemyTransform;
                 }
             }
         }

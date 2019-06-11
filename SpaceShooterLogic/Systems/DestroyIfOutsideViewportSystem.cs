@@ -16,9 +16,9 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var transform = GameState.Transforms[entityId];
-            var enemy = GameState.Enemies[entityId];
-            var isProjectileTag = GameState.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
+            var transform = GameState.GameData.Transforms[entityId];
+            var enemy = GameState.GameData.Enemies[entityId];
+            var isProjectileTag = GameState.GameData.Tags[entityId].IsBitSet((int)Tag.IsProjectile);
 
             // selection
             if (transform == null || (enemy == null && !isProjectileTag)) return;
@@ -33,7 +33,7 @@ namespace SpaceShooterLogic.Systems
             // update data
             if (destroy)
             {
-                GameState.Tags[entityId] = 0; // destroy
+                GameState.GameData.Tags[entityId] = 0; // destroy
             }
         }
     }

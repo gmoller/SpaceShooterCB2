@@ -23,8 +23,8 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true));
-                state.Tags[i] = 1;
+                state.GameData.AnimationData[i] = new AnimationData(AnimationSpecCreator.Create("Test", 64, 16, 16, 16, 160, true));
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -47,9 +47,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
-                state.Players[i] = new Player(0, 3);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -76,10 +76,10 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
-                state.Players[i] = new Player(0, 3);
-                state.Enemies[i] = new Enemy(EnemyType.Carrier, 5);
-                state.Tags[i] = 1 + 2;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Enemies[i] = new Enemy(EnemyType.Carrier, 5);
+                state.GameData.Tags[i] = 1 + 2;
 
                 state.EntityCount++;
             }
@@ -102,9 +102,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Enemies[i] = new Enemy(EnemyType.Carrier, 5);
-                state.Tags[i] = 1 + 4;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Enemies[i] = new Enemy(EnemyType.Carrier, 5);
+                state.GameData.Tags[i] = 1 + 4;
 
                 state.EntityCount++;
             }
@@ -123,15 +123,15 @@ namespace UnitTests
         {
             var state = new GameState();
 
-            state.Players[0] = new Player(0, 3);
-            state.Transforms[0] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+            state.GameData.Players[0] = new Player(0, 3);
+            state.GameData.Transforms[0] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
             for (int i = 1; i < NUMBER_OF_ENTITIES + 1; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 300.0f), 0.0f, Vector2.One, new Vector2(16.0f, 16.0f));
-                state.Enemies[i] = new Enemy(EnemyType.Chaser, 10);
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 300.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Velocities[i] = new Vector2(1.0f, 1.0f);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 300.0f), 0.0f, Vector2.One, new Vector2(16.0f, 16.0f));
+                state.GameData.Enemies[i] = new Enemy(EnemyType.Chaser, 10);
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 300.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Velocities[i] = new Vector2(1.0f, 1.0f);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -156,9 +156,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Enemies[i] = new Enemy(EnemyType.Gunship, 20);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Enemies[i] = new Enemy(EnemyType.Gunship, 20);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -186,8 +186,8 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.EnemySpawner[i] = new EnemySpawner();
-                state.Tags[i] = 1;
+                state.GameData.EnemySpawner[i] = new EnemySpawner();
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -208,8 +208,8 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Players[i] = new Player(0, 3);
-                state.Tags[i] = 1;
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -230,9 +230,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Velocities[i] = new Vector2(1.0f, 1.0f);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Velocities[i] = new Vector2(1.0f, 1.0f);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -253,9 +253,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Players[i] = new Player(0, 3);
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Tags[i] = 1;
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -276,9 +276,10 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Players[i] = new Player(0, 3);
-                state.Velocities[i] = new Vector2(0.0f, 0.0f);
-                state.Tags[i] = 1;
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Velocities[i] = new Vector2(0.0f, 0.0f);
+                state.GameData.Weapons[i] = new Weapon(false);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -299,9 +300,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
-                state.Players[i] = new Player(0, 3);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f));
+                state.GameData.Players[i] = new Player(0, 3);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -322,9 +323,9 @@ namespace UnitTests
 
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
-                state.Volumes[i] = new Rectangle(0, 0, 16, 16);
-                state.Tags[i] = 1;
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Volumes[i] = new Rectangle(0, 0, 16, 16);
+                state.GameData.Tags[i] = 1;
 
                 state.EntityCount++;
             }
@@ -347,7 +348,7 @@ namespace UnitTests
             for (int i = 0; i < NUMBER_OF_ENTITIES; ++i)
             {
                 //state.Textures[i] = 
-                state.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
+                state.GameData.Transforms[i] = new Transform(new Vector2(50.0f, 600.0f), 0.0f, new Vector2(1.0f), new Vector2(16.0f, 16.0f));
 
                 state.EntityCount++;
             }

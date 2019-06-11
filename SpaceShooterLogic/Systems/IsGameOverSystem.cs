@@ -9,7 +9,7 @@
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var player = GameState.Players[entityId];
+            var player = GameState.GameData.Players[entityId];
 
             // selection
             if (player == null || player.Value.Lives > 0) return;

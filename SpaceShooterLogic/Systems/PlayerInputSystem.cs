@@ -17,13 +17,13 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var player = GameState.Players[entityId];
+            var player = GameState.GameData.Players[entityId];
 
             // selection
             if (player == null || player.Value.Status == PlayerStatus.Destroyed) return;
 
             // process data
-            var weapon = GameState.Weapons[entityId];
+            var weapon = GameState.GameData.Weapons[entityId];
             var w = weapon.Value;
 
             var direction = Vector2.Zero;
@@ -50,8 +50,8 @@ namespace SpaceShooterLogic.Systems
             }
 
             // update data
-            GameState.Velocities[entityId] = direction * _movementSpeed;
-            GameState.Weapons[entityId] = w;
+            GameState.GameData.Velocities[entityId] = direction * _movementSpeed;
+            GameState.GameData.Weapons[entityId] = w;
         }
     }
 }

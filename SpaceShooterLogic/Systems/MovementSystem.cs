@@ -11,8 +11,8 @@ namespace SpaceShooterLogic.Systems
         protected override void ProcessOneEntity(int entityId, float deltaTime)
         {
             // gather data for selection
-            var transform = GameState.Transforms[entityId];
-            var velocity = GameState.Velocities[entityId];
+            var transform = GameState.GameData.Transforms[entityId];
+            var velocity = GameState.GameData.Velocities[entityId];
 
             // selection
             if (transform == null|| velocity == null) return;
@@ -23,7 +23,7 @@ namespace SpaceShooterLogic.Systems
             var newPosition = t.Position + velocity.Value * deltaTime;
 
             // update data
-            GameState.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
+            GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
         }
     }
 }
