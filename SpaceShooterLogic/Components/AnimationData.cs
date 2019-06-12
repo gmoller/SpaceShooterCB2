@@ -18,4 +18,16 @@ namespace SpaceShooterLogic.Components
                 FrameCooldownTime = spec.Duration;
         }
     }
+
+    public struct AnimationData2 : IGameComponent
+    {
+        public AnimationData AnimationData { get; set; }
+        public int EntityId { get; set; }
+
+        public AnimationData2(int entityId, AnimationSpec spec)
+        {
+            AnimationData = new AnimationData(spec);
+            EntityId = entityId;
+        }
+    }
 }

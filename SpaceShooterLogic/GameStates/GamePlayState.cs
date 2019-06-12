@@ -60,7 +60,7 @@ namespace SpaceShooterLogic.GameStates
             _renderer = new Renderer();
 
             PlayerCreator.Create(_gameState, 0, 3);
-            SpawnCreator.Create(_gameState);
+            EnemySpawnerCreator.Create(_gameState);
         }
 
         public virtual void Enter(IGameState previousGameState)
@@ -77,6 +77,7 @@ namespace SpaceShooterLogic.GameStates
             _updateStopwatch.Start();
 
             _systems.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            RenderingSystem2.Process(_gameState, _gameState.GameData2.Transform, _gameState.GameData2.Texture, _gameState.GameData2.Volume);
 
             _hud.Update(gameTime);
 

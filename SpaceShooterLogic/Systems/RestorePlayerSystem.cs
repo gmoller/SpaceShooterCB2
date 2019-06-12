@@ -35,7 +35,7 @@ namespace SpaceShooterLogic.Systems
                 GameState.ClearState();
 
                 PlayerCreator.Create(GameState, p.Score, p.Lives.GetValueOrDefault());
-                SpawnCreator.Create(GameState);
+                EnemySpawnerCreator.Create(GameState);
             }
 
             p.DeathCooldownTime -= deltaTime;

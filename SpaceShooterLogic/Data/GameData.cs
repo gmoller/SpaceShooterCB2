@@ -24,6 +24,10 @@ namespace SpaceShooterLogic.Data
         public Bag<byte> Tags { get; private set; }
 
         #endregion
+        public GameData()
+        {
+            Clear();
+        }
 
         public void Clear()
         {

@@ -17,24 +17,7 @@ namespace SpaceShooterLogic
         public float AlivePercentage => AliveEntityCount / (float)EntityCount * 100;
 
         public GameData GameData { get; }
-
-        #region Component Type Arrays
-
-        //public Bag<Transform?> Transforms { get; private set; }
-        //public Bag<Vector2?> Velocities { get; private set; }
-        //public Bag<Rectangle?> Volumes { get; private set; }
-        //public Bag<Texture2D> Textures { get; private set; }
-        //public Bag<AnimationData?> AnimationData { get; private set; }
-
-        //public Bag<Player?> Players { get; private set; }
-        //public Bag<Enemy?> Enemies { get; private set; }
-        //public Bag<Weapon?> Weapons { get; private set; }
-
-        //public Bag<EnemySpawner?> EnemySpawner { get; private set; }
-
-        //public Bag<byte> Tags { get; private set; }
-
-        #endregion
+        public GameData2 GameData2 { get; }
 
         public SpriteBatchList SpriteBatchList { get; }
         public SoundEffectList SoundEffectList { get; }
@@ -48,7 +31,7 @@ namespace SpaceShooterLogic
             SoundEffectList = new SoundEffectList();
 
             GameData = new GameData();
-            GameData.Clear();
+            GameData2 = new GameData2();
         }
 
         public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
@@ -66,16 +49,7 @@ namespace SpaceShooterLogic
             EntityCount = 0;
             AliveEntityCount = 0;
 
-            //Transforms = new Bag<Transform?>();
-            //Velocities = new Bag<Vector2?>();
-            //Volumes = new Bag<Rectangle?>();
-            //Textures = new Bag<Texture2D>();
-            //EnemySpawner = new Bag<EnemySpawner?>();
-            //AnimationData = new Bag<AnimationData?>();
-            //Players = new Bag<Player?>();
-            //Enemies = new Bag<Enemy?>();
-            //Weapons = new Bag<Weapon?>();
-            //Tags = new Bag<byte>();
+            GameData.Clear();
         }
 
         public (Player player, int index) FindPlayer()

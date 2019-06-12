@@ -17,4 +17,21 @@ namespace SpaceShooterLogic.Components
             Size = size;
         }
     }
+
+    public struct Transform2 : IGameComponent
+    {
+        public Transform Transform { get; }
+        public int EntityId { get; }
+
+        public Transform2(int entityId, Vector2 position, float rotation, Vector2 scale, Vector2 size)
+        {
+            Transform = new Transform(position, rotation, scale, size);
+            EntityId = entityId;
+        }
+    }
+
+    public interface IGameComponent
+    {
+        int EntityId { get; }
+    }
 }

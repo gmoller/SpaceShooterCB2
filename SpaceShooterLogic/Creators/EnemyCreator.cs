@@ -45,6 +45,22 @@ namespace SpaceShooterLogic.Creators
 
             state.EntityCount++;
             state.AliveEntityCount++;
+
+            Create2(position, velocity, state);
+        }
+
+        public static void Create2(Vector2 position, Vector2 velocity, GameState state)
+        {
+            int entityId = state.GameData2.GetNextEntityId();
+
+            float scale = DetermineScale();
+            var size = new Vector2(16.0f, 16.0f);
+            state.GameData2.Transform.Add(new Transform2(entityId, position, 0.0f, new Vector2(scale), size));
+            state.GameData2.Velocity.Add(new Velocity2(entityId, velocity.X, velocity.Y));
+            state.GameData2.Volume.Add(new Volume2(entityId, position.X - 8.0f, position.Y - 8.0f, size.X * scale, size.Y * scale));
+            state.GameData2.Texture.Add(new Texture2(entityId, AssetsManager.Instance.GetTexture("sprEnemy2")));
+            state.GameData2.AnimationData.Add(new AnimationData2(entityId, AssetsManager.Instance.GetAnimations("sprEnemy2")));
+            state.GameData2.Enemy.Add(new Enemy2(entityId, EnemyType.Carrier, 5));
         }
 
         private static EnemyType ChooseEnemyType()

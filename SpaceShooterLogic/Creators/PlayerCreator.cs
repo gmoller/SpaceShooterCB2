@@ -25,5 +25,18 @@ namespace SpaceShooterLogic.Creators
             state.EntityCount++;
             state.AliveEntityCount++;
         }
+
+        public static void Create2(int score, byte lives, GameState state)
+        {
+            int entityId = state.GameData2.GetNextEntityId();
+
+            state.GameData2.Transform.Add(new Transform2(entityId, new Vector2(50.0f, 600.0f), 0.0f, new Vector2(2.5f), new Vector2(16.0f, 16.0f)));
+            state.GameData2.Velocity.Add(new Velocity2(entityId, 0.0f, 0.0f));
+            state.GameData2.Volume.Add(new Volume2(entityId, 50.0f - 8.0f, 600.0f - 8.0f, 32, 32));
+            state.GameData2.Texture.Add(new Texture2(entityId, AssetsManager.Instance.GetTexture("sprPlayer")));
+            state.GameData2.AnimationData.Add(new AnimationData2(entityId, AssetsManager.Instance.GetAnimations("sprPlayer")));
+            state.GameData2.Player.Add(new Player2(entityId, score, lives));
+            state.GameData2.Weapon.Add(new Weapon2(entityId));
+        }
     }
 }

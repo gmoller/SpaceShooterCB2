@@ -1,5 +1,12 @@
 ﻿namespace SpaceShooterLogic.Components
 {
+    public enum EnemyType : byte
+    {
+        Gunship,
+        Chaser,
+        Carrier
+    }
+
     public struct Enemy
     {
         public EnemyType Type { get; }
@@ -12,10 +19,15 @@
         }
     }
 
-    public enum EnemyType : byte
+    public struct Enemy2 : IGameComponent
     {
-        Gunship,
-        Chaser,
-        Carrier
+        public Enemy Enemy { get; set; }
+        public int EntityId { get; set; }
+
+        public Enemy2(int entityId, EnemyType type, byte score)
+        {
+            Enemy = new Enemy(type, score);
+            EntityId = entityId;
+        }
     }
 }

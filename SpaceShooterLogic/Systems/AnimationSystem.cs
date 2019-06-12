@@ -28,13 +28,9 @@
                 }
                 else
                 {
-                    if (ad.Spec.Repeating)
+                    nextFrame = 0;
+                    if (!ad.Spec.Repeating)
                     {
-                        nextFrame = 0;
-                    }
-                    else
-                    {
-                        nextFrame = -1;
                         GameState.GameData.Tags[entityId] = 0;
                     }
                 }
