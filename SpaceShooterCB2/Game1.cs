@@ -38,8 +38,6 @@ namespace SpaceShooterCB2
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             _graphics.PreferredBackBufferWidth = 480;
             _graphics.PreferredBackBufferHeight = 640;
             _graphics.SynchronizeWithVerticalRetrace = false;
@@ -50,7 +48,6 @@ namespace SpaceShooterCB2
             _graphics.ApplyChanges();
 
             _game = new SpaceShooterGame();
-            //_game = new TestBedGame();
             _game.Initialize(Window, GraphicsDevice);
 
             KeyboardHandler.Initialize();
@@ -78,7 +75,6 @@ namespace SpaceShooterCB2
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             _game.LoadContent(Content, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight, GraphicsDevice);
         }
 
@@ -110,7 +106,6 @@ namespace SpaceShooterCB2
                 Exit();
             }
 
-            // TODO: Add your update logic here
             _game.Update(gameTime);
 
             base.Update(gameTime);
@@ -130,7 +125,6 @@ namespace SpaceShooterCB2
 
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
             _game.Draw(_spriteBatch);
 
             base.Draw(gameTime);
