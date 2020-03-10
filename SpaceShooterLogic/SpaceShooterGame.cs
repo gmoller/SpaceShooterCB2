@@ -84,8 +84,8 @@ namespace SpaceShooterLogic
             _drawStopwatch.Start();
 
             _fps.Draw();
-            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap);
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap);
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
 
             _starField.Draw(spriteBatch);
             _gameState.Draw(spriteBatch);
