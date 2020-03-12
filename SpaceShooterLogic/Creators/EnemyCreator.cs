@@ -9,17 +9,17 @@ namespace SpaceShooterLogic.Creators
     {
         public static void Create(Vector2 position, Vector2 velocity, GameState state)
         {
-            EnemyType type = ChooseEnemyType();
-            float scale = DetermineScale();
+            var type = ChooseEnemyType();
+            var scale = DetermineScale();
             var size = new Vector2(16.0f, 16.0f);
 
-            int entityId = state.EntityCount;
+            var entityId = state.EntityCount;
 
-            state.GameData.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scale), size);
+            state.GameData.Transforms[entityId] = new Transform(position, Color.White, 0.0f, new Vector2(scale), size);
             state.GameData.Velocities[entityId] = velocity;
             state.GameData.Volumes[entityId] = new Rectangle(0, 0, (int)(size.X * scale), (int)(size.Y * scale));
 
-            string textureName = string.Empty;
+            var textureName = string.Empty;
             switch (type)
             {
                 case EnemyType.Gunship:
@@ -49,7 +49,7 @@ namespace SpaceShooterLogic.Creators
 
         private static EnemyType ChooseEnemyType()
         {
-            int choice = RandomGenerator.Instance.GetRandomInt(1, 10);
+            var choice = RandomGenerator.Instance.GetRandomInt(1, 10);
             if (choice <= 3)
             {
                 return EnemyType.Gunship;
@@ -64,7 +64,7 @@ namespace SpaceShooterLogic.Creators
 
         private static float DetermineScale()
         {
-            float scale = RandomGenerator.Instance.GetRandomFloat(1.0f, 3.0f);
+            var scale = RandomGenerator.Instance.GetRandomFloat(1.0f, 3.0f);
 
             return scale;
         }

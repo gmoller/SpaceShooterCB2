@@ -47,10 +47,7 @@
     <Compile Include="Components\Enemy.cs" />
     <Compile Include="Components\EnemySpawner.cs" />
     <Compile Include="Components\Player.cs" />
-    <Compile Include="Components\Texture.cs" />
     <Compile Include="Components\Transform.cs" />
-    <Compile Include="Components\Velocity.cs" />
-    <Compile Include="Components\Volume.cs" />
     <Compile Include="Components\Weapon.cs" />
     <Compile Include="Creators\EnemyCreator.cs" />
     <Compile Include="Creators\EnemySpawnerCreator.cs" />
@@ -58,7 +55,6 @@
     <Compile Include="Creators\PlayerCreator.cs" />
     <Compile Include="Creators\ProjectileCreator.cs" />
     <Compile Include="Data\GameData.cs" />
-    <Compile Include="Data\GameData2.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\GameOverState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
@@ -82,7 +78,6 @@
     <Compile Include="Systems\EnemyFireProjectileSystem.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\PlayerFireProjectileSystem.cs" />
-    <Compile Include="Systems\RenderingSystem2.cs" />
     <Compile Include="Systems\RestorePlayerSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
@@ -92,7 +87,6 @@
     <Compile Include="Systems\SetBoundingBoxSystem.cs" />
     <Compile Include="SoundEffectPlayer.cs" />
     <Compile Include="Systems\System.cs" />
-    <Compile Include="Systems\System2.cs" />
     <Compile Include="Systems\Systems.cs" />
     <Compile Include="Tag.cs" />
   </ItemGroup>

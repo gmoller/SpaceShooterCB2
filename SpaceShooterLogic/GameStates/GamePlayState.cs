@@ -77,7 +77,6 @@ namespace SpaceShooterLogic.GameStates
             _updateStopwatch.Start();
 
             _systems.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
-            RenderingSystem2.Process(_gameState, _gameState.GameData2.Transform, _gameState.GameData2.Texture, _gameState.GameData2.Volume);
 
             _hud.Update(gameTime);
 

@@ -18,16 +18,4 @@
             Score = score;
         }
     }
-
-    public struct Enemy2 : IGameComponent
-    {
-        public Enemy Enemy { get; set; }
-        public int EntityId { get; set; }
-
-        public Enemy2(int entityId, EnemyType type, byte score)
-        {
-            Enemy = new Enemy(type, score);
-            EntityId = entityId;
-        }
-    }
 }

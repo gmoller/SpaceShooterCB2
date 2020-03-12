@@ -29,7 +29,7 @@ namespace SpaceShooterLogic.Systems
             var origin = new Vector2((int)(frame.Width * 0.5f), (int)(frame.Height * 0.5f));
 
             var t = transform.Value;
-            GameState.AddToSpriteBatchList(texture, t.Position, frame, t.Rotation, origin, t.Scale, volume.GetValueOrDefault());
+            GameState.AddToSpriteBatchList(texture, t.Position, frame, t.Color, t.Rotation, origin, t.Scale, volume.GetValueOrDefault());
 
             // update data
             // no updates

@@ -15,7 +15,7 @@ namespace SpaceShooterLogic.Systems
             var velocity = GameState.GameData.Velocities[entityId];
 
             // selection
-            if (transform == null|| velocity == null) return;
+            if (transform == null || velocity == null) return;
 
             // process data
             // calculate new position
@@ -23,7 +23,7 @@ namespace SpaceShooterLogic.Systems
             var newPosition = t.Position + velocity.Value * deltaTime;
 
             // update data
-            GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
+            GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Color, t.Rotation, t.Scale, t.Size);
         }
     }
 }

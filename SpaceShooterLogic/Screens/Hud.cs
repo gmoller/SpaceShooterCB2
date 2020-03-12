@@ -22,10 +22,9 @@ namespace SpaceShooterLogic.Screens
             _lblScore = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(50.0f, 20.0f), "Score: ", Color.Red) { TextShadow = true };
             _lblLives = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Right, new Vector2(DeviceManager.Instance.ScreenWidth - 50.0f, 20.0f), "Lives: ", Color.Red) { TextShadow = true };
 
-            // TODO: de-harcode positions
             font = AssetsManager.Instance.GetSpriteFont("arialTiny");
-            _lblEntityCount = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(0.0f, 600.0f), "Entity Count: ", Color.DarkGray) { TextShadow = false };
-            _lblAliveCount = new Label(font, VerticalAlignment.Top, HorizontalAlignment.Left, new Vector2(0.0f, 620.0f), "Alive Count: ", Color.DarkGray) { TextShadow = false };
+            _lblEntityCount = new Label(font, VerticalAlignment.Bottom, HorizontalAlignment.Left, new Vector2(0.0f, DeviceManager.Instance.ScreenHeight - 20.0f), "Entity Count: ", Color.DarkGray) { TextShadow = false };
+            _lblAliveCount = new Label(font, VerticalAlignment.Bottom, HorizontalAlignment.Left, new Vector2(0.0f, DeviceManager.Instance.ScreenHeight), "Alive Count: ", Color.DarkGray) { TextShadow = false };
         }
 
         public void Update(GameTime gameTime)

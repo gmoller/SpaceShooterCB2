@@ -11,7 +11,7 @@ namespace SpaceShooterLogic
             foreach (var spriteBatchEntry in gameState.SpriteBatchList)
             {
                 var frame = new Rectangle((int)spriteBatchEntry.Frame.X, (int)spriteBatchEntry.Frame.Y, (int)spriteBatchEntry.Frame.Width, (int)spriteBatchEntry.Frame.Height);
-                spriteBatch.Draw(spriteBatchEntry.Texture, spriteBatchEntry.Position, frame, Color.White, spriteBatchEntry.Rotation, spriteBatchEntry.Origin, spriteBatchEntry.Scale, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(spriteBatchEntry.Texture, spriteBatchEntry.Position, frame, spriteBatchEntry.Color, spriteBatchEntry.Rotation, spriteBatchEntry.Origin, spriteBatchEntry.Scale, SpriteEffects.None, 0.0f);
 
                 //spriteBatch.DrawRectangle(spriteBatchEntry.Volume, Color.Green);
             }

@@ -17,7 +17,6 @@ namespace SpaceShooterLogic
         public float AlivePercentage => AliveEntityCount / (float)EntityCount * 100;
 
         public GameData GameData { get; }
-        public GameData2 GameData2 { get; }
 
         public SpriteBatchList SpriteBatchList { get; }
         public SoundEffectList SoundEffectList { get; }
@@ -31,12 +30,11 @@ namespace SpaceShooterLogic
             SoundEffectList = new SoundEffectList();
 
             GameData = new GameData();
-            GameData2 = new GameData2();
         }
 
-        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
+        public void AddToSpriteBatchList(Texture2D texture, Vector2 position, RectangleF frame, Color color, float rotation, Vector2 origin, Vector2 scale, Rectangle volume)
         {
-            SpriteBatchList.Add(texture, position, frame, rotation, origin, scale, volume);
+            SpriteBatchList.Add(texture, position, frame, color, rotation, origin, scale, volume);
         }
 
         public void AddToSoundEffectList(SoundEffect sound)

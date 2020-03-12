@@ -34,7 +34,7 @@ namespace SpaceShooterLogic.Systems
             // update data
             if (t.Position != newPosition)
             {
-                GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Rotation, t.Scale, t.Size);
+                GameState.GameData.Transforms[entityId] = new Transform(newPosition, t.Color, t.Rotation, t.Scale, t.Size);
             }
         }
     }

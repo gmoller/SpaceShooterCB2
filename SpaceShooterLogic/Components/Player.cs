@@ -22,16 +22,4 @@
             DeathCooldownTime = 0.0f;
         }
     }
-
-    public struct Player2 : IGameComponent
-    {
-        public Player Player { get; set; }
-        public int EntityId { get; set; }
-
-        public Player2(int entityId, int score, byte lives)
-        {
-            Player = new Player(score, lives);
-            EntityId = entityId;
-        }
-    }
 }

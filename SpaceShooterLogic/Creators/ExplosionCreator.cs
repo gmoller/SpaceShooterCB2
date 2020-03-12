@@ -9,18 +9,18 @@ namespace SpaceShooterLogic.Creators
     {
         public static void Create(string textureName, Vector2 position, float scale, Vector2 size, GameState state)
         {
-            int entityId = state.EntityCount;
+            var entityId = state.EntityCount;
 
-            float scaleX = size.X * scale / 256.0f;
-            float scaleY = size.Y * scale / 256.0f;
-            state.GameData.Transforms[entityId] = new Transform(position, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
+            var scaleX = size.X * scale / 256.0f;
+            var scaleY = size.Y * scale / 256.0f;
+            state.GameData.Transforms[entityId] = new Transform(position, Color.White, 0.0f, new Vector2(scaleX, scaleY), new Vector2(256.0f, 256.0f));
             state.GameData.Textures[entityId] = AssetsManager.Instance.GetTexture(textureName);
             state.GameData.AnimationData[entityId] = new AnimationData(AssetsManager.Instance.GetAnimations(textureName));
             state.GameData.Tags[entityId] = state.GameData.Tags[entityId].SetBits((int)Tag.IsAlive);
 
             state.EntityCount++;
 
-            int i = RandomGenerator.Instance.GetRandomInt(0, 1);
+            var i = RandomGenerator.Instance.GetRandomInt(0, 1);
             var sound = AssetsManager.Instance.GetSound($"sndExplode{i}");
             state.AddToSoundEffectList(sound);
             state.AliveEntityCount++;
